@@ -10,15 +10,5 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'react/react-in-jsx-scope': 'off',
-    // 'unused-imports/no-unused-imports': 'error',
-    // 'unused-imports/no-unused-vars': [
-    //   'warn',
-    //   {
-    //     vars: 'all',
-    //     varsIgnorePattern: '^_',
-    //     args: 'after-used',
-    //     argsIgnorePattern: '^_',
-    //   },
-    // ],
   },
 };

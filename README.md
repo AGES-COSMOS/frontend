@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+## Arquitetura
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Neste página, vamos apresentar o passo a passo de como instalar e configurar um ambiente de desenvolvimento local para utilizar o React pré-configurado para TypeScript.
 
-## Available Scripts
+#### O que é React?
 
-In the project directory, you can run:
+O React é uma biblioteca JavaScript que permite criar interfaces com o usuário de forma declarativa, flexível e eficiente. Essa biblioteca é de código aberto e permite a composição de UI's complexas a partir de pequenos e isolados códigos denominados "componentes". Em outras palavras, o React é uma ferramenta que ajuda a construir a interação entre humanos e máquinas por meio de elementos como botões, menus e sons, tornando essa interação mais fácil e intuitiva.
 
-### `npm start`
+#### O que é TypeScript?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+O TypeScript é uma linguagem de programação de código aberto, desenvolvida pela Microsoft, que funciona como um superset de JavaScript. Ele adiciona recursos como tipagem estática opcional à linguagem, tornando-a mais robusta e poderosa, especialmente para projetos complexos. Em outras palavras, o TypeScript é uma ferramenta que amplia as funcionalidades da linguagem JavaScript, proporcionando maior eficiência e produtividade no desenvolvimento de aplicações.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Requisitos
 
-### `npm test`
+O editor escolhido é o Visual Studio Code, desenvolvido pela Microsoft para sistemas operacionais Windows, Linux e macOS, possui diversas funcionalidades, tais como suporte para depuração, controle de versionamento Git integrado, realce de sintaxe, complementação inteligente de código, snippets e refatoração de código.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Para utilizarmos o React e rodar as aplicações no navegador será necessário a instalação do NPM (Node Package Manager) que é o responsável pelo gerenciamento dos pacotes de aplicativos, inclusive o próprio React. Para isso, precisaremos instalar o Node.js, que é uma plataforma de desenvolvimento web de alta performance usando JavaScript, e que possuí o NPM como parte do pacote.
 
-### `npm run build`
+* [NPM ](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* [Node.js](https://nodejs.org/en)
+* [VS Code](https://code.visualstudio.com/download)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Extensões Obrigatórias
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Instalação
 
-### `npm run eject`
+Execute os seguintes comandos no terminal:
+```
+npm install
+npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
