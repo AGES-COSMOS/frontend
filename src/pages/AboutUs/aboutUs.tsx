@@ -13,8 +13,10 @@ export const AboutUs = () => {
     <div className="about-us-container">
       <h2 className="about-us-title">Sobre nós</h2>
       <p className="about-us-content">
-        Aplicativo em formato de rede social que visa unir projetos de
-        epacjxtensão desenvolvidos por cursos de direito.
+        Com a deficiência na manutenção do direito de acesso à justiça no
+        Brasil, onde 80% da população brasileira precisa de assistência jurídica
+        gratuita, surgiu o Cosmos, um aplicativo em formato de rede social que
+        visa unir projetos de extensão desenvolvidos por cursos de direito.
         <br />
         <strong>Foco:</strong> Acesso à Justiça.
         <br />
