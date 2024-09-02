@@ -72,3 +72,5 @@ export const AboutUs = () => {
     </div>
   );
 };
+
+//Ver logos das redes sociais e dos parceiros
