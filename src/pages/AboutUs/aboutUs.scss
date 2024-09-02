@@ -1,96 +1,88 @@
 .about-us-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background-color: #f4f4f4;
-    color: #4a4a4a;
-  
-    .about-us-title {
-      font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 50px;
+  background-color: var(--cloud2);
+  color: var(--slate);
+
+  .about-us-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--purple);
+  }
+
+  .about-us-content {
+    max-width: 600px;
+    text-align: left;
+    font-size: 28px;
+    strong {
       font-weight: bold;
-      color: #6a4ea0;
-      margin-bottom: 1rem;
     }
-  
-    .about-us-content {
-      max-width: 600px;
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-      line-height: 1.5;
-  
-      strong {
-        font-weight: bold;
-      }
+  }
+
+  .contact-section {
+    text-align: left;
+
+    h3 {
+      font-size: 40px;
+      font-weight: bold;
+      color: var(--purple);
+      margin-top: 30px;
     }
-  
-    .contact-section {
-      text-align: center;
-      margin-bottom: 2rem;
-  
-      h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 0.5rem;
-      }
-  
-      p {
-        margin: 0.3rem 0;
-      }
+
+    p {
+      margin: 10px;
+      font-size: 28px;
     }
-  
-    .social-section {
-      text-align: center;
-      margin-bottom: 2rem;
-  
-      h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 1rem;
-      }
-  
-      .social-icons {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-  
-        .social-icon {
-          color: #666;
-          font-size: 2rem;
-          transition: color 0.3s;
-  
-          &:hover {
-            color: #000;
-          }
-  
-          &.instagram:hover {
-            color: #6a4ea0;;
-          }
-  
-          &.youtube:hover {
-            color: #6a4ea0;;
-          }
-  
-          &.linkedin:hover {
-            color: #6a4ea0;
-          }
+  }
+
+  .social-section {
+    text-align: left;
+    margin-bottom: 30px;
+
+    h3 {
+      font-size: 40px;
+      font-weight: bold;
+      color: var(--purple);
+      margin-top: 30px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: left;
+
+      .social-icon {
+        color: var(--slate);
+        font-size: 28px;
+        transition: color 0.3s;
+
+        &:hover {
+          color: var(--dark-gray);
+        }
+
+        &.instagram:hover {
+          color: var(--purple);
+        }
+
+        &.youtube:hover {
+          color: var(--purple);
+        }
+
+        &.linkedin:hover {
+          color: var(--purple);
         }
       }
     }
-  
-    .logos-section {
-      display: flex;
-      justify-content: center;
-      
-      gap: 2rem;
-      margin-top: 2rem;
-  
-      .logo {
-        height: 3rem;
-      }
+  }
+
+  .logos-section {
+    display: flex;
+    justify-content: left;
+    margin-top: 30px;
+
+    .logo {
+      height: 100px;
     }
   }
-  
+}

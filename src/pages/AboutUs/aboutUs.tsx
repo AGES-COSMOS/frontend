@@ -9,35 +9,15 @@ interface AboutUsInfo {
 }
 
 export const AboutUs = () => {
-  const [aboutUsInfo, setAboutUsInfo] = useState<AboutUsInfo | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result: AboutUsInfo = await getAboutUs();
-        setAboutUsInfo(result);
-      } catch (err) {
-        setError('Error fetching data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
   return (
     <div className="about-us-container">
       <h2 className="about-us-title">Sobre nós</h2>
       <p className="about-us-content">
-        Aplicativo em formato de rede social que visa unir projetos de epacjxtensão
-        desenvolvidos por cursos de direito.<br />
-        <strong>Foco:</strong> Acesso à Justiça.<br />
+        Aplicativo em formato de rede social que visa unir projetos de
+        epacjxtensão desenvolvidos por cursos de direito.
+        <br />
+        <strong>Foco:</strong> Acesso à Justiça.
+        <br />
         <strong>Objetivo:</strong> Criar uma rede de projetos.
       </p>
 
@@ -50,13 +30,25 @@ export const AboutUs = () => {
       <div className="social-section">
         <h3>Conecte-se Conosco</h3>
         <div className="social-icons">
-          <a href="https://instagram.com" aria-label="Instagram" className="social-icon instagram">
+          <a
+            href="https://instagram.com"
+            aria-label="Instagram"
+            className="social-icon instagram"
+          >
             <i className="fab fa-instagram fa-2x"></i>
           </a>
-          <a href="https://youtube.com" aria-label="YouTube" className="social-icon youtube">
+          <a
+            href="https://youtube.com"
+            aria-label="YouTube"
+            className="social-icon youtube"
+          >
             <i className="fab fa-youtube fa-2x"></i>
           </a>
-          <a href="https://linkedin.com" aria-label="LinkedIn" className="social-icon linkedin">
+          <a
+            href="https://linkedin.com"
+            aria-label="LinkedIn"
+            className="social-icon linkedin"
+          >
             <i className="fab fa-linkedin fa-2x"></i>
           </a>
         </div>
