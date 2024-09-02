@@ -1,3 +1,4 @@
+import Loading from 'components/Loading/loading';
 import { useEffect, useState } from 'react';
 import { getAboutUs } from 'services/aboutUsService';
 
@@ -27,7 +28,7 @@ export const AboutUs = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
   return (
