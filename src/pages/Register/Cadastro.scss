@@ -22,3 +22,43 @@
   max-width: 500px;
   padding: 30px;
 }
+
+.title {
+  left: 40px;
+  color: #7734e7;
+}
+
+.button-confirmar {
+  position: relative;
+  color: #fafcfe;
+  letter-spacing: 1px;
+  margin: 20px;
+  font-size: 15px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  background: #7734e7;
+  font-family: 'Poppins', sans-serif;
+}
+
+.button-cancelar {
+  border-width: 2px;
+  position: relative;
+  color: #000000;
+  border-color: #7734e7;
+  letter-spacing: 1px;
+  font-size: 15px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #fafcfe;
+}
+
+.inputs-aluno {
+  margin: 0 auto;
+  padding: 5px;
+  align-items: center;
+}
