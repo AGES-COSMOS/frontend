@@ -5,4 +5,5 @@ export const ROUTES = {
   CREATE_PROJECTS: () => '/criar-projeto',
   CREATE_EVENTS: () => '/criar-evento',
   EVENT_LISTING: () => '/eventos',
+  REGISTER: () => '/cadastro',
 };
