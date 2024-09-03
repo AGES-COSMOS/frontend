@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
+import './ProfilePicture';
 import './Cadastro.scss';
+import ProfilePicture from './ProfilePicture';
 
 interface Option {
   value: string;
   label: string;
 }
 
+interface Instituicoes {
+  value: string;
+  label: string;
+}
+
+const instituicoesOptions: Instituicoes[] = [
+  { value: 'ufrgs', label: 'UFRGS' },
+  { value: 'pucrs', label: 'PUCRS' },
+  { value: 'uniritter', label: 'UNIRITTER' },
+];
+
 const selectOptions1: Option[] = [
   { value: 'professor', label: 'Professor' },
   { value: 'aluno', label: 'Aluno' },
-  { value: 'instituicao', label: 'Instituicao' },
+  { value: 'Instituição', label: 'Instituição' },
 ];
 
 const selectOptions2: Option[] = [
@@ -20,6 +33,8 @@ const selectOptions2: Option[] = [
 const Register: React.FC = () => {
   const [selectedOption1, setSelectedOption1] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
+  const [selectInstituicoesOptions, setSelectedInstituicaoOption] =
+    useState<string>('');
 
   const handleSelectChange1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption1(event.target.value);
@@ -29,11 +44,19 @@ const Register: React.FC = () => {
     setSelectedOption2(event.target.value);
   };
 
+  const handleSelectInstituicaoOption = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedInstituicaoOption(event.target.value);
+  };
+
   return (
     <div className="container">
-      <h1>Preencha todos os Campos</h1>
+      <h1 className="title">Preencha todos os Campos</h1>
+      {/* CHOOSE THE TYPE OF USER  */}
+      <ProfilePicture />
+
       <div>
-        <label htmlFor="Cadastro">Cadastro</label>
         <select
           id="Cadastro"
           value={selectedOption1}
@@ -47,16 +70,19 @@ const Register: React.FC = () => {
           ))}
         </select>
       </div>
+
+      {/* LAYOUT FOR "PROFESSOR" USER */}
+
       {selectedOption1 === 'professor' && (
         <>
           <input type="text" placeholder="Nome Completo" />
           <input type="password" placeholder="Senha" />
           <input type="password" placeholder="Confirme sua Senha" />
-          <input type="text" placeholder="CNPJ" />
+          <input type="text" placeholder="CPF" />
           <input type="email" placeholder="E-mail" />
           <input
             type="tel"
-            id="phone"
+            id="phoneProfessor"
             name="phone"
             placeholder="Telefone"
             pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
@@ -65,7 +91,46 @@ const Register: React.FC = () => {
         </>
       )}
 
+      {/* LAYOUT FOR "ALUNO" USER */}
+
       {selectedOption1 === 'aluno' && (
+        <>
+          <div className="inputs-aluno">
+            <input type="text" placeholder="Nome Completo" />
+            <input type="password" placeholder="Senha" />
+            <input type="password" placeholder="Confirme sua Senha" />
+            <input type="text" placeholder="CPF" />
+            <input type="email" placeholder="E-mail" />
+            <input
+              type="tel"
+              id="phoneAluno"
+              name="phone"
+              placeholder="Telefone"
+              pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
+              required
+            />
+          </div>
+          {/* SELECT "INSTITUICAO" */}
+          <div>
+            <select
+              id="Instituicoes"
+              value={selectInstituicoesOptions}
+              onChange={handleSelectInstituicaoOption}
+            >
+              <option value="">Instituicao</option>
+              {instituicoesOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
+
+      {/* LAYOUT FOR "INSTITUICAO" USER */}
+
+      {selectedOption1 === 'Instituição' && (
         <>
           <input type="text" placeholder="Nome Completo" />
           <input type="password" placeholder="Senha" />
@@ -74,7 +139,7 @@ const Register: React.FC = () => {
           <input type="email" placeholder="E-mail" />
           <input
             type="tel"
-            id="phone"
+            id="phoneInstituicao"
             name="phone"
             placeholder="Telefone"
             pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}"
@@ -82,40 +147,16 @@ const Register: React.FC = () => {
           />
         </>
       )}
-
-      {selectedOption1 && selectedOption2 && (
+      <>
         <div>
-          {selectedOption1 === 'option1' &&
-            selectedOption2 === 'suboption1' && (
-              <input
-                type="text"
-                placeholder="Input for Option 1 and Suboption 1"
-              />
-            )}
-          {selectedOption1 === 'option1' &&
-            selectedOption2 === 'suboption2' && (
-              <input
-                type="number"
-                placeholder="Input for Option 1 and Suboption 2"
-              />
-            )}
-          {selectedOption1 === 'option2' &&
-            selectedOption2 === 'suboption1' && (
-              <input
-                type="email"
-                placeholder="Input for Option 2 and Suboption 1"
-              />
-            )}
-          {selectedOption1 === 'option2' &&
-            selectedOption2 === 'suboption2' && (
-              <input
-                type="date"
-                placeholder="Input for Option 2 and Suboption 2"
-              />
-            )}
+          <button className="button-cancelar" type="submit">
+            CANCELAR
+          </button>
+          <button className="button-confirmar" type="submit">
+            CONFIRMAR
+          </button>
         </div>
-      )}
-      <button>B</button>
+      </>
     </div>
   );
 };
