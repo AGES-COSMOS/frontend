@@ -1,6 +1,9 @@
 import * as React from 'react';
 import './ProfilePicture.scss';
 import { useRef, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Icon from '@mui/material/Icon';
+import Avatar from '@mui/material/Avatar';
 
 const ProfilePicture: React.FC = () => {
   // Cria uma referência para o input
@@ -39,12 +42,20 @@ const ProfilePicture: React.FC = () => {
           ref={fileInputRef} // Referência ao input
           style={{ display: 'none' }}
           onChange={handleFileChange} // Adiciona o handler de mudança
-        />
+        />{' '}
+        <Icon style={{ fontSize: 40, color: 'white' }}>
+          add_photo_alternate
+        </Icon>
       </div>
-      <div
-        className="profilePictureImg"
-        style={{ backgroundImage: `url(${imageSrc})` }} // Define a imagem de fundo
-      ></div>
+      <div className="profilePictureImg">
+        <Avatar
+          alt="Profile Picture"
+          src={imageSrc ? String(imageSrc) : undefined} // Usa a imagem carregada ou undefined para o Avatar padrão
+          sx={{ width: 145, height: 145 }} // Ajuste o tamanho conforme necessário
+        >
+          {/* Opcional: texto alternativo para Avatar, pode ser o nome do usuário ou iniciais */}
+        </Avatar>
+      </div>
     </>
   );
 };

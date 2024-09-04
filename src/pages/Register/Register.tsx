@@ -1,28 +1,19 @@
+// components/Register.tsx
 import React, { useState } from 'react';
-import './ProfilePicture';
 import './Cadastro.scss';
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from '../../components/profilePicture/ProfilePicture';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import UserSelect from '../../components/userSelect/userSelect';
+import InstituicaoSelect from '../../components/instituicaoSelect/instituicaoSelect';
+import EstadoSelect from '../../components/estadoSelect/estadoSelect';
+import CidadeSelect from '../../components/cidadeSelect/cidadeSelect';
+import { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
+import AddPhotoAlternateIcon from '@mui/material/Icon/Icon';
 
 interface Option {
-  value: string;
-  label: string;
-}
-
-interface User {
-  name: string;
-  email: string;
-  password: string;
-  cnpj?: string;
-  cpf?: string;
-  phone: string;
-  institution: string;
-  state: string;
-  city: string;
-  address: string;
-  address_number: number;
-}
-
-interface Instituicoes {
   value: string;
   label: string;
 }
@@ -33,7 +24,7 @@ interface Estado {
   city: string[];
 }
 
-const instituicoesOptions: Instituicoes[] = [
+const instituicoesOptions: Option[] = [
   { value: 'ufrgs', label: 'UFRGS' },
   { value: 'pucrs', label: 'PUCRS' },
   { value: 'uniritter', label: 'UNIRITTER' },
@@ -42,14 +33,14 @@ const instituicoesOptions: Instituicoes[] = [
 const selectOptions1: Option[] = [
   { value: 'professor', label: 'Professor' },
   { value: 'aluno', label: 'Aluno' },
-  { value: 'Instituição', label: 'Instituição' },
+  { value: 'instituicao', label: 'Instituição' },
 ];
 
 const selectEstado: Estado[] = [
   {
     value: 'rio_grande_do_sul',
     label: 'Rio Grande do Sul',
-    city: ['Porto Alegre'],
+    city: ['Porto Alegre', 'Santa Maria'],
   },
   { value: 'sao_paulo', label: 'São Paulo', city: ['São Paulo'] },
   { value: 'minas_gerais', label: 'Minas Gerais', city: ['Belo Horizonte'] },
@@ -60,17 +51,14 @@ const Register: React.FC = () => {
   const [selectedOption1, setSelectedOption1] = useState<string>('');
   const [selectedEstado, setSelectedEstado] = useState<string>('');
   const [selectedCidade, setSelectedCidade] = useState<string>('');
-  const [selectInstituicoesOptions, setSelectedInstituicaoOption] =
-    useState<string>('');
+  const [selectedInstituicao, setSelectedInstituicao] = useState<string>('');
   const [cidades, setCidades] = useState<Option[]>([]);
 
-  const handleSelectChange1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange1 = (event: SelectChangeEvent<string>) => {
     setSelectedOption1(event.target.value);
   };
 
-  const handleSelectChangeEstado = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handleSelectChangeEstado = (event: SelectChangeEvent<string>) => {
     const estadoValue = event.target.value;
     setSelectedEstado(estadoValue);
 
@@ -85,163 +73,173 @@ const Register: React.FC = () => {
     }
   };
 
-  const handleSelectChangeCidade = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const handleSelectChangeCidade = (event: SelectChangeEvent<string>) => {
     setSelectedCidade(event.target.value);
   };
 
-  const handleSelectInstituicaoOption = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedInstituicaoOption(event.target.value);
+  const handleSelectChangeInstituicao = (event: SelectChangeEvent<string>) => {
+    setSelectedInstituicao(event.target.value);
   };
 
   return (
     <div className="container">
       <h1 className="title">Preencha todos os Campos</h1>
       <br />
-      <ProfilePicture />
-      {/* CHOOSE THE TYPE OF USER  */}
-      <div>
-        <br />
-        <select
-          className="select-type-user"
-          id="Cadastro"
+      <Box sx={{ height: 150 }}>
+        <ProfilePicture />
+      </Box>
+
+      <br />
+      <Box sx={{ height: 70 }}>
+        <UserSelect
           value={selectedOption1}
           onChange={handleSelectChange1}
-        >
-          <option value="">User</option>
-          {selectOptions1.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      {/* LAYOUT FOR "PROFESSOR" USER */}
+          options={selectOptions1}
+        />
+      </Box>
+
       {selectedOption1 === 'professor' && (
         <>
-          <div className="input-container">
-            <input type="text" placeholder="Nome Completo" />
-            <input className="email-input" type="email" placeholder="E-mail" />
-          </div>
-          <div className="input-container">
-            <input type="password" placeholder="Senha" />
-            <input type="password" placeholder="Confirme sua Senha" />
-          </div>
-          <div>
-            <div className="input-container">
-              <input type="text" placeholder="CPF" />
-              <select
-                className="select-type-instituicao"
-                id="Instituicoes"
-                value={selectInstituicoesOptions}
-                onChange={handleSelectInstituicaoOption}
-              >
-                <option value="">Instituição</option>
-                {instituicoesOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="input-container">
-            <select
-              className="select-type-instituicao"
-              id="Estados"
-              value={selectedEstado}
-              onChange={handleSelectChangeEstado}
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
             >
-              <option value="">Estado</option>
-              {selectEstado.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <select
-              className="select-type-instituicao"
-              id="Cidades"
-              value={selectedCidade}
-              onChange={handleSelectChangeCidade}
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
+                placeholder="Nome Completo"
+              />
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
+                type="email"
+                placeholder="E-mail"
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
             >
-              <option value="">Cidade</option>
-              {cidades.map((city) => (
-                <option key={city.value} value={city.value}>
-                  {city.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input-container">
-            <input
-              className="input-endereco"
-              type="text"
-              placeholder="Endereço"
-            />
-            <input className="input-numero" type="text" placeholder="Número" />
-          </div>
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Confirme Sua Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="CPF"
+                type="text"
+                autoComplete="current-password"
+              />
+              <Box sx={{ height: 70 }}>
+                <InstituicaoSelect
+                  value={selectedInstituicao}
+                  onChange={handleSelectChangeInstituicao}
+                  options={instituicoesOptions}
+                />
+              </Box>
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
+              <EstadoSelect
+                value={selectedEstado}
+                onChange={handleSelectChangeEstado}
+                options={selectEstado.map((estado) => ({
+                  value: estado.value,
+                  label: estado.label,
+                }))}
+              />
+              <CidadeSelect
+                value={selectedCidade}
+                onChange={handleSelectChangeCidade}
+                options={cidades}
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="text"
+                autoComplete="Endereço"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Número"
+                type="text"
+                autoComplete="Número"
+              />
+            </Stack>
+          </Box>
         </>
       )}
-      {/* LAYOUT FOR "ALUNO" USER */}
       {selectedOption1 === 'aluno' && (
         <>
-          <div className="input-container">
-            <input type="text" placeholder="Nome Completo" />
-            <input className="email-input" type="email" placeholder="E-mail" />
-          </div>
-          <div className="input-container">
-            <input type="password" placeholder="Senha" />
-            <input type="password" placeholder="Confirme sua Senha" />
-          </div>
-          <div>
+          <Stack spacing={2} direction="row">
             <div className="input-container">
-              <input type="text" placeholder="CPF" />
-              <select
-                className="select-type-instituicao"
-                id="Instituicoes"
-                value={selectInstituicoesOptions}
-                onChange={handleSelectInstituicaoOption}
-              >
-                <option value="">Instituição</option>
-                {instituicoesOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+              <input type="text" placeholder="Nome Completo" />
+              <input
+                className="email-input"
+                type="email"
+                placeholder="E-mail"
+              />
             </div>
+            <div className="input-container">
+              <input type="password" placeholder="Senha" />
+              <input type="password" placeholder="Confirme sua Senha" />
+            </div>
+          </Stack>
+
+          <div className="input-container">
+            <input type="text" placeholder="CPF" />
+            <InstituicaoSelect
+              value={selectedInstituicao}
+              onChange={handleSelectChangeInstituicao}
+              options={instituicoesOptions}
+            />
           </div>
           <div className="input-container">
-            <select
-              className="select-type-instituicao"
-              id="Estados"
+            <EstadoSelect
               value={selectedEstado}
               onChange={handleSelectChangeEstado}
-            >
-              <option value="">Estado</option>
-              {selectEstado.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <select
-              className="select-type-instituicao"
-              id="Cidades"
+              options={selectEstado.map((estado) => ({
+                value: estado.value,
+                label: estado.label,
+              }))}
+            />
+            <CidadeSelect
               value={selectedCidade}
               onChange={handleSelectChangeCidade}
-            >
-              <option value="">Cidade</option>
-              {cidades.map((city) => (
-                <option key={city.value} value={city.value}>
-                  {city.label}
-                </option>
-              ))}
-            </select>
+              options={cidades}
+            />
           </div>
           <div className="input-container">
             <input
@@ -253,8 +251,7 @@ const Register: React.FC = () => {
           </div>
         </>
       )}
-      {/* LAYOUT FOR "INSTITUICAO" USER */}
-      {selectedOption1 === 'Instituição' && (
+      {selectedOption1 === 'instituicao' && (
         <>
           <div className="input-container">
             <input type="text" placeholder="Nome Completo" />
@@ -264,51 +261,28 @@ const Register: React.FC = () => {
             <input type="password" placeholder="Senha" />
             <input type="password" placeholder="Confirme sua Senha" />
           </div>
-          <div>
-            <div className="input-container">
-              <input type="text" placeholder="CNPJ" />
-              <select
-                className="select-type-instituicao"
-                id="Instituicoes"
-                value={selectInstituicoesOptions}
-                onChange={handleSelectInstituicaoOption}
-              >
-                <option value="">Instituição</option>
-                {instituicoesOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="input-container">
+            <input type="text" placeholder="CNPJ" />
+            <InstituicaoSelect
+              value={selectedInstituicao}
+              onChange={handleSelectChangeInstituicao}
+              options={instituicoesOptions}
+            />
           </div>
           <div className="input-container">
-            <select
-              className="select-type-instituicao"
-              id="Estados"
+            <EstadoSelect
               value={selectedEstado}
               onChange={handleSelectChangeEstado}
-            >
-              <option value="">Estado</option>
-              {selectEstado.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <select
-              className="select-type-instituicao"
-              id="Cidades"
+              options={selectEstado.map((estado) => ({
+                value: estado.value,
+                label: estado.label,
+              }))}
+            />
+            <CidadeSelect
               value={selectedCidade}
               onChange={handleSelectChangeCidade}
-            >
-              <option value="">Cidade</option>
-              {cidades.map((city) => (
-                <option key={city.value} value={city.value}>
-                  {city.label}
-                </option>
-              ))}
-            </select>
+              options={cidades}
+            />
           </div>
           <div className="input-container">
             <input
@@ -320,18 +294,10 @@ const Register: React.FC = () => {
           </div>
         </>
       )}
-      <>
-        <div>
-          <div className="button-container">
-            <button className="button-cancelar" type="button">
-              CANCELAR
-            </button>
-            <button className="button-confirmar" type="submit">
-              CONFIRMAR
-            </button>
-          </div>
-        </div>
-      </>
+      <Stack spacing={2} direction="row">
+        <Button variant="outlined">Cancelar</Button>
+        <Button variant="contained">CONFIRMAR</Button>
+      </Stack>
     </div>
   );
 };
