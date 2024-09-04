@@ -11,7 +11,6 @@ import CidadeSelect from '../../components/cidadeSelect/cidadeSelect';
 import { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { Box } from '@mui/material';
-import AddPhotoAlternateIcon from '@mui/material/Icon/Icon';
 
 interface Option {
   value: string;
@@ -203,95 +202,208 @@ const Register: React.FC = () => {
       )}
       {selectedOption1 === 'aluno' && (
         <>
-          <Stack spacing={2} direction="row">
-            <div className="input-container">
-              <input type="text" placeholder="Nome Completo" />
-              <input
-                className="email-input"
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
+                placeholder="Nome Completo"
+              />
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
                 type="email"
                 placeholder="E-mail"
               />
-            </div>
-            <div className="input-container">
-              <input type="password" placeholder="Senha" />
-              <input type="password" placeholder="Confirme sua Senha" />
-            </div>
-          </Stack>
-
-          <div className="input-container">
-            <input type="text" placeholder="CPF" />
-            <InstituicaoSelect
-              value={selectedInstituicao}
-              onChange={handleSelectChangeInstituicao}
-              options={instituicoesOptions}
-            />
-          </div>
-          <div className="input-container">
-            <EstadoSelect
-              value={selectedEstado}
-              onChange={handleSelectChangeEstado}
-              options={selectEstado.map((estado) => ({
-                value: estado.value,
-                label: estado.label,
-              }))}
-            />
-            <CidadeSelect
-              value={selectedCidade}
-              onChange={handleSelectChangeCidade}
-              options={cidades}
-            />
-          </div>
-          <div className="input-container">
-            <input
-              className="input-endereco"
-              type="text"
-              placeholder="Endereço"
-            />
-            <input className="input-numero" type="text" placeholder="Número" />
-          </div>
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Confirme Sua Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="CPF"
+                type="text"
+                autoComplete="current-password"
+              />
+              <Box sx={{ height: 70 }}>
+                <InstituicaoSelect
+                  value={selectedInstituicao}
+                  onChange={handleSelectChangeInstituicao}
+                  options={instituicoesOptions}
+                />
+              </Box>
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
+              <EstadoSelect
+                value={selectedEstado}
+                onChange={handleSelectChangeEstado}
+                options={selectEstado.map((estado) => ({
+                  value: estado.value,
+                  label: estado.label,
+                }))}
+              />
+              <CidadeSelect
+                value={selectedCidade}
+                onChange={handleSelectChangeCidade}
+                options={cidades}
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="text"
+                autoComplete="Endereço"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Número"
+                type="text"
+                autoComplete="Número"
+              />
+            </Stack>
+          </Box>
         </>
       )}
       {selectedOption1 === 'instituicao' && (
         <>
-          <div className="input-container">
-            <input type="text" placeholder="Nome Completo" />
-            <input className="email-input" type="email" placeholder="E-mail" />
-          </div>
-          <div className="input-container">
-            <input type="password" placeholder="Senha" />
-            <input type="password" placeholder="Confirme sua Senha" />
-          </div>
-          <div className="input-container">
-            <input type="text" placeholder="CNPJ" />
-            <InstituicaoSelect
-              value={selectedInstituicao}
-              onChange={handleSelectChangeInstituicao}
-              options={instituicoesOptions}
-            />
-          </div>
-          <div className="input-container">
-            <EstadoSelect
-              value={selectedEstado}
-              onChange={handleSelectChangeEstado}
-              options={selectEstado.map((estado) => ({
-                value: estado.value,
-                label: estado.label,
-              }))}
-            />
-            <CidadeSelect
-              value={selectedCidade}
-              onChange={handleSelectChangeCidade}
-              options={cidades}
-            />
-          </div>
-          <div className="input-container">
-            <input
-              className="input-endereco"
-              type="text"
-              placeholder="Endereço"
-            />
-            <input className="input-numero" type="text" placeholder="Número" />
-          </div>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
+                placeholder="Nome Completo"
+              />
+              <TextField
+                id="demo-helper-text-misaligned-no-helper"
+                type="email"
+                placeholder="E-mail"
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Confirme Sua Senha"
+                type="password"
+                autoComplete="current-password"
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="CPF"
+                type="text"
+                autoComplete="current-password"
+              />
+              <Box sx={{ height: 70 }}>
+                <InstituicaoSelect
+                  value={selectedInstituicao}
+                  onChange={handleSelectChangeInstituicao}
+                  options={instituicoesOptions}
+                />
+              </Box>
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
+              <EstadoSelect
+                value={selectedEstado}
+                onChange={handleSelectChangeEstado}
+                options={selectEstado.map((estado) => ({
+                  value: estado.value,
+                  label: estado.label,
+                }))}
+              />
+              <CidadeSelect
+                value={selectedCidade}
+                onChange={handleSelectChangeCidade}
+                options={cidades}
+              />
+            </Stack>
+          </Box>
+          <Box sx={{ height: 70 }}>
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              sx={{ flexWrap: 'wrap' }}
+            >
+              <TextField
+                id="outlined-password-input"
+                placeholder="Senha"
+                type="text"
+                autoComplete="Endereço"
+              />
+              <TextField
+                id="outlined-password-input"
+                placeholder="Número"
+                type="text"
+                autoComplete="Número"
+              />
+            </Stack>
+          </Box>
         </>
       )}
       <Stack spacing={2} direction="row">

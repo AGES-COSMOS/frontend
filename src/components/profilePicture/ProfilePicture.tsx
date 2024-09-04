@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './ProfilePicture.scss';
 import { useRef, useState } from 'react';
-import Grid from '@mui/material/Grid';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Icon from '@mui/material/Icon';
 import Avatar from '@mui/material/Avatar';
 
@@ -34,6 +34,9 @@ const ProfilePicture: React.FC = () => {
   return (
     <>
       <div className="profilePictureEdit" onClick={handleClick}>
+        <Icon style={{ fontSize: 32, color: 'white' }}>
+          <AddPhotoAlternateIcon />
+        </Icon>
         <input
           type="file"
           id="avatar"
@@ -42,10 +45,7 @@ const ProfilePicture: React.FC = () => {
           ref={fileInputRef} // Referência ao input
           style={{ display: 'none' }}
           onChange={handleFileChange} // Adiciona o handler de mudança
-        />{' '}
-        <Icon style={{ fontSize: 40, color: 'white' }}>
-          add_photo_alternate
-        </Icon>
+        />
       </div>
       <div className="profilePictureImg">
         <Avatar
