@@ -8,60 +8,33 @@ form {
 }
 
 .profilePictureImg {
-  height: 135px;
-  width: 135px;
+  height: 145px;
+  width: 145px;
   background-color: #7734e7;
+  background-image: url(./../../assets/nouser.webp);
+  background-size: cover;
+  background-position: center;
+  background-size: 100%;
   margin: 0 auto;
   border-radius: 50%;
+  border: 2px solid white; // Adiciona uma borda, opcional
+  outline: #bdc0c3 solid 2px;
+  position: relative;
 }
+
+.profilePictureEdit {
+  height: 40px;
+  width: 40px;
+  position: fixed;
+  top: 25.2%;
+  left: 53%;
+  background-color: #7734e7;
+  background-size: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+}
+
 input[type='file'] {
   display: none;
-}
-
-.field {
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-}
-
-.img-wrap {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-img {
-  width: auto;
-  height: 100%;
-}
-
-label {
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #676767;
-}
-
-select {
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  padding: 5px 5px 5px 10px;
-  font-size: 18px;
-  transition: 0.2s;
-}
-
-input {
-  font-family: 'Poppins', sans-serif;
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  padding: 5px 5px 5px 10px;
-  font-size: small;
-}
-input:focus {
-  outline: none;
-  border: 1px solid #7734e7;
-}
-input::placeholder {
-  color: #bdc0c3;
 }
