@@ -10,8 +10,6 @@ form {
 .profilePictureImg {
   height: 145px;
   width: 145px;
-  background-color: #7734e7;
-  background-image: url(./../../assets/nouser.webp);
   background-size: cover;
   background-position: center;
   background-size: 100%;
@@ -25,7 +23,7 @@ form {
 .profilePictureEdit {
   height: 40px;
   width: 40px;
-  position: fixed;
+  position: absolute;
   top: 25.2%;
   left: 53%;
   background-color: #7734e7;
