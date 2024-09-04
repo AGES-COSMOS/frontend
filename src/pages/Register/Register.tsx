@@ -1,16 +1,20 @@
-// components/Register.tsx
+// React e outros módulos
 import React, { useState } from 'react';
 import './Cadastro.scss';
+
+// Componentes personalizados
 import ProfilePicture from '../../components/profilePicture/ProfilePicture';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import UserSelect from '../../components/userSelect/userSelect';
 import InstituicaoSelect from '../../components/instituicaoSelect/instituicaoSelect';
 import EstadoSelect from '../../components/estadoSelect/estadoSelect';
 import CidadeSelect from '../../components/cidadeSelect/cidadeSelect';
+
+// Material-UI
+import Stack from '@mui/material/Stack';
 import { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { Box } from '@mui/material';
+import { Box, Button, InputLabel } from '@mui/material';
+import { relative } from 'path';
 
 interface Option {
   value: string;
@@ -87,9 +91,8 @@ const Register: React.FC = () => {
       <Box sx={{ height: 150 }}>
         <ProfilePicture />
       </Box>
-
       <br />
-      <Box sx={{ height: 70 }}>
+      <Box sx={{ height: 90, width: 150, position: 'relative', left: '32%' }}>
         <UserSelect
           value={selectedOption1}
           onChange={handleSelectChange1}
@@ -106,15 +109,8 @@ const Register: React.FC = () => {
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
             >
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                placeholder="Nome Completo"
-              />
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                type="email"
-                placeholder="E-mail"
-              />
+              <TextField placeholder="Nome Completo" />
+              <TextField type="email" placeholder="E-mail" />
             </Stack>
           </Box>
           <Box sx={{ height: 70 }}>
@@ -151,7 +147,7 @@ const Register: React.FC = () => {
                 type="text"
                 autoComplete="current-password"
               />
-              <Box sx={{ height: 70 }}>
+              <Box sx={{ height: 50, width: 225 }}>
                 <InstituicaoSelect
                   value={selectedInstituicao}
                   onChange={handleSelectChangeInstituicao}
@@ -160,7 +156,7 @@ const Register: React.FC = () => {
               </Box>
             </Stack>
           </Box>
-          <Box sx={{ height: 70 }}>
+          <Box sx={{ height: 70, width: 473 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
               <EstadoSelect
                 value={selectedEstado}
@@ -185,12 +181,13 @@ const Register: React.FC = () => {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
+                sx={{ width: 355 }}
                 id="outlined-password-input"
-                placeholder="Senha"
+                placeholder="Endereço"
                 type="text"
-                autoComplete="Endereço"
               />
               <TextField
+                sx={{ width: 100 }}
                 id="outlined-password-input"
                 placeholder="Número"
                 type="text"
@@ -198,6 +195,34 @@ const Register: React.FC = () => {
               />
             </Stack>
           </Box>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ position: 'relative', left: 130 }}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                backgroundColor: '#fafcfe',
+                color: '#000',
+                borderColor: '#7734e7',
+                fontSize: 'small',
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#7734e7',
+                color: '#fafcfe',
+                borderColor: 'none',
+                fontSize: 'small',
+              }}
+            >
+              CONFIRMAR
+            </Button>
+          </Stack>
         </>
       )}
       {selectedOption1 === 'aluno' && (
@@ -209,15 +234,8 @@ const Register: React.FC = () => {
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
             >
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                placeholder="Nome Completo"
-              />
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                type="email"
-                placeholder="E-mail"
-              />
+              <TextField placeholder="Nome Completo" />
+              <TextField type="email" placeholder="E-mail" />
             </Stack>
           </Box>
           <Box sx={{ height: 70 }}>
@@ -254,7 +272,7 @@ const Register: React.FC = () => {
                 type="text"
                 autoComplete="current-password"
               />
-              <Box sx={{ height: 70 }}>
+              <Box sx={{ height: 50, width: 225 }}>
                 <InstituicaoSelect
                   value={selectedInstituicao}
                   onChange={handleSelectChangeInstituicao}
@@ -263,7 +281,7 @@ const Register: React.FC = () => {
               </Box>
             </Stack>
           </Box>
-          <Box sx={{ height: 70 }}>
+          <Box sx={{ height: 70, width: 473 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
               <EstadoSelect
                 value={selectedEstado}
@@ -288,12 +306,13 @@ const Register: React.FC = () => {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
+                sx={{ width: 355 }}
                 id="outlined-password-input"
-                placeholder="Senha"
+                placeholder="Endereço"
                 type="text"
-                autoComplete="Endereço"
               />
               <TextField
+                sx={{ width: 100 }}
                 id="outlined-password-input"
                 placeholder="Número"
                 type="text"
@@ -301,6 +320,34 @@ const Register: React.FC = () => {
               />
             </Stack>
           </Box>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ position: 'relative', left: 130 }}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                backgroundColor: '#fafcfe',
+                color: '#000',
+                borderColor: '#7734e7',
+                fontSize: 'small',
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#7734e7',
+                color: '#fafcfe',
+                borderColor: 'none',
+                fontSize: 'small',
+              }}
+            >
+              CONFIRMAR
+            </Button>
+          </Stack>
         </>
       )}
       {selectedOption1 === 'instituicao' && (
@@ -312,15 +359,8 @@ const Register: React.FC = () => {
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
             >
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                placeholder="Nome Completo"
-              />
-              <TextField
-                id="demo-helper-text-misaligned-no-helper"
-                type="email"
-                placeholder="E-mail"
-              />
+              <TextField placeholder="Nome Completo" />
+              <TextField type="email" placeholder="E-mail" />
             </Stack>
           </Box>
           <Box sx={{ height: 70 }}>
@@ -353,11 +393,11 @@ const Register: React.FC = () => {
             >
               <TextField
                 id="outlined-password-input"
-                placeholder="CPF"
+                placeholder="CNPJ"
                 type="text"
                 autoComplete="current-password"
               />
-              <Box sx={{ height: 70 }}>
+              <Box sx={{ height: 50, width: 225 }}>
                 <InstituicaoSelect
                   value={selectedInstituicao}
                   onChange={handleSelectChangeInstituicao}
@@ -366,7 +406,7 @@ const Register: React.FC = () => {
               </Box>
             </Stack>
           </Box>
-          <Box sx={{ height: 70 }}>
+          <Box sx={{ height: 70, width: 473 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
               <EstadoSelect
                 value={selectedEstado}
@@ -391,12 +431,13 @@ const Register: React.FC = () => {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
+                sx={{ width: 355 }}
                 id="outlined-password-input"
-                placeholder="Senha"
+                placeholder="Endereço"
                 type="text"
-                autoComplete="Endereço"
               />
               <TextField
+                sx={{ width: 100 }}
                 id="outlined-password-input"
                 placeholder="Número"
                 type="text"
@@ -404,12 +445,36 @@ const Register: React.FC = () => {
               />
             </Stack>
           </Box>
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ position: 'relative', left: 130 }}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                backgroundColor: '#fafcfe',
+                color: '#000',
+                borderColor: '#7734e7',
+                fontSize: 'small',
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#7734e7',
+                color: '#fafcfe',
+                borderColor: 'none',
+                fontSize: 'small',
+              }}
+            >
+              CONFIRMAR
+            </Button>
+          </Stack>
         </>
       )}
-      <Stack spacing={2} direction="row">
-        <Button variant="outlined">Cancelar</Button>
-        <Button variant="contained">CONFIRMAR</Button>
-      </Stack>
     </div>
   );
 };

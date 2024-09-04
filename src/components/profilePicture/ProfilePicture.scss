@@ -18,21 +18,20 @@ form {
   border: 2px solid white; // Adiciona uma borda, opcional
   outline: #bdc0c3 solid 2px;
   position: relative;
+  right: 3%;
 }
 
 .profilePictureEdit {
+  margin: auto;
   height: 40px;
   width: 40px;
   position: absolute;
-  top: 25.2%;
-  left: 53%;
+  top: 45.2%;
+  left: 83%;
   background-color: #7734e7;
-  background-size: 100%;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1;
-}
-
-input[type='file'] {
-  display: none;
+  text-align: center;
+  align-items: center;
 }

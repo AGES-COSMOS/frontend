@@ -4,6 +4,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import { SxProps, Theme } from '@mui/material/styles';
 
 interface Option {
   value: string;
@@ -22,10 +24,12 @@ const UserSelect: React.FC<UserSelectProps> = ({
   options,
 }) => (
   <FormControl fullWidth>
+    <InputLabel id="estado-select-label">Usuário</InputLabel>
     <Select
       className="user-select-type"
       labelId="user-select-label"
       value={value}
+      label="Usuário"
       onChange={onChange}
     >
       {options.map((option) => (

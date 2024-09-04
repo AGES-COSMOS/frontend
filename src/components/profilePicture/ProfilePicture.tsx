@@ -33,20 +33,6 @@ const ProfilePicture: React.FC = () => {
 
   return (
     <>
-      <div className="profilePictureEdit" onClick={handleClick}>
-        <Icon style={{ fontSize: 32, color: 'white' }}>
-          <AddPhotoAlternateIcon />
-        </Icon>
-        <input
-          type="file"
-          id="avatar"
-          name="avatar"
-          accept="image/png, image/jpeg"
-          ref={fileInputRef} // Referência ao input
-          style={{ display: 'none' }}
-          onChange={handleFileChange} // Adiciona o handler de mudança
-        />
-      </div>
       <div className="profilePictureImg">
         <Avatar
           alt="Profile Picture"
@@ -55,6 +41,28 @@ const ProfilePicture: React.FC = () => {
         >
           {/* Opcional: texto alternativo para Avatar, pode ser o nome do usuário ou iniciais */}
         </Avatar>
+        <div className="profilePictureEdit" onClick={handleClick}>
+          <Icon
+            style={{
+              fontSize: 35,
+              color: 'white',
+              position: 'relative',
+              bottom: 6,
+              left: 1,
+            }}
+          >
+            <AddPhotoAlternateIcon />
+          </Icon>
+          <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/png, image/jpeg"
+            ref={fileInputRef} // Referência ao input
+            style={{ display: 'none' }}
+            onChange={handleFileChange} // Adiciona o handler de mudança
+          />
+        </div>
       </div>
     </>
   );
