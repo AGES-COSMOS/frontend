@@ -1,9 +1,35 @@
-import React from 'react'
+import React from 'react';
+import {
+  NavButton,
+  SidebarContainer,
+  UserSection,
+  StyledPersonOutlineIcon,
+} from './sidebar.style';
+import Logo from '../Logo/logo';
+import { Box, Typography } from '@mui/material';
 
-const sidebar = () => {
+const Sidebar = () => {
   return (
-    <div>sidebar</div>
-  )
-}
+    <SidebarContainer>
+      <Box>
+        <Logo />
+        <UserSection>
+          <StyledPersonOutlineIcon />
+          <Typography variant="h6">User Name</Typography>
+        </UserSection>
 
-export default sidebar
+        <NavButton>Home</NavButton>
+        <NavButton>Profile</NavButton>
+        <NavButton>Settings</NavButton>
+        <NavButton>Logout</NavButton>
+      </Box>
+
+      <Box>
+        <NavButton>Help</NavButton>
+        <NavButton>About</NavButton>
+      </Box>
+    </SidebarContainer>
+  );
+};
+
+export default Sidebar;
