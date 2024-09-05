@@ -1,0 +1,95 @@
+.project-card {
+  max-width: 700px;
+  border: 2px solid #7734e7;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .container-box {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px 16px 0px 16px;
+  }
+
+  .card-media {
+    width: 200px;
+    height: 118px;
+    margin-right: 16px;
+    border-radius: 8px;
+  }
+
+  .content-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .status,
+  .location,
+  .keywords,
+  .description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 4px;
+  }
+
+  .location-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .location-icon {
+    color: #7734e7;
+    font-size: 18px;
+    margin-right: 4px;
+  }
+
+  .card-content {
+    padding: 16px;
+    padding-top: 0;
+    position: relative;
+    max-height: 50px;
+    overflow: hidden;
+  }
+
+  .description {
+    position: relative;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-actions {
+    justify-content: center;
+    border-top: 2px solid #7734e7;
+    padding: 5px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #7734e7;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
