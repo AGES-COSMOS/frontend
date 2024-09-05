@@ -1,0 +1,34 @@
+@import '../../styles/global.scss';
+
+.create-project {
+  padding: 3rem;
+}
+
+h1 {
+  color: var(--purple);
+}
+
+select {
+  border-radius: 7px;
+  color: var(--light-gray);
+  padding: 0.5rem;
+}
+textarea {
+  display: block;
+  padding-left: 0.5rem;
+  resize: none;
+  border-radius: 6px;
+  width: 40%;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.item {
+  flex: 1 1 calc(50% - 16px);
+  box-sizing: border-box;
+}
