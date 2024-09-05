@@ -60,7 +60,7 @@ export const AboutUs = () => {
         <img src="path_to_capes_logo" alt="Capes" className="logo" />
         <img src="path_to_cnpq_logo" alt="CNPq" className="logo" />
         <img src="path_to_pucrs_logo" alt="PUCRS" className="logo" />
-        <img src="path_to_ufrgs_logo" alt="UFRGS" className="logo" />
+        <img src="path_to_ufpel_logo" alt="UFPEL" className="logo" />
         <img src="path_to_ages_logo" alt="Ages" className="logo" />
       </div>
     </div>
