@@ -13,8 +13,24 @@ import CidadeSelect from '../../components/cidadeSelect/cidadeSelect';
 import Stack from '@mui/material/Stack';
 import { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { Box, Button, InputLabel } from '@mui/material';
-import { relative } from 'path';
+import { Box, Button } from '@mui/material';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  cpfcnpj: string | null;
+  photoURL: string | null | ArrayBuffer | null;
+  blocked: boolean;
+  registration_number: string | null;
+  institution_id: number;
+  role_id: number;
+  password: string;
+  institution: string;
+  role: number;
+  address: string | null;
+}
 
 interface Option {
   value: string;
@@ -57,6 +73,17 @@ const Register: React.FC = () => {
   const [selectedInstituicao, setSelectedInstituicao] = useState<string>('');
   const [cidades, setCidades] = useState<Option[]>([]);
 
+  // Adiciona estados para os campos do formulário
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [cpfCnpj, setCpfCnpj] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [number, setNumber] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [photoURL, setPhotoURL] = useState<string | ArrayBuffer | null>(null);
+
   const handleSelectChange1 = (event: SelectChangeEvent<string>) => {
     setSelectedOption1(event.target.value);
   };
@@ -65,11 +92,10 @@ const Register: React.FC = () => {
     const estadoValue = event.target.value;
     setSelectedEstado(estadoValue);
 
-    // Filtra as cidades com base no estado selecionado
     const estado = selectEstado.find((e) => e.value === estadoValue);
     if (estado) {
       setCidades(estado.city.map((city) => ({ value: city, label: city })));
-      setSelectedCidade(''); // Limpa a cidade selecionada quando o estado muda
+      setSelectedCidade('');
     } else {
       setCidades([]);
       setSelectedCidade('');
@@ -84,12 +110,47 @@ const Register: React.FC = () => {
     setSelectedInstituicao(event.target.value);
   };
 
+  const handleConfirmClick = () => {
+    const userData: User = {
+      id: 0, // Ou algum outro valor que faça sentido
+      name,
+      email,
+      phone,
+      cpfcnpj: cpfCnpj,
+      photoURL,
+      blocked: false,
+      registration_number: null,
+      institution_id: Number(selectedInstituicao),
+      role_id:
+        selectOptions1.find((option) => option.value === selectedOption1)
+          ?.value === 'professor'
+          ? 1
+          : selectOptions1.find((option) => option.value === selectedOption1)
+                ?.value === 'aluno'
+            ? 2
+            : 3,
+      password,
+      institution: selectedInstituicao,
+      role:
+        selectOptions1.find((option) => option.value === selectedOption1)
+          ?.value === 'professor'
+          ? 1
+          : selectOptions1.find((option) => option.value === selectedOption1)
+                ?.value === 'aluno'
+            ? 2
+            : 3,
+      address,
+    };
+
+    console.log(userData);
+  };
+
   return (
     <div className="container">
       <h1 className="title">Preencha todos os Campos</h1>
       <br />
       <Box sx={{ height: 150 }}>
-        <ProfilePicture />
+        <ProfilePicture onImageChange={setPhotoURL} />
       </Box>
       <br />
       <Box sx={{ height: 90, width: 150, position: 'relative', left: '32%' }}>
@@ -109,8 +170,17 @@ const Register: React.FC = () => {
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
             >
-              <TextField placeholder="Nome Completo" />
-              <TextField type="email" placeholder="E-mail" />
+              <TextField
+                placeholder="Nome Completo"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Stack>
           </Box>
           <Box sx={{ height: 70 }}>
@@ -121,16 +191,16 @@ const Register: React.FC = () => {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
-                id="outlined-password-input"
                 placeholder="Senha"
                 type="password"
-                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
-                id="outlined-password-input"
                 placeholder="Confirme Sua Senha"
                 type="password"
-                autoComplete="current-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Stack>
           </Box>
@@ -142,10 +212,10 @@ const Register: React.FC = () => {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
-                id="outlined-password-input"
                 placeholder="CPF"
                 type="text"
-                autoComplete="current-password"
+                value={cpfCnpj}
+                onChange={(e) => setCpfCnpj(e.target.value)}
               />
               <Box sx={{ height: 50, width: 225 }}>
                 <InstituicaoSelect
@@ -158,6 +228,17 @@ const Register: React.FC = () => {
           </Box>
           <Box sx={{ height: 70, width: 473 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
+              <TextField
+                type="phone"
+                placeholder="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Stack>
+          </Box>
+
+          <Box sx={{ height: 70, width: 473 }}>
+            <Stack spacing={{ xs: 2, sm: 2 }} direction="row" useFlexGap>
               <EstadoSelect
                 value={selectedEstado}
                 onChange={handleSelectChangeEstado}
@@ -182,16 +263,17 @@ const Register: React.FC = () => {
             >
               <TextField
                 sx={{ width: 355 }}
-                id="outlined-password-input"
                 placeholder="Endereço"
                 type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
               />
               <TextField
                 sx={{ width: 100 }}
-                id="outlined-password-input"
                 placeholder="Número"
                 type="text"
-                autoComplete="Número"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
               />
             </Stack>
           </Box>
@@ -208,6 +290,22 @@ const Register: React.FC = () => {
                 borderColor: '#7734e7',
                 fontSize: 'small',
               }}
+              onClick={() => {
+                // Limpar os campos ou qualquer outra ação ao cancelar
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                setCpfCnpj('');
+                setAddress('');
+                setNumber('');
+                setSelectedOption1('');
+                setSelectedEstado('');
+                setSelectedCidade('');
+                setSelectedInstituicao('');
+                setPhone('');
+                setCidades([]);
+              }}
             >
               Cancelar
             </Button>
@@ -219,6 +317,7 @@ const Register: React.FC = () => {
                 borderColor: 'none',
                 fontSize: 'small',
               }}
+              onClick={handleConfirmClick} // Chama a função ao clicar no botão Confirmar
             >
               CONFIRMAR
             </Button>
@@ -310,13 +409,6 @@ const Register: React.FC = () => {
                 id="outlined-password-input"
                 placeholder="Endereço"
                 type="text"
-              />
-              <TextField
-                sx={{ width: 100 }}
-                id="outlined-password-input"
-                placeholder="Número"
-                type="text"
-                autoComplete="Número"
               />
             </Stack>
           </Box>
