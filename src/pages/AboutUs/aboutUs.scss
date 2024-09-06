@@ -17,6 +17,8 @@
     width: 90%;
     text-align: left;
     font-size: 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
 
     strong {
       font-weight: bold;
@@ -25,6 +27,7 @@
 
   .contact-section {
     text-align: left;
+    margin-bottom: 2rem;
 
     h3 {
       font-size: 2rem;
@@ -34,15 +37,15 @@
     }
 
     p {
-      margin: 1.0rem;
+      margin: 1rem 0;
       font-size: 1.5rem;
 
-      @media (max-width: 7.68rem) {
-        font-size: 2.2rem;
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
       }
 
-      @media (max-width: 4.80rem) {
-        font-size: 18px;
+      @media (max-width: 480px) {
+        font-size: 1rem;
       }
     }
   }
@@ -55,16 +58,16 @@
       font-size: 2rem;
       font-weight: bold;
       color: var(--purple);
-      margin-top: 3rem;
+      margin-bottom: 1.5rem;
     }
 
     .social-icons {
       display: flex;
-      justify-content: left;
+      gap: 1.5rem;
 
       .social-icon {
         color: var(--slate);
-        font-size: 1.5rem;
+        font-size: 2.5rem;
         transition: color 0.3s;
 
         &:hover {
@@ -72,15 +75,15 @@
         }
 
         &.instagram:hover {
-          color: var(--purple);
+          color: #e1306c; // Cor característica do Instagram
         }
 
         &.youtube:hover {
-          color: var(--purple);
+          color: #ff0000; // Cor característica do YouTube
         }
 
         &.linkedin:hover {
-          color: var(--purple);
+          color: #0077b5; // Cor característica do LinkedIn
         }
       }
     }
@@ -88,11 +91,64 @@
 
   .logos-section {
     display: flex;
-    justify-content: left;
+    flex-wrap: wrap;
+    gap: 2rem;
     margin-top: 3rem;
 
     .logo {
       height: 100px;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        height: 80px;
+      }
+
+      @media (max-width: 480px) {
+        height: 60px;
+      }
     }
+  }
+
+  button {
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: var(--dark-purple);
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+  }
+
+  textarea,
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--slate);
+    border-radius: 4px;
+  }
+
+  textarea {
+    resize: vertical;
   }
 }
