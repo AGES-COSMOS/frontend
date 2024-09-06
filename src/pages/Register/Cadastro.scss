@@ -30,90 +30,6 @@
   color: #7734e7;
 }
 
-.button-confirmar {
-  position: relative;
-  color: #fafcfe;
-  letter-spacing: 1px;
-  margin: 20px;
-  font-size: 15px;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  background: #7734e7;
-  font-family: 'Poppins', sans-serif;
-}
-
-.button-cancelar {
-  border-width: 2px;
-  position: relative;
-  color: #000000;
-  border-color: #7734e7;
-  letter-spacing: 1px;
-  font-size: small;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #fafcfe;
-}
-
-.input-container {
-  display: flex;
-  justify-content: 10px, space-between;
-  max-width: 400px;
-  padding: 10px 0;
-}
-
-.button-container {
-  display: inline;
-  position: relative;
-  left: 28.3%;
-}
-
-.email-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s ease;
-}
-
-.email-input:invalid {
-  border-color: red;
-}
-
-.input-endereco {
-  font-family: 'Poppins', sans-serif;
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  width: 67%;
-  font-size: small;
-}
-
-.input-numero {
-  font-family: 'Poppins', sans-serif;
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  width: 14%;
-  font-size: small;
-}
-.select-type-user {
-  font-family: 'Poppins', sans-serif;
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  padding: 5px 5px 5px 10px;
-  position: relative;
-  left: 39%;
-}
-.select-type-user:focus {
-  outline: none;
-  border: 1px solid #7734e7;
-}
-.select-type-user::placeholder {
-  color: #bdc0c3;
-}
-
 .select-type-instituicao {
   font-family: 'Poppins', sans-serif;
   border-radius: 5px;
@@ -127,20 +43,5 @@
   border: 1px solid #7734e7;
 }
 .select-type-instituicao::placeholder {
-  color: #bdc0c3;
-}
-
-input {
-  font-family: 'Poppins', sans-serif;
-  border-radius: 5px;
-  border: 1px solid #b7b7b7;
-  padding: 5px 5px 5px 10px;
-  font-size: small;
-}
-input:focus {
-  outline: none;
-  border: 1px solid #7734e7;
-}
-input::placeholder {
   color: #bdc0c3;
 }
