@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Icon from '@mui/material/Icon';
 import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip'; // Importa o Tooltip
 
 interface ProfilePictureProps {
   onImageChange: (url: string | ArrayBuffer | null) => void; // Adiciona uma prop para o callback
@@ -41,28 +42,30 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ onImageChange }) => {
       >
         {/* Opcional: texto alternativo para Avatar, pode ser o nome do usuário ou iniciais */}
       </Avatar>
-      <div className="profilePictureEdit" onClick={handleClick}>
-        <Icon
-          style={{
-            fontSize: 35,
-            color: 'white',
-            position: 'relative',
-            bottom: 6,
-            left: 1,
-          }}
-        >
-          <AddPhotoAlternateIcon />
-        </Icon>
-        <input
-          type="file"
-          id="avatar"
-          name="avatar"
-          accept="image/png, image/jpeg"
-          ref={fileInputRef} // Referência ao input
-          style={{ display: 'none' }}
-          onChange={handleFileChange} // Adiciona o handler de mudança
-        />
-      </div>
+      <Tooltip title="Editar Imagem" arrow>
+        <div className="profilePictureEdit" onClick={handleClick}>
+          <Icon
+            style={{
+              fontSize: 35,
+              color: 'white',
+              position: 'relative',
+              bottom: 6,
+              left: 1,
+            }}
+          >
+            <AddPhotoAlternateIcon />
+          </Icon>
+          <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/png, image/jpeg"
+            ref={fileInputRef} // Referência ao input
+            style={{ display: 'none' }}
+            onChange={handleFileChange} // Adiciona o handler de mudança
+          />
+        </div>
+      </Tooltip>
     </div>
   );
 };
