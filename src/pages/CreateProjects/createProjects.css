@@ -6,9 +6,11 @@
   flex-direction: column;
 }
 
-h1,
-h4 {
+h1 {
   color: var(--purple);
+}
+h4 {
+  color: var(--light-gray);
 }
 
 .form {
@@ -101,4 +103,31 @@ button {
 
 .submit-button:hover {
   background-color: var(--dark-purple);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.project-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.add-image-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--purple);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
 }

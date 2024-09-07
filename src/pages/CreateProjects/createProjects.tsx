@@ -35,7 +35,7 @@ export const CreateProjects = () => {
   ]);
 
   const [keywords] = useState([
-    { id: 1, name: 'Cívil' },
+    { id: 1, name: 'Civil' },
     { id: 2, name: 'Direito' },
   ]);
 
@@ -115,19 +115,21 @@ export const CreateProjects = () => {
   return (
     <div className="create-project">
       <h1>Cadastro de Projeto</h1>
-      <img
-        src={image}
-        alt="Imagem de Capa do Projeto"
-        className="project-image"
-      />
-      <button
-        type="button"
-        className="add-image-button"
-        onClick={() => document.getElementById('imageInput')?.click()}
-      >
-        {' '}
-        Adicionar Imagem
-      </button>
+      <div className="image-container">
+        <img
+          src={image}
+          alt="Imagem de Capa do Projeto"
+          className="project-image"
+        />
+        <button
+          type="button"
+          className="add-image-button"
+          onClick={() => document.getElementById('imageInput')?.click()}
+        >
+          {' '}
+          Adicionar Imagem
+        </button>
+      </div>
       <input
         type="file"
         id="imageInput"
