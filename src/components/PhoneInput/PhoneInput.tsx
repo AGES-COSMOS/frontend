@@ -47,7 +47,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange }) => {
     <div style={{ position: 'relative' }}>
       <TextField
         type="text"
-        placeholder="(DDD) XXXXX-XXXX"
+        placeholder="Telefone"
         value={value}
         onChange={handleChange}
         inputProps={{ maxLength: 14 }} // Limita o comprimento total sem o hífen

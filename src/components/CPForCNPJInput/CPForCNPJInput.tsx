@@ -89,7 +89,7 @@ const InputCpfOrCnpj: React.FC<InputCpfOrCnpjProps> = ({ value, onChange }) => {
         inputProps={{ maxLength: 18 }} // Limita o comprimento total
         error={isInvalid}
         style={{
-          width: '230px',
+          width: '225px',
           fontSize: '16px',
           border: isInvalid ? '1px solid red' : '1px solid #ccc',
           borderRadius: '4px',
