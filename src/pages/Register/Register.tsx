@@ -29,6 +29,7 @@ interface User {
   blocked: boolean;
   registration_number: string | null;
   institution_id: number;
+  matricula: string | null;
   role_id: number;
   password: string;
   institution: string;
@@ -87,6 +88,7 @@ const Register: React.FC = () => {
   const [number, setNumber] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [photoURL, setPhotoURL] = useState<string | ArrayBuffer | null>(null);
+  const [matricula, setMatricula] = useState<string>('');
 
   const handleSelectChange1 = (event: SelectChangeEvent<string>) => {
     setSelectedOption1(event.target.value);
@@ -122,6 +124,40 @@ const Register: React.FC = () => {
     return hasUpperCase && hasLowerCase && hasSpecialChar && isLengthValid;
   };
 
+  // O método abaixo garante que somente aluno necessite de matricula para se cadastrar
+  const handleMatricula = (selectedOption1: string, matricula: string): any => {
+    let _matricula: string | null = '';
+
+    if (selectedOption1 === 'aluno') {
+      _matricula = matricula;
+    } else {
+      _matricula = ' ';
+    }
+    return _matricula;
+  };
+
+  const addressInstituicao = (
+    selectedOption1: string,
+    address: string,
+  ): string => {
+    if (selectedOption1 === 'instituicao') {
+      return address;
+    } else {
+      return ' ';
+    }
+  };
+
+  const addressNumberInstituicao = (
+    selectedOption1: string,
+    number: string,
+  ): string => {
+    if (selectedOption1 === 'instituicao') {
+      return number;
+    } else {
+      return ' ';
+    }
+  };
+
   const isFormValid = () => {
     // Verifica se todos os campos necessários estão preenchidos
     const isPasswordValidCheck = isPasswordValid(password);
@@ -129,20 +165,26 @@ const Register: React.FC = () => {
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const isPhoneValid = phone.replace(/\D/g, '').length === 11; // Verifica se o número tem exatamente 11 dígitos
     const isCpfCnpjValid = cpfCnpj.replace(/\D/g, '').length >= 11; // Ajuste a lógica de validação conforme necessário
+    const _addressInstituicao = addressInstituicao(selectedOption1, address);
+    const _addressNumberInstituicao = addressNumberInstituicao(
+      selectedOption1,
+      number,
+    );
 
     const isAllFieldsFilled =
       name &&
       email &&
       password &&
       confirmPassword &&
+      _addressInstituicao &&
+      _addressNumberInstituicao &&
       cpfCnpj &&
-      address &&
-      number &&
       selectedOption1 &&
       selectedEstado &&
       selectedCidade &&
       selectedInstituicao &&
       phone &&
+      handleMatricula(selectedOption1, matricula) &&
       isPasswordValidCheck &&
       isPasswordMatch &&
       isEmailValid &&
@@ -155,10 +197,11 @@ const Register: React.FC = () => {
   const handleConfirmClick = () => {
     if (isFormValid()) {
       const userData: User = {
-        id: 0, // Ou algum outro valor que faça sentido
+        id: 0,
         name,
         email,
         phone,
+        matricula,
         cpfcnpj: cpfCnpj,
         photoURL,
         blocked: false,
@@ -232,22 +275,22 @@ const Register: React.FC = () => {
             </Stack>
           </Box>
           <Box sx={{ height: 70 }}>
-            <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row"></Stack>
+
+            <Box sx={{ height: 50, width: 225 }}>
+              <InstituicaoSelect
+                value={selectedInstituicao}
+                onChange={handleSelectChangeInstituicao}
+                options={instituicoesOptions}
+              />
+            </Box>
+          </Box>
+          <Box sx={{ height: 70, width: 473 }}>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
               <InputCpfOrCnpj
                 value={cpfCnpj}
                 onChange={(value) => setCpfCnpj(value)}
               />
-              <Box sx={{ height: 50, width: 225 }}>
-                <InstituicaoSelect
-                  value={selectedInstituicao}
-                  onChange={handleSelectChangeInstituicao}
-                  options={instituicoesOptions}
-                />
-              </Box>
-            </Stack>
-          </Box>
-          <Box sx={{ height: 70, width: 473 }}>
-            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
               <PhoneInput
                 value={phone}
                 onChange={(formattedValue) => setPhone(formattedValue)}
@@ -278,22 +321,7 @@ const Register: React.FC = () => {
               direction="row"
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
-            >
-              <TextField
-                sx={{ width: 355 }}
-                placeholder="Endereço"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <TextField
-                sx={{ width: 100 }}
-                placeholder="Número"
-                type="text"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
-              />
-            </Stack>
+            ></Stack>
           </Box>
           <Stack
             spacing={2}
@@ -316,6 +344,7 @@ const Register: React.FC = () => {
                 setConfirmPassword('');
                 setCpfCnpj('');
                 setAddress('');
+                setMatricula('');
                 setNumber('');
                 setSelectedOption1('');
                 setSelectedEstado('');
@@ -371,9 +400,10 @@ const Register: React.FC = () => {
           </Box>
           <Box sx={{ height: 70 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
-              <InputCpfOrCnpj
-                value={cpfCnpj}
-                onChange={(value) => setCpfCnpj(value)}
+              <TextField
+                placeholder="Matricula"
+                value={matricula}
+                onChange={(e) => setMatricula(e.target.value)}
               />
               <Box sx={{ height: 50, width: 225 }}>
                 <InstituicaoSelect
@@ -386,6 +416,10 @@ const Register: React.FC = () => {
           </Box>
           <Box sx={{ height: 70, width: 473 }}>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
+              <InputCpfOrCnpj
+                value={cpfCnpj}
+                onChange={(value) => setCpfCnpj(value)}
+              />
               <PhoneInput
                 value={phone}
                 onChange={(formattedValue) => setPhone(formattedValue)}
@@ -416,22 +450,7 @@ const Register: React.FC = () => {
               direction="row"
               useFlexGap
               sx={{ flexWrap: 'wrap' }}
-            >
-              <TextField
-                sx={{ width: 355 }}
-                placeholder="Endereço"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <TextField
-                sx={{ width: 100 }}
-                placeholder="Número"
-                type="text"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
-              />
-            </Stack>
+            ></Stack>
           </Box>
           <Stack
             spacing={2}
@@ -452,6 +471,7 @@ const Register: React.FC = () => {
                 setEmail('');
                 setPassword('');
                 setConfirmPassword('');
+                setMatricula('');
                 setCpfCnpj('');
                 setAddress('');
                 setNumber('');
@@ -589,6 +609,7 @@ const Register: React.FC = () => {
                 setName('');
                 setEmail('');
                 setPassword('');
+                setMatricula('');
                 setConfirmPassword('');
                 setCpfCnpj('');
                 setAddress('');
