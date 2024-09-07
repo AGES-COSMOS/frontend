@@ -1,3 +1,20 @@
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 20px;
+}
+
+.filters-container {
+  flex: 1;
+  max-width: 600px;
+  padding-right: 200px;
+}
+
+.project-listing {
+  flex: 3;
+}
+
 .project-listing {
   padding: 20px;
   max-width: 700px;
@@ -34,4 +51,33 @@
     flex-direction: column;
     gap: 16px;
   }
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filters-box {
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filters-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #000;
+}
+
+.filters-icon {
+  color: var(--purple);
 }
