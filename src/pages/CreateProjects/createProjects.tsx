@@ -41,6 +41,7 @@ export const CreateProjects = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
+  const [image, setImage] = useState('public/projectPlaceholder.png');
 
   const [projectData, setProjectData] = useState<Project>({
     id: 0,
@@ -64,6 +65,16 @@ export const CreateProjects = () => {
   ) => {
     const { name, value } = e.target;
     setProjectData({ ...projectData, [name]: value });
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const categoryOptions = categories.map((category) => ({
@@ -105,8 +116,24 @@ export const CreateProjects = () => {
     <div className="create-project">
       <h1>Cadastro de Projeto</h1>
       <img
-        src="/public/projectPlaceholder.png"
+        src={image}
         alt="Imagem de Capa do Projeto"
+        className="project-image"
+      />
+      <button
+        type="button"
+        className="add-image-button"
+        onClick={() => document.getElementById('imageInput')?.click()}
+      >
+        {' '}
+        Adicionar Imagem
+      </button>
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        onChange={handleImageChange}
+        style={{ display: 'none' }}
       />
       <form onSubmit={handleSubmit} className="form">
         <textarea
