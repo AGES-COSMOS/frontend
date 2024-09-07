@@ -8,3 +8,6 @@ export const getAboutUs = async () => {
     throw new Error('Error fetching about us data');
   }
 };
+
+// essa função não existe!!!!!!!!!!
+export const updateAboutUs = () => {return null};

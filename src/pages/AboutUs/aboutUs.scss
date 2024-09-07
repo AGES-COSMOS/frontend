@@ -1,4 +1,8 @@
 .about-us-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.about-us-text-container {
   display: flex;
   flex-direction: column;
   align-items: left;
