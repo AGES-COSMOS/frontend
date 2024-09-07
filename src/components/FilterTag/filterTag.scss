@@ -12,6 +12,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .filter-tag-button .MuiButton-endIcon {

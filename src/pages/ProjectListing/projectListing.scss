@@ -69,6 +69,10 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
+
+  .filters-icon {
+    color: var(--purple);
+  }
 }
 
 .filters-title {
@@ -78,6 +82,64 @@
   color: #000;
 }
 
-.filters-icon {
-  color: var(--purple);
+@media only screen and (max-width: 768px) {
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 0;
+  }
+
+  .filters-container.filters-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding-right: 20px;
+    max-width: 100vw;
+  }
+
+  .filters-container.open {
+    transform: translateX(0);
+  }
+
+  .filters-container.closed {
+    transform: translateX(100%);
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 0;
+  }
+
+  .filters-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding-right: 20px;
+    max-width: 100vw;
+  }
+
+  .filters-container.open {
+    transform: translateX(0);
+  }
+
+  .filters-container.closed {
+    transform: translateX(100%);
+  }
 }

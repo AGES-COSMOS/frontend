@@ -1,10 +1,12 @@
-import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import { ProjectCard } from 'components/ProjectCard/projectCard';
 import { FilterTag } from 'components/FilterTag/filterTag';
 import { SearchField } from 'components/SearchField/searchField';
 import FilterBox from 'components/FilterBox/filterBox';
 import { FilterField } from 'components/FilterField/filterField';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
 
 const mockFilters = [
@@ -14,10 +16,31 @@ const mockFilters = [
 ];
 
 export const ProjectListing = () => {
+  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024); // Ajuste para considerar iPads também
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleFilters = () => {
+    if (isMobile) {
+      setMobileFiltersOpen(!isMobileFiltersOpen);
+    }
+  };
+
   return (
     <Box className="main-container">
       <Box className="project-listing">
-        <SearchField />
+        <SearchField
+          onFilterClick={toggleFilters}
+          isFilterOpen={isMobileFiltersOpen}
+        />
         <Typography variant="body1" className="filter-title">
           Filtros ativos
         </Typography>
@@ -79,10 +102,14 @@ export const ProjectListing = () => {
           />
         </Box>
       </Box>
-      <Box className="filters-container">
+      <Box
+        className={`filters-container ${isMobileFiltersOpen ? 'open' : 'closed'}`}
+      >
         <Box className="filters-box">
           <Box className="filters-header">
-            <FilterListIcon className="filters-icon" />
+            <IconButton className="filters-icon" onClick={toggleFilters}>
+              {isMobileFiltersOpen ? <CloseIcon /> : <FilterListIcon />}
+            </IconButton>
             <Typography variant="h4" className="filters-title">
               Filtros
             </Typography>

@@ -27,4 +27,16 @@
   .search-icon {
     color: #a26cfc;
   }
+
+  .filter-icon-button {
+    color: #a26cfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    @media (min-width: 1280px) {
+      display: none;
+    }
+  }
 }

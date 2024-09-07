@@ -17,20 +17,35 @@
 
   .card-media {
     width: 200px;
-    height: 118px;
+    height: auto;
     margin-right: 16px;
     border-radius: 8px;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      width: 35%;
+    }
   }
 
   .content-box {
     display: flex;
     flex-direction: column;
+    gap: 2px;
+
+    @media (max-width: 768px) {
+      gap: 0;
+    }
   }
 
   .title {
     font-family: 'Poppins', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 500;
+    padding-bottom: 8px;
+
+    @media (max-width: 768px) {
+      padding-bottom: 2px;
+    }
   }
 
   .status,
@@ -46,13 +61,13 @@
 
   .location-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .location-icon {
     color: #7734e7;
     font-size: 18px;
-    margin-right: 4px;
+    margin-left: 4px;
   }
 
   .card-content {
@@ -90,6 +105,48 @@
 
     &:hover {
       background-color: transparent;
+    }
+  }
+
+  .keywords {
+    display: block;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .keywords {
+      display: block;
+    }
+
+    .card-media {
+      width: 150px;
+    }
+
+    .content-box {
+      gap: 4px;
+    }
+
+    .title {
+      font-size: 18px;
+    }
+
+    .status,
+    .location,
+    .keywords,
+    .description {
+      font-size: 12px;
+    }
+
+    .keywords {
+      position: relative;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 }

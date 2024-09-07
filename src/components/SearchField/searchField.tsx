@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
-import { TextField, InputAdornment } from '@mui/material';
+import React, { ChangeEvent, useState } from 'react';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import './searchField.scss';
 
-export const SearchField = () => {
-  const [searchValue, setSearchValue] = useState('');
+interface SearchFieldProps {
+  onFilterClick: () => void;
+  isFilterOpen: boolean;
+}
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export const SearchField = ({
+  onFilterClick,
+  isFilterOpen,
+}: SearchFieldProps) => {
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     console.log('Valor atual:', event.target.value);
   };
@@ -18,12 +27,24 @@ export const SearchField = () => {
       value={searchValue}
       onChange={handleSearchChange}
       variant="outlined"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon className="search-icon" />
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon className="search-icon" />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                className="filter-icon-button"
+                onClick={onFilterClick}
+              >
+                <FilterListIcon className="filter-icon" />
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
       }}
     />
   );
