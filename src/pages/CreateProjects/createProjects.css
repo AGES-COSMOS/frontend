@@ -1,0 +1,133 @@
+@import '../../styles/global.scss';
+
+.create-project {
+  padding: 3rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  color: var(--purple);
+}
+h4 {
+  color: var(--light-gray);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  padding-top: 2rem;
+}
+
+textarea,
+select,
+input[type='date'] {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--light-gray);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.basic-multi-select {
+  display: block;
+  border-radius: 6px;
+  border: 1px solid var(--light-gray);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  height: 5rem;
+}
+
+.large-textarea {
+  grid-column: span 2;
+  height: 10rem;
+}
+
+.item {
+  box-sizing: border-box;
+}
+
+button {
+  grid-column: span 2;
+  padding: 1rem;
+  background-color: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 10rem;
+}
+
+@media (max-width: 768px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .large-textarea {
+    width: 100%;
+  }
+}
+.image-input {
+  display: none;
+}
+
+.selected-image {
+  margin-top: 1rem;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: var(--purple);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.submit-button:hover {
+  background-color: var(--dark-purple);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.project-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.add-image-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--purple);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
