@@ -51,8 +51,13 @@ export const AboutUs = () => {
 
   const handleSave = async () => {
     if (aboutUsInfo) {
-      // await updateAboutUs(aboutUsInfo); // Função de atualização no backend // comentando pois a função não existe.
-      setIsEditing(false); // Sai do modo de edição
+      try {
+        // Converte o ID de number para string
+        await updateAboutUs(aboutUsInfo.id.toString(), aboutUsInfo);
+        setIsEditing(false); // Sai do modo de edição após salvar com sucesso
+      } catch (error) {
+        console.error('Erro ao atualizar os dados:', error);
+      }
     }
   };
 
