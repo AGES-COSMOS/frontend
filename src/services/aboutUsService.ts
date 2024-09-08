@@ -1,9 +1,6 @@
 import { httpService } from './httpService';
 import axios from 'axios';
-// Em aboutUsService.ts
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
-
-//const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3000/sobre-nos';
 
 
 export const getAboutUs = async () => {
