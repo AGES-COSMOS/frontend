@@ -3,6 +3,12 @@ import { useEffect, useState } from 'react';
 import { getAboutUs, updateAboutUs } from 'services/aboutUsService';
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material'; // Importação dos ícones do Material UI
 import './aboutUs.scss';
+//import React from 'react';
+//import agesImage from '../assets/imagens/ages.png';
+//import capesImage from '../assets/imagens/capes.png';
+//import cnpqImage from '../assets/imagens/cnpq.png';
+//import pucrsImage from '../assets/imagens/pucrs.png';
+//import ufpelImage from '../assets/imagens/cnpq.png';
 
 // Interface para definir o tipo de dado que será recebido da API
 interface AboutUsInfo {
@@ -131,11 +137,11 @@ export const AboutUs = () => {
         </div>
 
         <div className="logos-section">
-          <img src="path_to_capes_logo" alt="Capes" className="logo" />
-          <img src="path_to_cnpq_logo" alt="CNPq" className="logo" />
-          <img src="path_to_pucrs_logo" alt="PUCRS" className="logo" />
-          <img src="path_to_ufpel_logo" alt="UFPEL" className="logo" />
-          <img src="path_to_ages_logo" alt="Ages" className="logo" />
+          <img src="../assets/imagens/ages.png" alt="Capes" className="logo" />
+          <img src="../assets/imagens/capes.png" alt="CNPq" className="logo" />
+          <img src="../assets/imagens/cnpq.png" alt="PUCRS" className="logo" />
+          <img src="../assets/imagens/pucrs.png" alt="UFPEL" className="logo" />
+          <img src="../assets/imagens/ufpel.png" alt="Ages" className="logo" />
         </div>
       </div>
     </div>

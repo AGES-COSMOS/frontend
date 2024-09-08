@@ -100,7 +100,8 @@
     margin-top: 3rem;
 
     .logo {
-      height: 100px;
+      width: 100px;
+      height: auto;
       transition: transform 0.3s;
 
       &:hover {
