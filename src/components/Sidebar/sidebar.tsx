@@ -1,18 +1,22 @@
-import React from 'react';
 import {
   NavButton,
   SidebarContainer,
   UserSection,
   StyledPersonOutlineIcon,
   ButtonContainer,
+  SidebarFooterContainer,
+  StyledTitle,
+  StyledTypography,
 } from './sidebar.style';
 import Logo from '../Logo/logo';
-import { Box, Button, Typography } from '@mui/material';
-import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import { Box } from '@mui/material';
+import IconeDiscord from '../../assets/IconeDiscord.svg';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
-import { Feed } from 'pages/Feed/feed';
+import BookIcon from '@mui/icons-material/Book';
+import SidebarFooter from '../SidebarFooter/sidebarFooter';
+import { ReactSVG } from 'react-svg';
+
 const Sidebar = () => {
   return (
     <SidebarContainer>
@@ -21,14 +25,17 @@ const Sidebar = () => {
         <UserSection>
           <StyledPersonOutlineIcon />
         </UserSection>
-        <Typography variant="body1">User Name</Typography>
+        <StyledTitle>Login</StyledTitle>
+        <StyledTypography>
+          Ainda não tem cadastro? <a href="/cadastro">Clique aqui.</a>
+        </StyledTypography>
         <ButtonContainer>
           <NavButton>
-            <DashboardOutlinedIcon />
+            <DashboardIcon />
             Feed
           </NavButton>
           <NavButton>
-            <GroupsSharpIcon />
+            <ReactSVG src={IconeDiscord} className="iconeDiscordSideBar" />
             Comunidade
           </NavButton>
           <NavButton>
@@ -36,16 +43,15 @@ const Sidebar = () => {
             Eventos
           </NavButton>
           <NavButton>
-            <BookOutlinedIcon />
-            Projeto
+            <BookIcon />
+            Projetos
           </NavButton>
         </ButtonContainer>
       </Box>
 
-      <Box>
-        <Button>Help</Button>
-        <Button>About</Button>
-      </Box>
+      <SidebarFooterContainer>
+        <SidebarFooter isLoggedIn={true} />
+      </SidebarFooterContainer>
     </SidebarContainer>
   );
 };

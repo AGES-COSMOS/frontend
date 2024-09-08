@@ -1,9 +1,5 @@
-import { Box, Button, styled } from '@mui/material';
+import { Box, Button, styled, Typography } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
 
 export const ButtonContainer = styled(Box)({
   display: 'grid',
@@ -20,12 +16,12 @@ export const NavButton = styled(Button)({
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
-  height: '120px',
-  maxWidth: '160px',
-  // color: '#000',
-  color: 'grey',
-  fontSize: '10px',
+  height: '7.5rem',
+  maxWidth: '10rem',
+  color: 'var(--light-slate)',
+  fontSize: '0.7rem',
   fontFamily: 'Poppins',
+  fontWeight: 600,
   backgroundColor: 'var(--cloud1)',
   textTransform: 'none',
   border: '1px solid #ccc',
@@ -35,14 +31,23 @@ export const NavButton = styled(Button)({
     border: 'none',
     transform: 'scale(1.15)',
     boxShadow: '0 0 0 3px white',
+    zIndex: 1,
     '& svg': {
       color: 'var(--purple)',
+    },
+    '& .iconeDiscordSideBar svg': {
+      fill: 'var(--purple)',
     },
   },
   '& svg': {
     fontSize: '28px',
     color: '#000',
     marginBottom: '8px',
+  },
+  '& .iconeDiscordSideBar svg': {
+    height: '2rem',
+    marginBottom: '0px',
+    fill: '#000',
   },
 });
 
@@ -52,9 +57,9 @@ export const SidebarContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  backgroundColor: 'var(--cloud1)',
+  backgroundColor: 'var(--cloud2)',
   color: '#fff',
-  padding: '20px',
+  padding: '2rem 1rem 1rem 1rem',
 
   [theme.breakpoints.down('sm')]: {
     width: '15rem',
@@ -62,6 +67,13 @@ export const SidebarContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('xs')]: {
     width: '12rem',
   },
+}));
+
+export const SidebarFooterContainer = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '1rem',
+  marginBottom: '1rem',
 }));
 
 export const StyledPersonOutlineIcon = styled(PersonOutlineIcon)(
@@ -72,7 +84,7 @@ export const StyledPersonOutlineIcon = styled(PersonOutlineIcon)(
     fontSize: '8rem',
     backgroundColor: 'lightgray',
     borderRadius: '50%',
-    padding: '20px',
+    padding: '2rem',
     color: '#636262',
     border: '7px solid white',
     boxShadow: '0 0 0 2px #636262',
@@ -95,5 +107,26 @@ export const UserSection = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  marginBottom: '50px',
+  marginBottom: '1rem',
 });
+
+export const StyledTitle = styled(Typography)({
+  color: 'var(--slate)',
+  fontSize: '1rem',
+  fontWeight: 700,
+  textAlign: 'center',
+});
+
+export const StyledTypography = styled(Typography)`
+  color: var(--light-slate);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  a {
+    color: var(--purple);
+    text-decoration: none;
+  }
+`;

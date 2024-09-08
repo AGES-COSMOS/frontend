@@ -6,11 +6,11 @@ export const LogoContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   width: '100%',
   height: 'auto',
-  marginBottom: '40px',
+  marginBottom: '2rem',
   '& img': {
     width: '75%',
     height: 'auto',
-    maxWidth: '300px',
+    maxWidth: '18.75rem',
   },
   [theme.breakpoints.down('sm')]: {
     '& img': {
