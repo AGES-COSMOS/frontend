@@ -10,6 +10,7 @@
   background-color: var(--cloud2);
   color: var(--slate);
   width: 100%;
+  white-space: pre-wrap;
 
   .about-us-title {
     font-size: 2rem;
@@ -17,6 +18,10 @@
     color: var(--purple);
   }
 
+  .buttonsEditMode {
+    display: flex;
+    gap: 1rem;
+  }
   .about-us-content {
     width: 90%;
     text-align: left;
@@ -95,13 +100,14 @@
 
   .logos-section {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: 2rem;
     margin-top: 3rem;
 
     .logo {
-      width: 100px;
-      height: auto;
+      width: auto;
+      height: 4rem;
       transition: transform 0.3s;
 
       &:hover {
@@ -114,6 +120,18 @@
 
       @media (max-width: 480px) {
         height: 60px;
+      }
+    }
+
+    .logoCapes {
+      height: 2rem;
+
+      @media (max-width: 768px) {
+        height: 60px;
+      }
+
+      @media (max-width: 480px) {
+        height: 40px;
       }
     }
   }
@@ -129,10 +147,6 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-
-    &:hover {
-      background-color: var(--dark-purple);
-    }
 
     @media (max-width: 768px) {
       font-size: 1rem;

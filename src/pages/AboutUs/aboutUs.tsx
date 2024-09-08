@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react';
 import { getAboutUs, updateAboutUs } from 'services/aboutUsService';
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material'; // Importação dos ícones do Material UI
 import './aboutUs.scss';
-//import React from 'react';
-//import agesImage from '../assets/imagens/ages.png';
-//import capesImage from '../assets/imagens/capes.png';
-//import cnpqImage from '../assets/imagens/cnpq.png';
-//import pucrsImage from '../assets/imagens/pucrs.png';
-//import ufpelImage from '../assets/imagens/cnpq.png';
 
 // Interface para definir o tipo de dado que será recebido da API
 interface AboutUsInfo {
@@ -30,7 +24,15 @@ export const AboutUs = () => {
   const [user, setUser] = useState<User>({ isAdmin: false }); // Simula a verificação do usuário
 
   // pq precisa pegar esses dados do backend???
-  const data = { id: 1234, content: 'content', instagramURL: 'insta.com/bla', youtubeURL: 'yt.com/bla', linkedinURL: 'link.com/bla', updatedAt: new Date().toISOString() };
+  const data = {
+    id: 1234,
+    content:
+      'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito. \nFoco: Acesso à Justiça. \nObjetivo: Criar uma rede de projetos.',
+    instagramURL: 'insta.com/bla',
+    youtubeURL: 'yt.com/bla',
+    linkedinURL: 'link.com/bla',
+    updatedAt: new Date().toISOString(),
+  };
 
   // Função para buscar os dados do backend
   useEffect(() => {
@@ -69,13 +71,10 @@ export const AboutUs = () => {
   return (
     <div className="about-us-container">
       <div id="1st_column">
-        <div className="logo-cosmos">
-
-        </div>
+        <div className="logo-cosmos"></div>
       </div>
 
-      <div id="2nd_column" className='about-us-text-container'>
-
+      <div id="2nd_column" className="about-us-text-container">
         <h2 className="about-us-title">Sobre nós</h2>
 
         {isEditing && user.isAdmin ? (
@@ -83,7 +82,9 @@ export const AboutUs = () => {
           <div>
             <textarea
               value={aboutUsInfo.content}
-              onChange={(e) => setAboutUsInfo({ ...aboutUsInfo, content: e.target.value })}
+              onChange={(e) =>
+                setAboutUsInfo({ ...aboutUsInfo, content: e.target.value })
+              }
               rows={10}
               cols={50}
             />
@@ -92,21 +93,30 @@ export const AboutUs = () => {
             <input
               type="text"
               value={aboutUsInfo.instagramURL}
-              onChange={(e) => setAboutUsInfo({ ...aboutUsInfo, instagramURL: e.target.value })}
+              onChange={(e) =>
+                setAboutUsInfo({ ...aboutUsInfo, instagramURL: e.target.value })
+              }
             />
             <label>YouTube:</label>
             <input
               type="text"
               value={aboutUsInfo.youtubeURL}
-              onChange={(e) => setAboutUsInfo({ ...aboutUsInfo, youtubeURL: e.target.value })}
+              onChange={(e) =>
+                setAboutUsInfo({ ...aboutUsInfo, youtubeURL: e.target.value })
+              }
             />
             <label>LinkedIn:</label>
             <input
               type="text"
               value={aboutUsInfo.linkedinURL}
-              onChange={(e) => setAboutUsInfo({ ...aboutUsInfo, linkedinURL: e.target.value })}
+              onChange={(e) =>
+                setAboutUsInfo({ ...aboutUsInfo, linkedinURL: e.target.value })
+              }
             />
-            <button onClick={handleSave}>Salvar</button>
+            <div className="buttonsEditMode">
+              <button onClick={handleSave}>Salvar</button>
+              <button onClick={() => setIsEditing(false)}>Cancelar</button>
+            </div>
           </div>
         ) : (
           // Modo de visualização
@@ -116,13 +126,25 @@ export const AboutUs = () => {
             <div className="social-section">
               <h3>Conecte-se Conosco</h3>
               <div className="social-icons">
-                <a href={aboutUsInfo.instagramURL} aria-label="Instagram" className="social-icon instagram">
+                <a
+                  href={aboutUsInfo.instagramURL}
+                  aria-label="Instagram"
+                  className="social-icon instagram"
+                >
                   <Instagram fontSize="large" />
                 </a>
-                <a href={aboutUsInfo.youtubeURL} aria-label="YouTube" className="social-icon youtube">
+                <a
+                  href={aboutUsInfo.youtubeURL}
+                  aria-label="YouTube"
+                  className="social-icon youtube"
+                >
                   <YouTube fontSize="large" />
                 </a>
-                <a href={aboutUsInfo.linkedinURL} aria-label="LinkedIn" className="social-icon linkedin">
+                <a
+                  href={aboutUsInfo.linkedinURL}
+                  aria-label="LinkedIn"
+                  className="social-icon linkedin"
+                >
                   <LinkedIn fontSize="large" />
                 </a>
               </div>
@@ -142,11 +164,15 @@ export const AboutUs = () => {
         </div>
 
         <div className="logos-section">
-          <img src="../assets/imagens/ages.png" alt="Capes" className="logo" />
-          <img src="../assets/imagens/capes.png" alt="CNPq" className="logo" />
-          <img src="../assets/imagens/cnpq.png" alt="PUCRS" className="logo" />
-          <img src="../assets/imagens/pucrs.png" alt="UFPEL" className="logo" />
-          <img src="../assets/imagens/ufpel.png" alt="Ages" className="logo" />
+          <img
+            src="assets/imgs/capes.png"
+            alt="Capes"
+            className="logo logoCapes"
+          />
+          <img src="assets/imgs/cnpq.png" alt="CNPq" className="logo" />
+          <img src="assets/imgs/pucrs.png" alt="PUCRS" className="logo" />
+          <img src="assets/imgs/ufpel.png" alt="UFPEL" className="logo" />
+          <img src="assets/imgs/ages.png" alt="Ages" className="logo" />
         </div>
       </div>
     </div>

@@ -1,7 +1,4 @@
 import { httpService } from './httpService';
-import axios from 'axios';
-const BASE_URL = 'http://localhost:3000/sobre-nos';
-
 
 export const getAboutUs = async () => {
   try {
@@ -21,8 +18,6 @@ export const updateAboutUs = async (id: string, data: any) => {
     throw new Error('Error updating about us data');
   }
 };
-
-
 
 // essa função não existe!!!!!!!!!!
 //export const updateAboutUs = () => {return null};
