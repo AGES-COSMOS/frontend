@@ -16,8 +16,19 @@ import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import BookIcon from '@mui/icons-material/Book';
 import SidebarFooter from '../SidebarFooter/sidebarFooter';
 import { ReactSVG } from 'react-svg';
+import DialogLogin from 'components/DialogLogin/dialogLogin';
+import { useState } from 'react';
 
 const Sidebar = () => {
+  const [openLogin, setOpenLogin] = useState(false);
+
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
   return (
     <SidebarContainer>
       <Box>
@@ -27,7 +38,10 @@ const Sidebar = () => {
         </UserSection>
         <StyledTitle>Login</StyledTitle>
         <StyledTypography>
-          Ainda não tem cadastro? <a href="/cadastro">Clique aqui.</a>
+          Ainda não tem cadastro?{' '}
+          <a href="#" onClick={handleOpenLogin}>
+            Clique aqui.
+          </a>
         </StyledTypography>
         <ButtonContainer>
           <NavButton>
@@ -52,6 +66,7 @@ const Sidebar = () => {
       <SidebarFooterContainer>
         <SidebarFooter isLoggedIn={true} />
       </SidebarFooterContainer>
+      <DialogLogin open={openLogin} onClose={handleCloseLogin} />
     </SidebarContainer>
   );
 };
