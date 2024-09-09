@@ -41,7 +41,7 @@ export const CreateProjects = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
-  const [image, setImage] = useState('public/projectPlaceholder.png');
+  const [image, setImage] = useState('/assets/projectPlaceholder.png');
 
   const [projectData, setProjectData] = useState<Project>({
     id: 0,
