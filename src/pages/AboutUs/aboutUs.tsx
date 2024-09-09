@@ -1,8 +1,9 @@
 import Loading from 'components/Loading/loading';
 import { useEffect, useState } from 'react';
-import { getAboutUs, updateAboutUs } from 'services/aboutUsService';
+import { getAboutUs } from 'services/aboutUsService'; // Remover importação de updateAboutUs
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material'; // Importação dos ícones do Material UI
 import './aboutUs.scss';
+import { Box, Grid2 } from '@mui/material';
 
 // Interface para definir o tipo de dado que será recebido da API
 interface AboutUsInfo {
@@ -20,10 +21,9 @@ interface User {
 
 export const AboutUs = () => {
   const [aboutUsInfo, setAboutUsInfo] = useState<AboutUsInfo | null>(null); // Armazena os dados do backend
-  const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<User>({ isAdmin: false }); // Simula a verificação do usuário
 
-  // pq precisa pegar esses dados do backend???
+  // Dados simulados, removidos se back-end funcionar
   const data = {
     id: 1234,
     content:
@@ -51,119 +51,58 @@ export const AboutUs = () => {
     fetchUser();
   }, []);
 
-  const handleSave = async () => {
-    if (aboutUsInfo) {
-      try {
-        // Converte o ID de number para string
-        await updateAboutUs(aboutUsInfo.id.toString(), aboutUsInfo);
-        setIsEditing(false); // Sai do modo de edição após salvar com sucesso
-      } catch (error) {
-        console.error('Erro ao atualizar os dados:', error);
-      }
-    }
-  };
-
   // Se os dados ainda estão sendo carregados, exibe um loading
   if (!aboutUsInfo) {
     return <Loading />;
   }
 
   return (
-    <div className="about-us-container">
+    <Grid2 className="about-us-container">
       <div id="1st_column">
         <div className="logo-cosmos"></div>
       </div>
 
-      <div id="2nd_column" className="about-us-text-container">
+      <Grid2 id="2nd_column" className="about-us-text-container">
         <h2 className="about-us-title">Sobre nós</h2>
 
-        {isEditing && user.isAdmin ? (
-          // Modo de edição para administradores
-          <div>
-            <textarea
-              value={aboutUsInfo.content}
-              onChange={(e) =>
-                setAboutUsInfo({ ...aboutUsInfo, content: e.target.value })
-              }
-              rows={10}
-              cols={50}
-            />
-            <br />
-            <label>Instagram:</label>
-            <input
-              type="text"
-              value={aboutUsInfo.instagramURL}
-              onChange={(e) =>
-                setAboutUsInfo({ ...aboutUsInfo, instagramURL: e.target.value })
-              }
-            />
-            <label>YouTube:</label>
-            <input
-              type="text"
-              value={aboutUsInfo.youtubeURL}
-              onChange={(e) =>
-                setAboutUsInfo({ ...aboutUsInfo, youtubeURL: e.target.value })
-              }
-            />
-            <label>LinkedIn:</label>
-            <input
-              type="text"
-              value={aboutUsInfo.linkedinURL}
-              onChange={(e) =>
-                setAboutUsInfo({ ...aboutUsInfo, linkedinURL: e.target.value })
-              }
-            />
-            <div className="buttonsEditMode">
-              <button onClick={handleSave}>Salvar</button>
-              <button onClick={() => setIsEditing(false)}>Cancelar</button>
+        <Box>
+          <p className="about-us-content">{aboutUsInfo.content}</p>
+
+          <div className="social-section">
+            <h3>Conecte-se Conosco</h3>
+            <div className="social-icons">
+              <a
+                href={aboutUsInfo.instagramURL}
+                aria-label="Instagram"
+                className="social-icon instagram"
+              >
+                <Instagram fontSize="large" />
+              </a>
+              <a
+                href={aboutUsInfo.youtubeURL}
+                aria-label="YouTube"
+                className="social-icon youtube"
+              >
+                <YouTube fontSize="large" />
+              </a>
+              <a
+                href={aboutUsInfo.linkedinURL}
+                aria-label="LinkedIn"
+                className="social-icon linkedin"
+              >
+                <LinkedIn fontSize="large" />
+              </a>
             </div>
           </div>
-        ) : (
-          // Modo de visualização
-          <div>
-            <p className="about-us-content">{aboutUsInfo.content}</p>
+        </Box>
 
-            <div className="social-section">
-              <h3>Conecte-se Conosco</h3>
-              <div className="social-icons">
-                <a
-                  href={aboutUsInfo.instagramURL}
-                  aria-label="Instagram"
-                  className="social-icon instagram"
-                >
-                  <Instagram fontSize="large" />
-                </a>
-                <a
-                  href={aboutUsInfo.youtubeURL}
-                  aria-label="YouTube"
-                  className="social-icon youtube"
-                >
-                  <YouTube fontSize="large" />
-                </a>
-                <a
-                  href={aboutUsInfo.linkedinURL}
-                  aria-label="LinkedIn"
-                  className="social-icon linkedin"
-                >
-                  <LinkedIn fontSize="large" />
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Mostrar botão de editar apenas para administradores */}
-        {user.isAdmin && !isEditing && (
-          <button onClick={() => setIsEditing(true)}>Editar</button>
-        )}
-
-        <div className="contact-section">
+        <Box className="contact-section">
           <h3>Contatos</h3>
           <p>Telefone: (51) 99999-9999</p>
           <p>Email: exemplo@pucrs.com.br</p>
-        </div>
+        </Box>
 
-        <div className="logos-section">
+        <Box className="logos-section">
           <img
             src="assets/imgs/capes.png"
             alt="Capes"
@@ -173,8 +112,8 @@ export const AboutUs = () => {
           <img src="assets/imgs/pucrs.png" alt="PUCRS" className="logo" />
           <img src="assets/imgs/ufpel.png" alt="UFPEL" className="logo" />
           <img src="assets/imgs/ages.png" alt="Ages" className="logo" />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Grid2>
+    </Grid2>
   );
 };
