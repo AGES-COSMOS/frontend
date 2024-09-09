@@ -1,0 +1,95 @@
+.sidebar {
+  background-color: #0077b5;
+  width: auto;
+}
+
+.content {
+  height: 100vh;
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: bold !important;
+  text-align: left;
+  color: var(--purple);
+  text-align: left;
+}
+
+.partners {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 50px;
+}
+
+.about-cosmos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 12px;
+  height: 100%;
+}
+
+.body-text {
+  font-size: 1.5rem !important;
+}
+
+.padding-bottom {
+  padding-bottom: 20px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.5rem;
+
+  .social-icon {
+    color: var(--slate);
+    font-size: 2.5rem;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--dark-gray);
+    }
+
+    &.instagram:hover {
+      color: #e1306c;
+    }
+
+    &.youtube:hover {
+      color: #ff0000;
+    }
+
+    &.linkedin:hover {
+      color: #0077b5;
+    }
+  }
+}
+
+.logo {
+  height: 5rem;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    height: 80px;
+  }
+
+  @media (max-width: 480px) {
+    height: 60px;
+  }
+}
+
+.logoCapes {
+  height: 3rem;
+
+  @media (max-width: 768px) {
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    height: 40px;
+  }
+}
