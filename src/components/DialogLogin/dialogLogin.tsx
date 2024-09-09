@@ -72,8 +72,6 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
   };
 
   const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Password:', showPassword);
     onClose();
   };
 
@@ -120,7 +118,7 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
         </a>
       </DialogContent>
       <DialogActions className="dialogActions">
-        Ainda não tem cadastro? <a href="#">Clique aqui.</a>
+        Ainda não tem cadastro? <a href="/cadastro">Clique aqui.</a>
       </DialogActions>
     </Dialog>
   );

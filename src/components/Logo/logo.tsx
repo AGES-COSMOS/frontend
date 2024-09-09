@@ -1,11 +1,10 @@
-import { LogoContainer } from './logo.style';
-import LogoCosmos from '../../assets/LogoCosmos.svg';
+import './logo.scss';
 
 const Logo = () => {
   return (
-    <LogoContainer>
-      <img src={LogoCosmos} alt="Cosmos" />
-    </LogoContainer>
+    <div className="logo-container">
+      <img src="assets/LogoCosmos.svg" alt="Cosmos" />
+    </div>
   );
 };
 

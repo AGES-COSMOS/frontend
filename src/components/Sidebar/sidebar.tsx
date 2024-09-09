@@ -10,7 +10,6 @@ import {
 } from './sidebar.style';
 import Logo from '../Logo/logo';
 import { Box } from '@mui/material';
-import IconeDiscord from '../../assets/IconeDiscord.svg';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import BookIcon from '@mui/icons-material/Book';
@@ -49,7 +48,10 @@ const Sidebar = () => {
             Feed
           </NavButton>
           <NavButton>
-            <ReactSVG src={IconeDiscord} className="iconeDiscordSideBar" />
+            <ReactSVG
+              src="assets/IconeDiscord.svg"
+              className="iconeDiscordSideBar"
+            />
             Comunidade
           </NavButton>
           <NavButton>
@@ -64,7 +66,7 @@ const Sidebar = () => {
       </Box>
 
       <SidebarFooterContainer>
-        <SidebarFooter isLoggedIn={true} />
+        <SidebarFooter isLoggedIn={false} />
       </SidebarFooterContainer>
       <DialogLogin open={openLogin} onClose={handleCloseLogin} />
     </SidebarContainer>
