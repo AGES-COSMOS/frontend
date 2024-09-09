@@ -68,6 +68,12 @@ export const AboutUs = () => {
         <Box>
           <p className="about-us-content">{aboutUsInfo.content}</p>
 
+          <Box className="contact-section">
+            <h3>Contatos</h3>
+            <p>Telefone: (51) 99999-9999</p>
+            <p>Email: exemplo@pucrs.com.br</p>
+          </Box>
+
           <div className="social-section">
             <h3>Conecte-se Conosco</h3>
             <div className="social-icons">
@@ -94,12 +100,6 @@ export const AboutUs = () => {
               </a>
             </div>
           </div>
-        </Box>
-
-        <Box className="contact-section">
-          <h3>Contatos</h3>
-          <p>Telefone: (51) 99999-9999</p>
-          <p>Email: exemplo@pucrs.com.br</p>
         </Box>
 
         <Box className="logos-section">
