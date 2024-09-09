@@ -3,18 +3,17 @@ import { Feed } from 'pages/Feed/feed';
 import { AboutUs } from 'pages/AboutUs/aboutUs';
 import Register from 'pages/Register/Register';
 import { ROUTES } from './constants';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../theme';
+import MainLayout from 'layouts/mainLayout';
 
 const AppRoutes = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <MainLayout>
       <Routes>
         <Route path={ROUTES.FEED()} element={<Feed />} />
         <Route path={ROUTES.ABOUT_US()} element={<AboutUs />} />
         <Route path={ROUTES.REGISTER()} element={<Register />} />
       </Routes>
-    </ThemeProvider>
+    </MainLayout>
   );
 };
 
