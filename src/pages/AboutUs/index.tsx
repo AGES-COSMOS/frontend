@@ -2,11 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material';
 import './index.scss';
 import { Box, Grid2, Typography } from '@mui/material';
-import ages from '../../assets/Images/ages.png';
-import capes from '../../assets/Images/capes.png';
-import cnpq from '../../assets/Images/cnpq.png';
-import pucrs from '../../assets/Images/pucrs.png';
-import ufpel from '../../assets/Images/ufpel.png';
 
 interface IGeneralParameter {
   parameter: string;
@@ -15,6 +10,8 @@ interface IGeneralParameter {
 
 interface IAboutUsInfo {
   about: string;
+  phone: string;
+  email: string;
   socialIcons: IGeneralParameter[];
 }
 
@@ -24,9 +21,18 @@ const socialIcons: { [key: string]: React.ReactNode } = {
   linkedin: <LinkedIn fontSize="large" />,
 };
 
+const partnersList = [
+  { name: 'CNPq', logo: 'cnpq.png' },
+  { name: 'Capes', logo: 'capes.png' },
+  { name: 'UFPEL', logo: 'ufpel.png' },
+  { name: 'PUCRS', logo: 'pucrs.png' },
+];
+
 const intialState: IAboutUsInfo = {
   about: '',
   socialIcons: [],
+  phone: '',
+  email: '',
 };
 
 const dataMockUp: IAboutUsInfo = {
@@ -37,6 +43,8 @@ const dataMockUp: IAboutUsInfo = {
     { parameter: 'youtube', content: 'yt.com/bla' },
     { parameter: 'linkedin', content: 'link.com/bla' },
   ],
+  phone: '(51) 99999-9999',
+  email: 'cosmos@email.com',
 };
 
 const AboutUs = () => {
@@ -114,10 +122,10 @@ const AboutUs = () => {
                 Contatos
               </Typography>
               <Typography variant="body1" className="body-text">
-                Telefone: {'(51) 99999-9999'}
+                Telefone: {state.phone}
               </Typography>
               <Typography variant="body1" className="body-text">
-                Email: {'cosmos@email.com'}
+                Email: {state.email}
               </Typography>
             </Box>
             <Box id="social-media">
@@ -127,11 +135,14 @@ const AboutUs = () => {
               <Box className="social-icons">{generateSocialIcons()}</Box>
             </Box>
             <Box id="partners" className="partners">
-              <img src={ages} alt="Ages" className="partner logo" />
-              <img src={capes} alt="Capes" className="partner logo logoCapes" />
-              <img src={cnpq} alt="CNPq" className="partner logo" />
-              <img src={pucrs} alt="PUCRS" className="partner logo" />
-              <img src={ufpel} alt="UFPEL" className="partner logo" />
+              {partnersList.map((partner, index) => (
+                <img
+                  key={index}
+                  src={`assets/imgs/${partner.logo}`}
+                  alt={partner.name}
+                  className="logo"
+                />
+              ))}
             </Box>
           </Box>
         </Grid2>
