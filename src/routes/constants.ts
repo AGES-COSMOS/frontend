@@ -1,5 +1,5 @@
 export const ROUTES = {
   FEED: () => '/',
   ABOUT_US: () => '/sobre-nos',
-  PROJECT_LISTING: () => '/project-listing',
+  PROJECT_LISTING: () => '/projetos',
 };
