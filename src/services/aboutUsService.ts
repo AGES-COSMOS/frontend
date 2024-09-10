@@ -9,7 +9,6 @@ export const getAboutUs = async () => {
   }
 };
 
-// Função para atualizar os dados de "About Us"
 export const updateAboutUs = async (id: string, data: any) => {
   try {
     const response = await httpService.put(`/about-us/${id}`, data);
@@ -18,6 +17,3 @@ export const updateAboutUs = async (id: string, data: any) => {
     throw new Error('Error updating about us data');
   }
 };
-
-// essa função não existe!!!!!!!!!!
-//export const updateAboutUs = () => {return null};

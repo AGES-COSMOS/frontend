@@ -1,10 +1,21 @@
 .sidebar {
   background-color: #0077b5;
   width: auto;
+
+  @media (max-width: 768px) {
+    width: 100%; // Ajusta a largura para ocupar toda a tela em dispositivos menores
+    padding: 10px;
+  }
 }
 
 .content {
   height: 100vh;
+  padding: 10px; // Adiciona espaçamento interno para telas menores
+
+  @media (max-width: 768px) {
+    height: auto; // Permite que a altura se ajuste conforme o conteúdo
+    padding: 20px; // Adiciona um padding maior em telas menores
+  }
 }
 
 .subtitle {
@@ -12,7 +23,14 @@
   font-weight: bold !important;
   text-align: left;
   color: var(--purple);
-  text-align: left;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem; // Reduz o tamanho do título para tablets
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem; // Reduz o tamanho do título para smartphones
+  }
 }
 
 .partners {
@@ -20,6 +38,16 @@
   flex-direction: row;
   justify-content: space-around;
   padding: 50px;
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Muda para coluna em telas menores
+    padding: 20px;
+    align-items: center; // Centraliza os itens
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px; // Reduz o padding em telas pequenas
+  }
 }
 
 .about-cosmos {
@@ -28,14 +56,30 @@
   justify-content: space-between;
   margin-right: 12px;
   height: 100%;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 }
 
 .body-text {
   font-size: 1.5rem !important;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem !important; // Reduz o tamanho da fonte em tablets
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem !important; // Reduz ainda mais em smartphones
+  }
 }
 
 .padding-bottom {
   padding-bottom: 20px;
+
+  @media (max-width: 480px) {
+    padding-bottom: 15px; // Reduz o espaçamento inferior em telas pequenas
+  }
 }
 
 .social-icons {
@@ -62,6 +106,14 @@
     &.linkedin:hover {
       color: #0077b5;
     }
+
+    @media (max-width: 768px) {
+      font-size: 2rem; // Reduz o tamanho dos ícones em tablets
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.75rem; // Reduz ainda mais o tamanho dos ícones em smartphones
+    }
   }
 }
 
@@ -74,11 +126,11 @@
   }
 
   @media (max-width: 768px) {
-    height: 80px;
+    height: 80px; // Ajusta a altura em tablets
   }
 
   @media (max-width: 480px) {
-    height: 60px;
+    height: 60px; // Ajusta a altura em smartphones
   }
 }
 
@@ -86,10 +138,10 @@
   height: 3rem;
 
   @media (max-width: 768px) {
-    height: 60px;
+    height: 60px; // Ajusta a altura em tablets
   }
 
   @media (max-width: 480px) {
-    height: 40px;
+    height: 40px; // Ajusta a altura em smartphones
   }
 }
