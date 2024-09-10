@@ -1,0 +1,50 @@
+.sidebarFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  width: 17.5rem;
+
+  .sidebarFooterItem {
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      color: var(--light-slate);
+      font-size: 0.9rem;
+      font-weight: 700;
+
+      &:hover {
+        background-color: #e0e3e8;
+      }
+
+      div:first-child {
+        svg {
+          margin-right: 1rem;
+        }
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.icons {
+  color: var(--light-slate);
+}
+
+.iconeDiscord svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.iconeDiscord svg path {
+  fill: var(--light-slate);
+}

@@ -104,9 +104,6 @@ const AboutUs = () => {
         sx={{ display: 'grid', gridTemplateColumns: 'auto auto' }}
         className="bout-us-container"
       >
-        <Grid2 id="sidebar" className="sidebar ">
-          SIDEBAR
-        </Grid2>
         <Grid2 id="about-cosmos" className="content" pl={10} pt={10}>
           <Box className="about-cosmos">
             <Box id="about-us">
