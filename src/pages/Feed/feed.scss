@@ -2,14 +2,73 @@
   display: flex;
   flex-direction: column;
   padding-top: 5rem;
-  gap: 1.375rem;
-  height: 100vh;
-  background-color: #F7F8FA;
+  background-color: #f7f8fa;
+  overflow-x: hidden;
   overflow-y: auto;
+  padding-left: 600px;
+  min-height: 100vh;
 
   .feed-titles {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #7734E7;
+    color: var(--purple);
+    padding-bottom: 12px;
+  }
+
+  .cards-container {
+    display: grid;
+    gap: 1rem;
+
+    // Padrão para desktop
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 1024px) {
+      // Configuração para tablets
+      grid-template-columns: repeat(2, 1fr);
+      padding-left: 16px;
+    }
+
+    @media (max-width: 768px) {
+      // Configuração para telefones
+      grid-template-columns: 1fr;
+      padding-left: 16px;
+    }
+  }
+
+  .carousel-item-spacing {
+    padding: 0 24px 0 0;
+    box-sizing: border-box;
+  }
+
+  .carousel-container {
+    position: relative;
+    padding-bottom: 8px;
+
+    .react-multiple-carousel__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background-color: var(--purple);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+
+      &::before {
+        color: white;
+        font-size: 20px;
+      }
+    }
+
+    /* Esconde as setas por padrão */
+    .react-multiple-carousel__arrow {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Mostra as setas quando o mouse estiver sobre o carrossel */
+    &:hover .react-multiple-carousel__arrow {
+      opacity: 1;
+    }
   }
 }
