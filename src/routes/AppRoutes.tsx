@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Feed } from 'pages/Feed/feed';
-import { AboutUs } from 'pages/AboutUs/aboutUs';
+import AboutUs from 'pages/AboutUs/index';
 import { ROUTES } from './constants';
 import MainLayout from 'layouts/mainLayout';
 
