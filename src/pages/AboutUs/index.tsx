@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material';
-import './index.scss';
 import { Box, Grid2, Typography } from '@mui/material';
+import './index.scss';
 
 interface IGeneralParameter {
   parameter: string;
@@ -22,10 +22,11 @@ const socialIcons: { [key: string]: React.ReactNode } = {
 };
 
 const partnersList = [
-  { name: 'CNPq', logo: 'cnpq.png' },
-  { name: 'Capes', logo: 'capes.png' },
-  { name: 'UFPEL', logo: 'ufpel.png' },
-  { name: 'PUCRS', logo: 'pucrs.png' },
+  { name: 'Capes', logo: 'capes.png', className: 'logoCapes' },
+  { name: 'CNPq', logo: 'cnpq.png', className: 'logoCnpq' },
+  { name: 'UFPEL', logo: 'ufpel.png', className: 'logoUfpel' },
+  { name: 'PUCRS', logo: 'pucrs.png', className: 'logoPucrs' },
+  { name: 'AGES', logo: 'ages.png', className: 'logoAges' },
 ];
 
 const intialState: IAboutUsInfo = {
@@ -98,16 +99,11 @@ const AboutUs = () => {
 
   return (
     <>
-      <Grid2
-        container
-        spacing={0}
-        sx={{ display: 'grid', gridTemplateColumns: 'auto auto' }}
-        className="bout-us-container"
-      >
-        <Grid2 id="about-cosmos" className="content" pl={10} pt={10}>
+      <Grid2>
+        <Grid2 id="about-cosmos" className="content">
           <Box className="about-cosmos">
             <Box id="about-us">
-              <Typography variant="h2" className="padding-bottom subtitle">
+              <Typography variant="h4" className="subtitle padding-bottom">
                 Sobre nós
               </Typography>
               <Box className="about-us-content">
@@ -115,7 +111,10 @@ const AboutUs = () => {
               </Box>
             </Box>
             <Box id="contacts">
-              <Typography variant="h2" className="subtitle padding-bottom">
+              <Typography
+                variant="h4"
+                className="subtitle padding-bottom padding-top"
+              >
                 Contatos
               </Typography>
               <Typography variant="body1" className="body-text">
@@ -126,20 +125,25 @@ const AboutUs = () => {
               </Typography>
             </Box>
             <Box id="social-media">
-              <Typography variant="h2" className="subtitle padding-bottom">
+              <Typography
+                variant="h4"
+                className="subtitle padding-bottom padding-top"
+              >
                 Conecte-se Conosco
               </Typography>
               <Box className="social-icons">{generateSocialIcons()}</Box>
             </Box>
-            <Box id="partners" className="partners">
-              {partnersList.map((partner, index) => (
-                <img
-                  key={index}
-                  src={`assets/imgs/${partner.logo}`}
-                  alt={partner.name}
-                  className="logo"
-                />
-              ))}
+            <Box className="footer-section" id="partners">
+              <Box id="partners" className="partners">
+                {partnersList.map((partner, index) => (
+                  <img
+                    key={index}
+                    src={`assets/imgs/${partner.logo}`}
+                    alt={partner.name}
+                    className={`logo ${partner.className}`}
+                  />
+                ))}
+              </Box>
             </Box>
           </Box>
         </Grid2>

@@ -16,7 +16,7 @@ export const NavButton = styled(Button)({
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
-  height: '7.5rem',
+  height: '7rem',
   maxWidth: '10rem',
   color: 'var(--light-slate)',
   fontSize: '0.7rem',
@@ -59,7 +59,7 @@ export const SidebarContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: 'var(--cloud2)',
   color: '#fff',
-  padding: '2rem 1rem 1rem 1rem',
+  padding: '1rem 1rem 1rem 1rem',
 
   [theme.breakpoints.down('sm')]: {
     width: '15rem',
@@ -111,6 +111,14 @@ export const UserSection = styled(Box)({
 });
 
 export const StyledTitle = styled(Typography)({
+  color: 'var(--purple)',
+  fontSize: '1.2rem',
+  fontWeight: 700,
+  paddingBottom: '1rem',
+  textAlign: 'center',
+});
+
+export const StyledSubtitle = styled(Typography)({
   color: 'var(--slate)',
   fontSize: '1rem',
   fontWeight: 700,
