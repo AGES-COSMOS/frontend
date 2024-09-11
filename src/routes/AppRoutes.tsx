@@ -10,8 +10,6 @@ const AppRoutes = () => {
   return (
     <MainLayout>
       <Routes>
-        {/* remove this */}
-        <Route path="/" element={<CreateProjects />} />
         <Route path={ROUTES.FEED()} element={<Feed />} />
         <Route path={ROUTES.ABOUT_US()} element={<AboutUs />} />
         <Route path={ROUTES.PROJECT_LISTING()} element={<ProjectListing />} />
