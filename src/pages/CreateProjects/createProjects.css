@@ -22,6 +22,16 @@ h4 {
   padding-top: 2rem;
 }
 
+select {
+  padding-right: 2rem;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23999" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5H7z"/></svg>'); /* Custom arrow icon */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1rem;
+  height: 3rem;
+}
+
 textarea,
 select,
 input[type='date'] {
@@ -44,7 +54,7 @@ input[type='date'] {
 
 textarea {
   resize: none;
-  height: 5rem;
+  height: 3rem;
 }
 
 .large-textarea {
