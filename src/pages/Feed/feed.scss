@@ -1,0 +1,66 @@
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+
+  .feed-titles {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--purple);
+    padding-bottom: 12px;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: calc(100vw - 23rem);
+
+    // Padrão para desktop
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 1024px) {
+      // Configuração para tablets
+      grid-template-columns: repeat(2, 1fr);
+      padding-left: 16px;
+    }
+
+    @media (max-width: 768px) {
+      // Configuração para telefones
+      grid-template-columns: 1fr;
+      padding-left: 16px;
+    }
+  }
+
+  .carousel-container {
+    position: relative;
+    padding-bottom: 1rem;
+    max-width: calc(100vw - 23rem);
+
+    .react-multiple-carousel__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background-color: var(--purple);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+
+      &::before {
+        color: white;
+        font-size: 20px;
+      }
+    }
+
+    /* Esconde as setas por padrão */
+    .react-multiple-carousel__arrow {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Mostra as setas quando o mouse estiver sobre o carrossel */
+    &:hover .react-multiple-carousel__arrow {
+      opacity: 1;
+    }
+  }
+}
