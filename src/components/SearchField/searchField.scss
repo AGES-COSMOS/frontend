@@ -1,0 +1,42 @@
+.search-field.search-field {
+  max-width: 700px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 2px solid #a26cfc;
+  color: #6c757d;
+
+  .MuiOutlinedInput-root {
+    fieldset {
+      border-color: transparent;
+    }
+
+    &:hover fieldset {
+      border-color: transparent;
+    }
+
+    &.Mui-focused fieldset {
+      border-color: transparent;
+    }
+  }
+
+  .MuiInputBase-input {
+    padding: 8px 12px;
+  }
+
+  .search-icon {
+    color: #a26cfc;
+  }
+
+  .filter-icon-button {
+    color: #a26cfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    @media (min-width: 1280px) {
+      display: none;
+    }
+  }
+}

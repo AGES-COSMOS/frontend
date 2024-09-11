@@ -1,0 +1,53 @@
+.category-filter {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .category-filter__title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  .category-filter__input {
+    max-width: 700px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 2px solid #6b7a99;
+    color: #6c757d;
+    margin-bottom: 16px;
+
+    .MuiOutlinedInput-root {
+      flex: 1;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+
+      fieldset {
+        border-color: transparent;
+      }
+
+      &:hover fieldset {
+        border-color: transparent;
+      }
+
+      &.Mui-focused fieldset {
+        border-color: transparent;
+      }
+    }
+
+    .MuiInputBase-input {
+      padding: 8px 12px;
+    }
+  }
+
+  &__icon {
+    margin-left: 8px;
+    color: var(--purple);
+    padding-right: 4px;
+  }
+}

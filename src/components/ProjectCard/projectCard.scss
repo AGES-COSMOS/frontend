@@ -1,0 +1,153 @@
+.project-card {
+  max-width: 700px;
+  border: 2px solid #7734e7;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .container-box {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px 16px 0px 16px;
+  }
+
+  .card-media {
+    width: 200px;
+    height: auto;
+    margin-right: 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      width: 35%;
+    }
+  }
+
+  .content-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    @media (max-width: 768px) {
+      gap: 0;
+    }
+  }
+
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 8px;
+
+    @media (max-width: 768px) {
+      padding-bottom: 2px;
+    }
+  }
+
+  .status,
+  .location,
+  .keywords,
+  .description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 4px;
+  }
+
+  .location-container {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .location-icon {
+    color: #7734e7;
+    font-size: 18px;
+    margin-left: 4px;
+  }
+
+  .card-content {
+    padding: 16px;
+    padding-top: 0;
+    position: relative;
+    max-height: 50px;
+    overflow: hidden;
+  }
+
+  .description {
+    position: relative;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-actions {
+    justify-content: center;
+    border-top: 2px solid #7734e7;
+    padding: 5px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #7734e7;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .keywords {
+    display: block;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .keywords {
+      display: block;
+    }
+
+    .card-media {
+      width: 150px;
+    }
+
+    .content-box {
+      gap: 4px;
+    }
+
+    .title {
+      font-size: 18px;
+    }
+
+    .status,
+    .location,
+    .keywords,
+    .description {
+      font-size: 12px;
+    }
+
+    .keywords {
+      position: relative;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
