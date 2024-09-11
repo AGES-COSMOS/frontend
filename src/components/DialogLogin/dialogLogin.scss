@@ -1,0 +1,53 @@
+.dialogPaper {
+  max-width: 50%;
+  width: 398px;
+  height: 470px;
+  max-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.dialogTitle {
+  position: relative;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  color: #888;
+}
+
+.loginButton {
+  background-color: var(--purple) !important;
+  color: #fff !important;
+  width: 100% !important;
+  margin-top: 20px !important;
+  text-align: center !important;
+}
+
+.dialogActions {
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+  margin-top: 20px;
+}
+
+.forgotPassword {
+  font-size: 12px;
+  color: #888;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
