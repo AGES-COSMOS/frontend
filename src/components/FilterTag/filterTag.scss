@@ -1,0 +1,31 @@
+.filter-tag-button.filter-tag-button {
+  background-color: var(--purple);
+  color: #ffffff;
+  border-radius: 6px;
+  text-transform: none;
+  padding: 4px 12px;
+  font-size: 16px;
+  font-weight: 400;
+  min-width: 0;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-tag-button .MuiButton-endIcon {
+  color: #5c28b4;
+}
+
+.filter-tag-button:hover {
+  background-color: var(--purple);
+  box-shadow: none;
+}
+
+.MuiSvgIcon-root {
+  font-size: 20px;
+}

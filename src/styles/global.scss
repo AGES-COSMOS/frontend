@@ -3,16 +3,34 @@
 // Colors
 :root {
   --black: #000000;
-  --purple: #7734E7;
-  --cloud1: #FAFCFE;
-  --cloud2: #F7F8FA;
-  --slate: #6D7378;
-  --light-slate: #BDC0C3;
-  --dark-gray: #222B32;
+  --purple: #7734e7;
+  --cloud1: #fafcfe;
+  --cloud2: #f7f8fa;
+  --slate: #6d7378;
+  --light-slate: #bdc0c3;
+  --dark-gray: #222b32;
+  --light-gray: #646464;
 }
 
 * {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#root {
+  flex: 1;
 }
