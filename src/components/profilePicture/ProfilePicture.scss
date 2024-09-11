@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profilePictureImg {
+  height: 145px;
+  width: 145px;
+  background-size: cover;
+  background-position: center;
+  background-size: 100%;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 2px solid white; // Adiciona uma borda, opcional
+  outline: #bdc0c3 solid 2px;
+  position: relative;
+  right: 3%;
+}
+
+.profilePictureEdit {
+  margin: auto;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 45.2%;
+  left: 83%;
+  background-color: #7734e7;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+  text-align: center;
+  align-items: center;
+}
