@@ -1,12 +1,7 @@
 .feed-container {
   display: flex;
   flex-direction: column;
-  padding-top: 5rem;
-  background-color: #f7f8fa;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-left: 600px;
-  min-height: 100vh;
+  padding: 2rem;
 
   .feed-titles {
     font-size: 2.5rem;
@@ -17,7 +12,8 @@
 
   .cards-container {
     display: grid;
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: calc(100vw - 23rem);
 
     // Padrão para desktop
     grid-template-columns: repeat(3, 1fr);
@@ -35,14 +31,10 @@
     }
   }
 
-  .carousel-item-spacing {
-    padding: 0 24px 0 0;
-    box-sizing: border-box;
-  }
-
   .carousel-container {
     position: relative;
-    padding-bottom: 8px;
+    padding-bottom: 1rem;
+    max-width: calc(100vw - 23rem);
 
     .react-multiple-carousel__arrow {
       position: absolute;
