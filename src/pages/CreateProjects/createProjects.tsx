@@ -65,6 +65,12 @@ export const CreateProjects = () => {
   ) => {
     const { name, value } = e.target;
     setProjectData({ ...projectData, [name]: value });
+
+    if (name === 'start_date' || name === 'end_date') {
+      setProjectData({ ...projectData, [name]: new Date(value) });
+    } else {
+      setProjectData({ ...projectData, [name]: value });
+    }
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -144,6 +150,7 @@ export const CreateProjects = () => {
           onChange={handleInputChange}
           placeholder="Nome do Projeto"
           required
+          className="textarea-project-name"
         />
         <select
           className="item"
@@ -159,20 +166,7 @@ export const CreateProjects = () => {
             </option>
           ))}
         </select>
-        <select
-          className="item"
-          name="teacher_id"
-          value={projectData.teacher_id}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Professor</option>
-          {teachers.map((teacher) => (
-            <option key={teacher.id} value={teacher.id}>
-              {teacher.name}
-            </option>
-          ))}
-        </select>
+
         <div>
           <h4>Data de Início</h4>
           <input
@@ -194,6 +188,20 @@ export const CreateProjects = () => {
             onChange={handleInputChange}
           />
         </div>
+        <select
+          className="item"
+          name="teacher_id"
+          value={projectData.teacher_id}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Professor</option>
+          {teachers.map((teacher) => (
+            <option key={teacher.id} value={teacher.id}>
+              {teacher.name}
+            </option>
+          ))}
+        </select>
         <select
           className="item"
           name="status"
@@ -239,7 +247,7 @@ export const CreateProjects = () => {
           placeholder="Propósito"
           required
         />
-        <button className="btn" type="submit">
+        <button className="button-register-project" type="submit">
           Cadastrar Projeto
         </button>
       </form>
