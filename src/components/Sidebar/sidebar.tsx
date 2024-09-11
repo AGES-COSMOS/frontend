@@ -6,6 +6,7 @@ import {
   ButtonContainer,
   SidebarFooterContainer,
   StyledTitle,
+  StyledSubtitle,
   StyledTypography,
 } from './sidebar.style';
 import Logo from '../Logo/logo';
@@ -32,10 +33,11 @@ const Sidebar = () => {
     <SidebarContainer>
       <Box>
         <Logo />
+        <StyledTitle>Rede de Acesso à Justiça</StyledTitle>
         <UserSection>
           <StyledPersonOutlineIcon />
         </UserSection>
-        <StyledTitle>Login</StyledTitle>
+        <StyledSubtitle>Login</StyledSubtitle>
         <StyledTypography>
           Ainda não tem cadastro?{' '}
           <a href="#" onClick={handleOpenLogin}>
