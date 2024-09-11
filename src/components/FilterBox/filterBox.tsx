@@ -36,8 +36,7 @@ export default function FilterBox({ title, filters }: FilterBoxProps) {
       <Typography className="filter-title">{title}</Typography>
       <Box className="filter-list-container">
         <Typography className="filter-placeholder">
-          Selecione Palavras-Chaves
-          <ExpandLessIcon className="arrow-icon" />
+          Selecione Palavras-Chaves:
         </Typography>
         <FormControl component="fieldset" variant="standard">
           <FormGroup className="filter-list">

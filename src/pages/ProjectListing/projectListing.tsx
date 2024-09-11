@@ -100,6 +100,19 @@ export const ProjectListing = () => {
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
             image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
           />
+          <ProjectCard
+            title="Projeto 3"
+            status="Em Andamento"
+            location="PUCRS"
+            keyWords={[
+              'Prisão domiciliar',
+              'crimes de ódio',
+              'discriminação por orientação sexual',
+              'progressão de regime',
+            ]}
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
+            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
+          />
         </Box>
       </Box>
       <Box
