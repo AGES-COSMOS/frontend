@@ -9,7 +9,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <ThemeProvider theme={theme}>
       <div className="main-layout">
         <Sidebar />
-        <div className="content">{children}</div>
+        <div className="content">
+          <div className="content-inner">{children}</div>
+        </div>
       </div>
     </ThemeProvider>
   );
