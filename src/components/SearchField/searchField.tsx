@@ -17,7 +17,6 @@ export const SearchField = ({
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    console.log('Valor atual:', event.target.value);
   };
 
   return (

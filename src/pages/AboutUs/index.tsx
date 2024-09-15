@@ -86,7 +86,6 @@ const AboutUs = () => {
         }
       } catch (err) {
         setError(err);
-        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -102,7 +101,9 @@ const AboutUs = () => {
       </div>
     );
 
-  if (error) return <div>{error}</div>;
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <>

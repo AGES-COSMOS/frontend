@@ -6,6 +6,6 @@ export const createProject = async (projectData: Project): Promise<Project> => {
     const response = await httpService.post('/projects', projectData);
     return response.data;
   } catch (error) {
-    throw new Error('Error creating project');
+    throw new Error('Erro ao criar projeto.');
   }
 };

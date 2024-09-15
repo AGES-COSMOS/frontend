@@ -252,7 +252,7 @@ export const CreateProjects = () => {
         <ButtonComponent
           type="primary"
           onClick={() => {
-            console.log('aaa');
+            console.log('');
           }}
           size={2}
         >
