@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './createProjects.css';
 import { createProject } from 'services/projectsService';
 import Select from 'react-select';
+import { ButtonComponent } from 'components/Button/button';
 
 export interface Project {
   id: number;
@@ -127,14 +128,15 @@ export const CreateProjects = () => {
           alt="Imagem de Capa do Projeto"
           className="project-image"
         />
-        <button
-          type="button"
-          className="add-image-button"
-          onClick={() => document.getElementById('imageInput')?.click()}
-        >
-          {' '}
-          Adicionar Imagem
-        </button>
+        <div className="add-image-button">
+          <ButtonComponent
+            type="primary"
+            onClick={() => document.getElementById('imageInput')?.click()}
+            size={2}
+          >
+            Adicionar Imagem
+          </ButtonComponent>
+        </div>
       </div>
       <input
         type="file"
@@ -247,9 +249,15 @@ export const CreateProjects = () => {
           placeholder="Propósito"
           required
         />
-        <button className="button-register-project" type="submit">
+        <ButtonComponent
+          type="primary"
+          onClick={() => {
+            console.log('aaa');
+          }}
+          size={2}
+        >
           Cadastrar Projeto
-        </button>
+        </ButtonComponent>
       </form>
     </div>
   );
