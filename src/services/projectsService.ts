@@ -11,9 +11,21 @@ export const createProject = async (projectData: Project): Promise<Project> => {
   }
 };
 
-export const findProjects = async (): Promise<ProjectListing[]> => {
+export interface Pagination<Type> {
+  data: Type[];
+  total: number;
+  page: number;
+  lastPage: number;
+}
+
+export const findProjects = async (
+  page = 1,
+  limit = 10,
+): Promise<Pagination<ProjectListing>> => {
   try {
-    const response = await httpService.get('/project');
+    const response = await httpService.get('/project', {
+      params: { page, limit },
+    });
     return response.data;
   } catch (error) {
     throw new Error('Erro ao listar projetos.');

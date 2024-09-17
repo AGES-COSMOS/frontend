@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProjectCard } from 'components/ProjectCard/projectCard';
 import { FilterTag } from 'components/FilterTag/filterTag';
@@ -8,7 +8,7 @@ import { FilterField } from 'components/FilterField/filterField';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
-import { findProjects } from '../../services/projectsService';
+import { findProjects, Pagination } from '../../services/projectsService';
 
 export interface ProjectListing {
   id: number;
@@ -36,7 +36,63 @@ const mockFilters = [
 export const ProjectListing = () => {
   const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [projects, setProjects] = useState<ProjectListing[]>([]);
+  const [projects, setProjects] = useState<Pagination<ProjectListing> | null>(
+    null,
+  );
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10; // Quantidade de projetos por página
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const loadMoreProjects = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    try {
+      const newProjects = await findProjects(page, limit);
+
+      setProjects((prevProjects) => {
+        if (!prevProjects) {
+          return newProjects;
+        }
+
+        return {
+          ...prevProjects,
+          data: [...prevProjects.data, ...newProjects.data],
+          page: newProjects.page,
+          lastPage: newProjects.lastPage,
+          total: newProjects.total,
+        };
+      });
+
+      setHasMore(page < newProjects.lastPage);
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }, [page, hasMore, loading]);
+
+  const lastProjectElementRef = useCallback(
+    (node: HTMLLIElement | null) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMoreProjects();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore, loadMoreProjects],
+  );
+
+  useEffect(() => {
+    loadMoreProjects();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,12 +101,6 @@ export const ProjectListing = () => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    findProjects()
-      .then((projects) => setProjects(projects))
-      .catch((error) => console.error(error));
   }, []);
 
   const toggleFilters = () => {
@@ -99,9 +149,9 @@ export const ProjectListing = () => {
           Resultados:
         </Typography>
         <Box className="project-cards">
-          {projects.map((project) => (
+          {projects?.data.map((project, index) => (
             <ProjectCard
-              key={project.id}
+              key={index}
               title={project.name}
               status={project.status}
               location="location"
@@ -110,6 +160,8 @@ export const ProjectListing = () => {
               image={'http://localhost:3001/public/' + project.imageURL}
             />
           ))}
+          {loading && <p>Carregando mais projetos...</p>}
+          {!hasMore && <p>Todos os projetos foram carregados.</p>}
         </Box>
       </Box>
       <Box
