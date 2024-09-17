@@ -1,0 +1,38 @@
+.select-component {
+  .label {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--black);
+    margin-bottom: 5px;
+    padding: 0px;
+
+    .select-component-required {
+      color: var(--coral-red);
+    }
+  }
+
+  .error-label {
+    margin: 0;
+    font-size: 16px;
+    color: var(--coral-red);
+  }
+
+  .select-component-autocomplete {
+    background-color: var(--white);
+    border-radius: 4px;
+    border: 1px solid var(--black);
+    padding: 2.5px;
+
+    .MuiOutlinedInput-notchedOutline {
+      border: none !important;
+    }
+
+    .select-component-required {
+      color: var(--coral-red);
+    }
+  }
+
+  .dropdown-icon {
+    color: var(--black);
+  }
+}

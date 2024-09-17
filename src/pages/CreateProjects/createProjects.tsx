@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import './createProjects.css';
+import './createProjects.scss';
 import { createProject } from 'services/projectsService';
-import Select from 'react-select';
 import { ButtonComponent } from 'components/Button/button';
+import { TextField } from 'components/TextFields/textfield';
+import { Select } from 'components/Select/select';
 
 export interface Project {
   id: number;
@@ -73,6 +74,7 @@ export const CreateProjects = () => {
       setProjectData({ ...projectData, [name]: value });
     }
   };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -84,23 +86,39 @@ export const CreateProjects = () => {
     }
   };
 
-  const categoryOptions = categories.map((category) => ({
-    value: category.id,
-    label: category.name,
-  }));
+  const handleInstitutionChange = (value: string) => {
+    const institution = institutions.find((inst) => inst.name === value);
+    setProjectData({ ...projectData, institution_id: institution?.id || 0 });
+  };
 
-  const keywordOptions = keywords.map((keyword) => ({
-    value: keyword.id,
-    label: keyword.name,
-  }));
+  const handleTeacherChange = (value: string) => {
+    const teacher = teachers.find((teacher) => teacher.name === value);
+    setProjectData({ ...projectData, teacher_id: teacher?.id || 0 });
+  };
 
-  const handleCategoryChange = (selectedOptions: any) => {
-    const selected = selectedOptions.map((option: any) => option.value);
+  const handleStatusChange = (value: string) => {
+    setProjectData({ ...projectData, status: value });
+  };
+
+  const categoryOptions = categories.map((category) => category.name);
+  const keywordOptions = keywords.map((keyword) => keyword.name);
+  const institutionOptions = institutions.map(
+    (institution) => institution.name,
+  );
+  const teacherOptions = teachers.map((teacher) => teacher.name);
+  const statusOptions = ['Em Andamento', 'Finalizado'];
+
+  const handleCategoryChange = (value: string) => {
+    const selected = categories
+      .filter((category) => value.includes(category.name))
+      .map((category) => category.id);
     setSelectedCategories(selected);
   };
 
-  const handleKeywordChange = (selectedOptions: any) => {
-    const selected = selectedOptions.map((option: any) => option.value);
+  const handleKeywordChange = (value: string) => {
+    const selected = keywords
+      .filter((keyword) => value.includes(keyword.name))
+      .map((keyword) => keyword.id);
     setSelectedKeywords(selected);
   };
 
@@ -145,29 +163,26 @@ export const CreateProjects = () => {
         onChange={handleImageChange}
         style={{ display: 'none' }}
       />
-      <form onSubmit={handleSubmit} className="form">
-        <textarea
-          name="name"
+      <form className="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Nome do Projeto"
+          placeholder="Digite o nome do projeto"
+          required
           value={projectData.name}
-          onChange={handleInputChange}
-          placeholder="Nome do Projeto"
-          required
-          className="textarea-project-name"
+          onChange={(value) => setProjectData({ ...projectData, name: value })}
         />
-        <select
-          className="item"
-          name="institution_id"
-          value={projectData.institution_id}
-          onChange={handleInputChange}
+
+        <Select
+          options={institutionOptions}
+          label="Instituição"
+          placeholder="Selecione a Instituição"
+          value={
+            institutions.find((inst) => inst.id === projectData.institution_id)
+              ?.name
+          }
+          onChange={handleInstitutionChange}
           required
-        >
-          <option value="">Instituição</option>
-          {institutions.map((institution) => (
-            <option key={institution.id} value={institution.id}>
-              {institution.name}
-            </option>
-          ))}
-        </select>
+        />
 
         <div>
           <h4>Data de Início</h4>
@@ -190,49 +205,53 @@ export const CreateProjects = () => {
             onChange={handleInputChange}
           />
         </div>
-        <select
-          className="item"
-          name="teacher_id"
-          value={projectData.teacher_id}
-          onChange={handleInputChange}
+
+        <Select
+          options={teacherOptions}
+          label="Professor"
+          placeholder="Selecione o Professor"
+          value={
+            teachers.find((teacher) => teacher.id === projectData.teacher_id)
+              ?.name
+          }
+          onChange={handleTeacherChange}
           required
-        >
-          <option value="">Professor</option>
-          {teachers.map((teacher) => (
-            <option key={teacher.id} value={teacher.id}>
-              {teacher.name}
-            </option>
-          ))}
-        </select>
-        <select
-          className="item"
-          name="status"
+        />
+
+        <Select
+          options={statusOptions}
+          label="Status do Projeto"
+          placeholder="Selecione o Status"
           value={projectData.status}
-          onChange={handleInputChange}
+          onChange={handleStatusChange}
           required
-        >
-          <option value="">Status do Projeto</option>
-          <option value="Em Andamento">Em Andamento</option>
-          <option value="Finalizado">Finalizado</option>
-        </select>
+        />
+
         <Select
-          isMulti
-          name="categories"
           options={categoryOptions}
-          className="basic-multi-select"
-          classNamePrefix="select"
+          label="Categorias"
+          placeholder="Selecione as Categorias"
+          value={selectedCategories
+            .map(
+              (id) =>
+                categories.find((category) => category.id === id)?.name || '',
+            )
+            .join(', ')}
           onChange={handleCategoryChange}
-          placeholder="Categorias"
         />
+
         <Select
-          isMulti
-          name="keywords"
           options={keywordOptions}
-          className="basic-multi-select"
-          classNamePrefix="select"
+          label="Palavras-Chave"
+          placeholder="Selecione as Palavras-Chave"
+          value={selectedKeywords
+            .map(
+              (id) => keywords.find((keyword) => keyword.id === id)?.name || '',
+            )
+            .join(', ')}
           onChange={handleKeywordChange}
-          placeholder="Palavras-Chave"
         />
+
         <textarea
           name="history"
           className="large-textarea"

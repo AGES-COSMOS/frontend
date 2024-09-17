@@ -4,11 +4,12 @@
   padding: 3rem 5rem;
   display: flex;
   flex-direction: column;
+
+  h1 {
+    color: var(--purple);
+  }
 }
 
-h1 {
-  color: var(--purple);
-}
 h4 {
   color: var(--light-gray);
 }
