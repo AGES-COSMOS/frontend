@@ -8,6 +8,24 @@ import { FilterField } from 'components/FilterField/filterField';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
+import { findProjects } from '../../services/projectsService';
+
+export interface ProjectListing {
+  id: number;
+  name: string;
+  history: string;
+  purpose: string;
+  contact?: string;
+  start_date: Date;
+  end_date?: Date;
+  status: string;
+  teacher_id: number;
+  institution_id: number;
+  updatedAt: Date;
+  updatedBy: string;
+  imageURL: string;
+  ProjectKeyword: { keyword: { id: number; word: string } }[];
+}
 
 const mockFilters = [
   { id: '1', name: 'Prisão domiciliar' },
@@ -18,6 +36,7 @@ const mockFilters = [
 export const ProjectListing = () => {
   const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [projects, setProjects] = useState<ProjectListing[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,6 +45,12 @@ export const ProjectListing = () => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    findProjects()
+      .then((projects) => setProjects(projects))
+      .catch((error) => console.error(error));
   }, []);
 
   const toggleFilters = () => {
@@ -74,45 +99,17 @@ export const ProjectListing = () => {
           Resultados:
         </Typography>
         <Box className="project-cards">
-          <ProjectCard
-            title="Projeto 1"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
-          <ProjectCard
-            title="Projeto 2"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
-          <ProjectCard
-            title="Projeto 3"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              title={project.name}
+              status={project.status}
+              location="location"
+              keyWords={project.ProjectKeyword.map((item) => item.keyword.word)}
+              description={project.purpose}
+              image={'http://localhost:3001/public/' + project.imageURL}
+            />
+          ))}
         </Box>
       </Box>
       <Box
