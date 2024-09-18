@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
 import { findProjects, Pagination } from '../../services/projectsService';
 
-export interface ProjectListing {
+export interface IProjectListing {
   id: number;
   name: string;
   history: string;
@@ -33,21 +33,25 @@ const mockFilters = [
   { id: '3', name: 'Crimes de ódio' },
 ];
 
-const useProjectPagination = (initialPage = 1, limit = 10) => {
-  const [projects, setProjects] = useState<Pagination<ProjectListing> | null>(
+export const ProjectListing = () => {
+  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const [projects, setProjects] = useState<Pagination<IProjectListing> | null>(
     null,
   );
-  const [page, setPage] = useState(initialPage);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const observerTarget = useRef<HTMLDivElement | null>(null);
 
   const loadMoreProjects = useCallback(async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
     try {
-      const newProjects = await findProjects(page, limit);
+      const newProjects = await findProjects(page, 10);
       setProjects((prevProjects) => {
         if (!prevProjects) return newProjects;
         return {
@@ -67,28 +71,6 @@ const useProjectPagination = (initialPage = 1, limit = 10) => {
     }
   }, [page, hasMore, loading]);
 
-  return { projects, loadMoreProjects, loading, error, hasMore };
-};
-
-export const ProjectListing = () => {
-  const { projects, loadMoreProjects, loading, error, hasMore } =
-    useProjectPagination();
-  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const observerTarget = useRef<HTMLDivElement | null>(null);
-
-  // Debounce para o resize
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
-
-    const debounceResize = debounce(handleResize, 300);
-    window.addEventListener('resize', debounceResize);
-    return () => window.removeEventListener('resize', debounceResize);
-  }, []);
-
-  // IntersectionObserver para paginação infinita
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -107,6 +89,14 @@ export const ProjectListing = () => {
       }
     };
   }, [observerTarget, loadMoreProjects, hasMore, loading]);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024); // Ajuste para considerar iPads também
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleFilters = () => {
     if (isMobile) {
@@ -165,6 +155,11 @@ export const ProjectListing = () => {
               image={project.imageURL}
             />
           ))}
+          {loading && (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+            </div>
+          )}
           <div ref={observerTarget}></div>
         </Box>
       </Box>
@@ -192,21 +187,3 @@ export const ProjectListing = () => {
     </Box>
   );
 };
-
-// Debounce utility
-function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
-  func: T,
-  wait: number,
-) {
-  let timeout: NodeJS.Timeout;
-
-  return function executedFunction(...args: Parameters<T>): void {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}

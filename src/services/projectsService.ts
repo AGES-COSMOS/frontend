@@ -1,6 +1,6 @@
 import { httpService } from './httpService';
 import { Project } from '../pages/CreateProjects/createProjects';
-import { ProjectListing } from '../pages/ProjectListing/projectListing';
+import { IProjectListing } from '../pages/ProjectListing/projectListing';
 
 export const createProject = async (projectData: Project): Promise<Project> => {
   try {
@@ -21,7 +21,7 @@ export interface Pagination<Type> {
 export const findProjects = async (
   page = 1,
   limit = 10,
-): Promise<Pagination<ProjectListing>> => {
+): Promise<Pagination<IProjectListing>> => {
   try {
     const response = await httpService.get('/project', {
       params: { page, limit },
