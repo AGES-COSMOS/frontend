@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProjectCard } from 'components/ProjectCard/projectCard';
 import { FilterTag } from 'components/FilterTag/filterTag';
@@ -33,17 +33,14 @@ const mockFilters = [
   { id: '3', name: 'Crimes de ódio' },
 ];
 
-export const ProjectListing = () => {
-  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+const useProjectPagination = (initialPage = 1, limit = 10) => {
   const [projects, setProjects] = useState<Pagination<ProjectListing> | null>(
     null,
   );
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const limit = 10; // Quantidade de projetos por página
-  const observer = useRef<IntersectionObserver | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const loadMoreProjects = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -51,12 +48,8 @@ export const ProjectListing = () => {
     setLoading(true);
     try {
       const newProjects = await findProjects(page, limit);
-
       setProjects((prevProjects) => {
-        if (!prevProjects) {
-          return newProjects;
-        }
-
+        if (!prevProjects) return newProjects;
         return {
           ...prevProjects,
           data: [...prevProjects.data, ...newProjects.data],
@@ -65,43 +58,55 @@ export const ProjectListing = () => {
           total: newProjects.total,
         };
       });
-
       setHasMore(page < newProjects.lastPage);
       setPage((prevPage) => prevPage + 1);
-    } catch (error) {
+    } catch {
+      setError('Ocorreu um erro ao carregar os projetos.');
     } finally {
       setLoading(false);
     }
   }, [page, hasMore, loading]);
 
-  const lastProjectElementRef = useCallback(
-    (node: HTMLLIElement | null) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
+  return { projects, loadMoreProjects, loading, error, hasMore };
+};
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          loadMoreProjects();
-        }
-      });
+export const ProjectListing = () => {
+  const { projects, loadMoreProjects, loading, error, hasMore } =
+    useProjectPagination();
+  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const observerTarget = useRef<HTMLDivElement | null>(null);
 
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore, loadMoreProjects],
-  );
-
-  useEffect(() => {
-    loadMoreProjects();
-  }, []);
-
+  // Debounce para o resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // Ajuste para considerar iPads também
+      setIsMobile(window.innerWidth <= 1024);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const debounceResize = debounce(handleResize, 300);
+    window.addEventListener('resize', debounceResize);
+    return () => window.removeEventListener('resize', debounceResize);
   }, []);
+
+  // IntersectionObserver para paginação infinita
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && hasMore) {
+          loadMoreProjects();
+        }
+      },
+      { threshold: 1 },
+    );
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [observerTarget, loadMoreProjects, hasMore, loading]);
 
   const toggleFilters = () => {
     if (isMobile) {
@@ -160,8 +165,7 @@ export const ProjectListing = () => {
               image={'http://localhost:3001/public/' + project.imageURL}
             />
           ))}
-          {loading && <p>Carregando mais projetos...</p>}
-          {!hasMore && <p>Todos os projetos foram carregados.</p>}
+          <div ref={observerTarget}></div>
         </Box>
       </Box>
       <Box
@@ -188,3 +192,21 @@ export const ProjectListing = () => {
     </Box>
   );
 };
+
+// Debounce utility
+function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
+  func: T,
+  wait: number,
+) {
+  let timeout: NodeJS.Timeout;
+
+  return function executedFunction(...args: Parameters<T>): void {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
