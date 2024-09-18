@@ -162,7 +162,7 @@ export const ProjectListing = () => {
               location="location"
               keyWords={project.ProjectKeyword.map((item) => item.keyword.word)}
               description={project.purpose}
-              image={'http://localhost:3001/public/' + project.imageURL}
+              image={project.imageURL}
             />
           ))}
           <div ref={observerTarget}></div>
