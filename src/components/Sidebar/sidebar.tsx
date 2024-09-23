@@ -45,7 +45,7 @@ const Sidebar = () => {
           </a>
         </StyledTypography>
         <ButtonContainer>
-          <NavButton>
+          <NavButton href="/">
             <DashboardIcon />
             Feed
           </NavButton>
@@ -60,7 +60,7 @@ const Sidebar = () => {
             <DateRangeOutlinedIcon />
             Eventos
           </NavButton>
-          <NavButton>
+          <NavButton href="/projetos">
             <BookIcon />
             Projetos
           </NavButton>
