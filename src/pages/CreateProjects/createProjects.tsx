@@ -4,6 +4,8 @@ import { createProject } from 'services/projectsService';
 import { ButtonComponent } from 'components/Button/button';
 import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
+import { DatePicker } from 'components/DatePicker/datePicker';
+import { TextArea } from 'components/TextArea/textArea';
 
 export interface Project {
   id: number;
@@ -184,27 +186,20 @@ export const CreateProjects = () => {
           required
         />
 
-        <div>
-          <h4>Data de Início</h4>
-          <input
-            type="date"
-            className="item"
-            name="start_date"
-            value={projectData.start_date.toISOString().split('T')[0]}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <h4>Data de Fim</h4>
-          <input
-            type="date"
-            className="item"
-            name="end_date"
-            value={projectData.end_date?.toISOString().split('T')[0] || ''}
-            onChange={handleInputChange}
-          />
-        </div>
+        <DatePicker
+          label="Data de Início"
+          name="start_date"
+          value={projectData.start_date.toISOString().split('T')[0]}
+          onChange={handleInputChange}
+          required
+        />
+
+        <DatePicker
+          label="Data de Fim"
+          name="end_date"
+          value={projectData.end_date?.toISOString().split('T')[0] || ''}
+          onChange={handleInputChange}
+        />
 
         <Select
           options={teacherOptions}
@@ -252,31 +247,37 @@ export const CreateProjects = () => {
           onChange={handleKeywordChange}
         />
 
-        <textarea
-          name="history"
-          className="large-textarea"
-          value={projectData.history}
-          onChange={handleInputChange}
-          placeholder="História"
-          required
-        />
-        <textarea
-          name="purpose"
-          className="large-textarea"
-          value={projectData.purpose}
-          onChange={handleInputChange}
-          placeholder="Propósito"
-          required
-        />
-        <ButtonComponent
-          type="primary"
-          onClick={() => {
-            console.log('');
-          }}
-          size={2}
-        >
-          Cadastrar Projeto
-        </ButtonComponent>
+        <div className="textAreas">
+          <TextArea
+            label="História"
+            name="history"
+            value={projectData.history}
+            placeholder="História"
+            required
+            onChange={handleInputChange}
+          />
+
+          <TextArea
+            label="Propósito"
+            name="purpose"
+            value={projectData.purpose}
+            placeholder="Propósito"
+            required
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="button-container">
+          <ButtonComponent
+            type="primary"
+            onClick={() => {
+              console.log('');
+            }}
+            size={2}
+          >
+            Cadastrar Projeto
+          </ButtonComponent>
+        </div>
       </form>
     </div>
   );
