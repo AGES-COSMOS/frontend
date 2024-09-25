@@ -12,7 +12,7 @@ export interface Event {
   date: Date;
   hour: Date;
   IsOnline: boolean;
-  address: String;
+  address: string;
   institution_id: number;
   project_id: number;
   updatedAt: Date;
@@ -36,6 +36,7 @@ export const CreateEvents = () => {
   ]);
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedModality, setSelectedModality] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
 
   const [eventData, setEventData] = useState<Event>({
@@ -94,6 +95,13 @@ export const CreateEvents = () => {
       .filter((category) => value.includes(category.name))
       .map((category) => category.id);
     setSelectedCategories(selected);
+  };
+
+  const handleModalityChange = (value: string) => {
+    const selected = modality
+      .filter((modality) => value.includes(modality.name))
+      .map((modality) => modality.id);
+    setSelectedModality(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -168,29 +176,6 @@ export const CreateEvents = () => {
             required
           />
         </div>
-        <div>
-          <h4>Horário do Evento</h4>
-          <input
-            type="date"
-            className="item"
-            name="end_date"
-            value={eventData.hour?.toISOString().split('T')[0] || ''}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* <Select
-          options={modalityOptions}
-          label="Modalidade"
-          placeholder="Selecione a Modalidade"
-          value={modalityOptions
-            .map(
-              (id) =>
-                modality.find((modality) => modality.id === id)?.name || '',
-            )
-            .join(', ')}
-          onChange={handleCategoryChange}
-        /> */}
 
         <Select
           options={categoryOptions}
@@ -203,6 +188,27 @@ export const CreateEvents = () => {
             )
             .join(', ')}
           onChange={handleCategoryChange}
+        />
+
+        <Select
+          options={modalityOptions}
+          label="Modalidade"
+          placeholder="Selecione a Modalidade"
+          value={selectedModality
+            .map(
+              (id) =>
+                modality.find((modality) => modality.id === id)?.name || '',
+            )
+            .join(', ')}
+          onChange={handleModalityChange}
+        />
+
+        <TextField
+          label="Endereço do Evento"
+          placeholder="Digite o endereço do evento"
+          required
+          value={eventData.address}
+          onChange={(value) => setEventData({ ...eventData, address: value })}
         />
 
         <textarea
