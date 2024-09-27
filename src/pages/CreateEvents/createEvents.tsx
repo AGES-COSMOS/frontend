@@ -19,15 +19,35 @@ export interface Event {
   updatedBy: string;
 }
 
+const generateTimeSlots = (): string[] => {
+  const times: string[] = [];
+  let currentHour = 0;
+  let currentMinute = 0;
+
+  while (currentHour < 24) {
+    const hour = String(currentHour).padStart(2, '0');
+    const minute = String(currentMinute).padStart(2, '0');
+    times.push(`${hour}:${minute}`);
+
+    currentMinute += 30;
+    if (currentMinute >= 60) {
+      currentMinute = 0;
+      currentHour += 1;
+    }
+  }
+
+  return times;
+};
+
 export const CreateEvents = () => {
   const [institutions] = useState([
     { id: 1, name: 'PUCRS' },
     { id: 2, name: 'UFRGS' },
   ]);
 
-  const [modality] = useState([
-    { id: 1, name: 'Online' },
-    { id: 2, name: 'Presencial' },
+  const [modalityOptions] = useState([
+    { id: 1, name: 'Online', isOnline: true },
+    { id: 2, name: 'Presencial', isOnline: false },
   ]);
 
   const [categories] = useState([
@@ -36,7 +56,6 @@ export const CreateEvents = () => {
   ]);
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [selectedModality, setSelectedModality] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
 
   const [eventData, setEventData] = useState<Event>({
@@ -53,18 +72,28 @@ export const CreateEvents = () => {
     updatedBy: '',
   });
 
+  const timeSlots = generateTimeSlots();
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    const { title, value } = e.target;
-    setEventData({ ...eventData, [title]: value });
-
-    if (title === 'date' || title === 'hour') {
-      setEventData({ ...eventData, [title]: new Date(value) });
+    const { name, value } = e.target;
+    if (name === 'date') {
+      setEventData({ ...eventData, date: new Date(value) });
+    } else if (name === 'hour') {
+      const [hours, minutes] = value.split(':');
+      const updatedHour = new Date(eventData.date);
+      updatedHour.setUTCHours(Number(hours), Number(minutes), 0);
+      setEventData({ ...eventData, hour: updatedHour });
+    } else if (name === 'IsOnline') {
+      setEventData({
+        ...eventData,
+        IsOnline: value === 'Online',
+      });
     } else {
-      setEventData({ ...eventData, [title]: value });
+      setEventData({ ...eventData, [name]: value });
     }
   };
 
@@ -84,24 +113,11 @@ export const CreateEvents = () => {
     setEventData({ ...eventData, institution_id: institution?.id || 0 });
   };
 
-  const categoryOptions = categories.map((category) => category.name);
-  const modalityOptions = modality.map((modality) => modality.name);
-  const institutionOptions = institutions.map(
-    (institution) => institution.name,
-  );
-
   const handleCategoryChange = (value: string) => {
     const selected = categories
       .filter((category) => value.includes(category.name))
       .map((category) => category.id);
     setSelectedCategories(selected);
-  };
-
-  const handleModalityChange = (value: string) => {
-    const selected = modality
-      .filter((modality) => value.includes(modality.name))
-      .map((modality) => modality.id);
-    setSelectedModality(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -154,7 +170,7 @@ export const CreateEvents = () => {
         />
 
         <Select
-          options={institutionOptions}
+          options={institutions.map((inst) => inst.name)}
           label="Instituição"
           placeholder="Selecione a Instituição"
           value={
@@ -170,15 +186,52 @@ export const CreateEvents = () => {
           <input
             type="date"
             className="item"
-            name="start_date"
+            name="date"
             value={eventData.date.toISOString().split('T')[0]}
             onChange={handleInputChange}
             required
           />
         </div>
 
+        <div>
+          <h4>Hora do Evento</h4>
+          <select
+            className="item time-picker"
+            name="hour"
+            value={eventData.hour.toISOString().substr(11, 5)}
+            onChange={handleInputChange}
+            required
+          >
+            {timeSlots.map((slot) => (
+              <option key={slot} value={slot}>
+                {slot}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <Select
-          options={categoryOptions}
+          options={modalityOptions.map((modality) => modality.name)}
+          label="Modalidade"
+          placeholder="Selecione a Modalidade"
+          value={
+            eventData.IsOnline
+              ? modalityOptions.find((modality) => modality.isOnline)?.name
+              : modalityOptions.find((modality) => !modality.isOnline)?.name
+          }
+          onChange={(value) => {
+            const selectedModality = modalityOptions.find(
+              (modality) => modality.name === value,
+            );
+            setEventData({
+              ...eventData,
+              IsOnline: selectedModality?.isOnline || false,
+            });
+          }}
+        />
+
+        <Select
+          options={categories.map((category) => category.name)}
           label="Categorias"
           placeholder="Selecione as Categorias"
           value={selectedCategories
@@ -188,19 +241,6 @@ export const CreateEvents = () => {
             )
             .join(', ')}
           onChange={handleCategoryChange}
-        />
-
-        <Select
-          options={modalityOptions}
-          label="Modalidade"
-          placeholder="Selecione a Modalidade"
-          value={selectedModality
-            .map(
-              (id) =>
-                modality.find((modality) => modality.id === id)?.name || '',
-            )
-            .join(', ')}
-          onChange={handleModalityChange}
         />
 
         <TextField
