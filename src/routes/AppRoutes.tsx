@@ -5,7 +5,7 @@ import { ProjectListing } from 'pages/ProjectListing/projectListing';
 import { CreateProjects } from 'pages/CreateProjects/createProjects';
 import { ROUTES } from './constants';
 import MainLayout from 'layouts/mainLayout';
-
+import ModalInteracoesFeed from 'pages/ModalInteracoesFeed/modal';
 const AppRoutes = () => {
   return (
     <MainLayout>
@@ -14,6 +14,10 @@ const AppRoutes = () => {
         <Route path={ROUTES.ABOUT_US()} element={<AboutUs />} />
         <Route path={ROUTES.PROJECT_LISTING()} element={<ProjectListing />} />
         <Route path={ROUTES.CREATE_PROJECTS()} element={<CreateProjects />} />
+        <Route
+          path={ROUTES.MODALINTERACOESFEED()}
+          element={<ModalInteracoesFeed />}
+        ></Route>
       </Routes>
     </MainLayout>
   );
