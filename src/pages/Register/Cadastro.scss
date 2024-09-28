@@ -19,9 +19,7 @@
 
 .container {
   margin: 0 auto;
-  max-width: 700px;
   padding-left: 200px;
-  padding-bottom: 130px;
   align-items: center;
 }
 
@@ -30,4 +28,49 @@
   left: 0px;
   color: #7734e7;
   font-family: 'Poppins', sans-serif;
+}
+
+.rowAlignmentBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 110px;
+}
+
+.boxAlignment {
+  width: 224px;
+  margin-right: 16px;
+}
+
+.addressBoxAlignment {
+  width: 345px;
+  margin-right: 16px;
+}
+
+.numberBoxAlignment {
+  width: 100px;
+  margin-right: 16px;
+}
+
+.buttonsAlignment {
+  display: flex;
+  flex-direction: row;
+  padding-left: 85px;
+  margin-right: 16px;
+}
+
+.selectUserAndProfilePicBox {
+  position: relative;
+  right: 25%;
+}
+
+.selectUserAlignment {
+  text-align: center;
+  width: 224px;
+  margin-right: 16px;
+  margin: 0 auto;
+}
+
+.error-message {
+  color: red;
 }
