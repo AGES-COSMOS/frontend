@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './Cadastro.scss';
 
 import ProfilePicture from '../../components/profilePicture/ProfilePicture';
-import UserSelect from '../../components/userSelect/userSelect';
-import GenericInput from '../../components/genericInput/GenericInput';
-import GenericSelect from 'components/genericSelect/GenericSelect';
 
-import Stack from '@mui/material/Stack';
-import { Box, Button } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
+import { getStates, getCities } from '@brazilian-utils/brazilian-utils';
+
+import { ButtonComponent } from '../../components/Button/button';
+import { TextField } from '../../components/TextFields/textfield';
+import { Select } from 'components/Select/select';
+
 import {
   formatCNPJ,
   formatCPF,
@@ -17,7 +17,6 @@ import {
 } from '@brazilian-utils/brazilian-utils';
 import { isValidCPF } from '@brazilian-utils/brazilian-utils';
 import { isValidCNPJ } from '@brazilian-utils/brazilian-utils';
-import GenericButton from 'components/genericButton/GenericButton';
 
 interface Option {
   value: string;
@@ -30,6 +29,12 @@ const selectOptions1: Option[] = [
   { value: 'instituicao', label: 'Instituição' },
 ];
 
+const instituicoesOptionsArr: Option[] = [
+  { value: 'ufrgs', label: 'UFRGS' },
+  { value: 'pucrs', label: 'PUCRS' },
+  { value: 'uniritter', label: 'UNIRITTER' },
+];
+
 const Register: React.FC = () => {
   const [selectedOption1, setSelectedOption1] = useState<string>('');
   const [selectedInstituicao, setSelectedInstituicao] = useState<string>('');
@@ -38,80 +43,45 @@ const Register: React.FC = () => {
   const [selectedState, setSelectedState] = useState<string | undefined>(
     undefined,
   );
+
   const [selectedCity, setSelectedCity] = useState<string | undefined>(
     undefined,
   );
 
-  const handleStateChange = (value: string) => {
-    setSelectedState(value);
-    setSelectedCity(''); // Limpa a cidade quando um novo estado é selecionado
-  };
-
   const handleInstituicaoChange = (value: string) => {
     setSelectedInstituicao(value);
-    setSelectedInstituicao('');
   };
 
-  const handleCityChange = (value: string) => {
-    setSelectedCity(value);
-  };
-
-  const handleConfirm = () => {
-    if (!isFormValid) {
-      return;
+  const handleUserChange = (selectedUser: string) => {
+    if (typeof selectedUser === 'string') {
+      let lowerCaseUser = selectedUser.toLowerCase();
+      if (lowerCaseUser === 'instituição') {
+        lowerCaseUser = 'instituicao';
+      }
+      setSelectedOption1(lowerCaseUser);
     }
-
-    // Coleta de dados
-    const dadosColetados = {
-      aluno:
-        selectedOption1 === 'aluno'
-          ? {
-              name,
-              email,
-              password,
-              confirmPassword,
-              matricula,
-              cpf,
-              phone,
-              estado: selectedState,
-              cidade: selectedCity,
-            }
-          : undefined,
-
-      professor:
-        selectedOption1 === 'professor'
-          ? {
-              name,
-              email,
-              password,
-              confirmPassword,
-              cpf,
-              phone,
-              estado: selectedState,
-              cidade: selectedCity,
-            }
-          : undefined,
-
-      instituicao:
-        selectedOption1 === 'instituicao'
-          ? {
-              name,
-              email,
-              password,
-              confirmPassword,
-              cnpj,
-              phone,
-              address,
-            }
-          : undefined,
-    };
-
-    return console.log(dadosColetados); // Retorna os dados coletados
   };
 
-  // Adiciona estados para os campos do formulário
+  const [stateOptions, setStateOptions] = useState<string[]>([]);
+  useEffect(() => {
+    const estados = getStates();
+    const estadoNames = estados.map((estado) => estado.name);
+    setStateOptions(estadoNames);
+  }, []);
+
+  const handleStateChange = (selectedOption: string) => {
+    setSelectedState(selectedOption);
+    setSelectedCity(' ');
+  };
+
+  const handleCityDisplay = (state: any) => {
+    const cidades = getCities(state);
+    return cidades.map((city) => city);
+  };
+
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [cities, setCities] = useState<string[]>([]);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<boolean>(false);
@@ -130,10 +100,6 @@ const Register: React.FC = () => {
   const [photoURL, setPhotoURL] = useState<string | ArrayBuffer | null>(null);
   const [matricula, setMatricula] = useState<string>('');
 
-  const handleSelectChange1 = (event: SelectChangeEvent<string>) => {
-    setSelectedOption1(event.target.value);
-  };
-
   const handleCancel = () => {
     setName('');
     setEmail('');
@@ -145,34 +111,23 @@ const Register: React.FC = () => {
     setMatricula('');
     setNumber('');
     setSelectedCity('');
-    setSelectedOption1('');
     setSelectedInstituicao('');
     setPhone('');
     setSelectedState('');
   };
 
-  const handlePassword = (event: SelectChangeEvent<string>) => {
-    const passwordValue = event.target.value;
-    setPassword(event.target.value);
+  const handlePassword = (value: string) => {
+    const passwordValue = value;
     setPassword(passwordValue);
     setPasswordError(!isPasswordValid(passwordValue));
   };
 
-  const handleConfirmPassword = (event: SelectChangeEvent<string>) => {
-    const confirmPasswordValue = event.target.value;
-    setConfirmPassword(event.target.value);
+  const handleConfirmPassword = (value: string) => {
+    const confirmPasswordValue = value;
     setConfirmPassword(confirmPasswordValue);
     setConfirmPasswordError(
       !isConfirmPasswordValid(password, confirmPasswordValue),
     );
-  };
-
-  const handleAddress = (event: SelectChangeEvent<string>) => {
-    setAddress(event.target.value);
-  };
-
-  const handleNumber = (event: SelectChangeEvent<string>) => {
-    setNumber(event.target.value);
   };
 
   const isPasswordValid = (password: string): boolean => {
@@ -197,91 +152,105 @@ const Register: React.FC = () => {
     );
   };
 
-  const handleMatricula = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const matriculaValue = e.target.value;
-    setMatricula(matriculaValue);
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    setEmailError(!isValidEmail(value));
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-    setEmailError(!isValidEmail(emailValue)); // Utilize sua validação aqui
-  };
-
-  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cpfValue = e.target.value;
+  const handleCPFChange = (value: string) => {
+    const cpfValue = value;
 
     setCPF(formatCPF(cpfValue));
     setCPFError(!isValidCPF(cpfValue));
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const phoneValue = e.target.value;
+  const handlePhoneChange = (value: string) => {
+    const phoneValue = value;
     setPhone(phoneValue);
     setPhoneError(!isValidPhone(phoneValue));
   };
 
-  const handleCNPJChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cnpjValue = e.target.value;
+  const handleCNPJChange = (value: any) => {
+    const cnpjValue = value;
     setCNPJ(formatCNPJ(cnpjValue));
     setCNPJError(!isValidCNPJ(cnpjValue));
   };
 
-  const validateForm = () => {
-    const isValid =
-      selectedOption1 === 'aluno'
-        ? !!(
-            name &&
-            email &&
-            password &&
-            confirmPassword &&
-            matricula &&
-            cpf &&
-            phone &&
-            selectedState &&
-            selectedCity &&
-            !emailError &&
-            !passwordError &&
-            !confirmPasswordError &&
-            !cpfError &&
-            !phoneError
-          )
-        : selectedOption1 === 'professor'
-          ? !!(
-              name &&
-              email &&
-              password &&
-              confirmPassword &&
-              cpf &&
-              phone &&
-              selectedState &&
-              selectedCity &&
-              !emailError &&
-              !passwordError &&
-              !confirmPasswordError &&
-              !cpfError &&
-              !phoneError
-            )
-          : selectedOption1 === 'instituicao'
-            ? !!(
-                name &&
-                email &&
-                password &&
-                confirmPassword &&
-                cnpj &&
-                phone &&
-                address &&
-                number &&
-                !emailError &&
-                !passwordError &&
-                !confirmPasswordError &&
-                cnpjError &&
-                !phoneError
-              )
-            : false;
+  useEffect(() => {
+    if (selectedState) {
+      const citiesList = handleCityDisplay(selectedState);
+      setCities(citiesList);
+      setSelectedCity(''); // Limpa a cidade selecionada
+    } else {
+      setCities([]);
+      setSelectedCity(''); // Também limpa a cidade se não houver estado selecionado
+    }
+  }, [selectedState]);
 
-    setIsFormValid(isValid); // Agora isValid é sempre booleano
+  const validateForm = () => {
+    let isValid = true;
+
+    if (selectedOption1 === 'aluno' || selectedOption1 === 'professor') {
+      isValid =
+        !!name &&
+        !!email &&
+        !!password &&
+        !!confirmPassword &&
+        !!cpf &&
+        !!phone &&
+        !!selectedState &&
+        !!selectedCity &&
+        !emailError &&
+        !passwordError &&
+        !confirmPasswordError &&
+        !cpfError &&
+        !phoneError;
+    }
+
+    if (selectedOption1 === 'instituicao') {
+      isValid =
+        !!name &&
+        !!email &&
+        !!password &&
+        !!confirmPassword &&
+        !!cnpj &&
+        !!phone &&
+        !!address &&
+        !!number &&
+        !!selectedState &&
+        !!selectedCity &&
+        !emailError &&
+        !passwordError &&
+        !confirmPasswordError &&
+        !cnpjError &&
+        !phoneError;
+    }
+
+    setIsFormValid(isValid);
   };
+
+  useEffect(() => {
+    validateForm();
+  }, [
+    name,
+    email,
+    password,
+    confirmPassword,
+    cpf,
+    phone,
+    cnpj,
+    address,
+    number,
+    selectedState,
+    selectedCity,
+    selectedOption1,
+    emailError,
+    passwordError,
+    confirmPasswordError,
+    cpfError,
+    phoneError,
+    cnpjError,
+  ]);
 
   useEffect(() => {
     validateForm();
@@ -295,6 +264,7 @@ const Register: React.FC = () => {
     phone,
     cnpj,
     address,
+    number,
     selectedState,
     selectedCity,
     selectedOption1,
@@ -304,397 +274,471 @@ const Register: React.FC = () => {
     cpfError,
     phoneError,
     cnpjError,
+    validateForm,
   ]);
+
+  const handleConfirm = () => {
+    if (isFormValid) {
+      console.log({
+        name,
+        email,
+        password,
+        cpf,
+        phone,
+        cnpj,
+        address,
+        number,
+        selectedState,
+        selectedCity,
+        photoURL,
+      });
+    }
+  };
 
   return (
     <>
-      <h1 className="title">Preencha todos os Campos</h1>
+      <div className="title">
+        <h1>Preencha todos os Campos</h1>
+      </div>
       <div className="container">
-        <Box sx={{ height: 80 }}>
-          <Stack
-            spacing={{ sm: 3 }}
-            direction="column"
-            sx={{ width: 160, position: 'relative', left: 150, paddingTop: 2 }}
-          >
-            <ProfilePicture onImageChange={setPhotoURL} />
-            <UserSelect
-              value={selectedOption1}
-              onChange={handleSelectChange1}
-              options={selectOptions1}
+        <div className="selectUserAndProfilePicBox">
+          <ProfilePicture onImageChange={setPhotoURL} />
+          <div className="selectUserAlignment">
+            <Select
+              options={selectOptions1 as unknown as string[]}
+              label="Tipo de Usuário"
+              placeholder="Usuário"
+              onChange={handleUserChange}
+              required
             />
-          </Stack>
-        </Box>
+          </div>
+        </div>
       </div>
       <div className="container">
         <br />
         <br />
         {selectedOption1 === 'professor' && (
           <>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Nome"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite seu nome"
+                  placeholder="Nome"
+                  required
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Digite seu nome"
-                  required
+                  onChange={(value) => setName(value)}
                 />
-                <GenericInput
-                  label="Email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  type="email"
-                  placeholder="Digite seu email"
-                  required
-                  error={emailError}
-                  errorMessage="Email inválido"
-                />
-              </Stack>
-            </Box>
+              </div>
+              <div className="boxAlignment">
+                <div className="email-container">
+                  <TextField
+                    label="Digite seu email"
+                    placeholder="Email"
+                    required
+                    value={email}
+                    errormessage="Email Inválido"
+                    onChange={(value) => setEmail(value)}
+                  />
+                </div>
+              </div>
+              {emailError && <p className="error-message">Email Inválido</p>}
+            </div>
 
-            <Box sx={{ height: 80, width: 479 }}>
-              <Stack spacing={{ xs: 6, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Senha"
-                  type="password"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite sua Senha"
+                  placeholder="Senha"
+                  required
                   value={password}
-                  onChange={handlePassword}
-                  placeholder="Digite sua Senha"
-                  error={passwordError}
-                  errorMessage="Senha inválida"
-                  required
+                  onChange={(value) => setPassword(value)}
+                  errormessage="Senha Inválida"
+                  hidepassword
                 />
-                <GenericInput
-                  label="Senha"
-                  type="password"
+              </div>
+              <div className="boxAlignment">
+                <TextField
+                  label="Confirme sua Senha"
+                  placeholder="Senha"
+                  required
                   value={confirmPassword}
-                  onChange={handleConfirmPassword}
-                  placeholder="Confirme sua Senha"
-                  error={confirmPasswordError}
-                  errorMessage="As senhas diferem"
-                  required
+                  onChange={(value) => setConfirmPassword(value)}
+                  errormessage="Senha Diferente"
+                  hidepassword
                 />
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row"></Stack>
-              <Box sx={{ height: 50, width: 225 }}>
-                <GenericSelect
-                  type="instituicao"
-                  selectedValue={selectedInstituicao}
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <Select
+                  options={instituicoesOptionsArr as unknown as string[]}
+                  label="Instituicao"
+                  placeholder="Instituicao"
                   onChange={handleInstituicaoChange}
+                  required
                 />
-              </Box>
-            </Box>
-            <Box sx={{ height: 80, width: 473 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
-                <GenericInput
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
                   label="CPF"
-                  value={cpf}
-                  onChange={handleCPFChange}
                   placeholder="Digite seu CPF"
-                  error={cpfError}
-                  errorMessage="CPF inválido"
                   required
+                  value={cpf} //ADD cpfError
+                  onChange={(value) => setCPF(formatCPF(value))}
+                  errormessage="CPF Inválido"
                 />
-                <GenericInput
+              </div>
+              <div className="boxAlignment">
+                <TextField
                   label="Telefone"
+                  placeholder="Digite seus Telefone"
+                  required
                   value={phone}
-                  onChange={handlePhoneChange}
-                  placeholder="Digite seu Telefone"
-                  error={phoneError}
-                  errorMessage="Telefone inválido"
+                  onChange={(value) => setPhone(value)}
+                  errormessage="Telefone Inválido"
+                />
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <Select
+                  options={stateOptions}
+                  label="Selecione estado"
+                  placeholder="Estado"
+                  onChange={handleStateChange}
+                  value={selectedState}
                   required
                 />
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80, width: 473 }}>
-              <Stack spacing={{ xs: 2, sm: 2 }} direction="row" useFlexGap>
-                <GenericSelect
-                  type="estado"
-                  selectedValue={selectedState}
-                  onChange={handleStateChange}
+              </div>
+              <div className="boxAlignment">
+                <Select
+                  options={cities}
+                  label="Selecione cidade"
+                  placeholder="Cidade"
+                  onChange={(selectedOption) => {
+                    setSelectedCity(selectedOption); // Atualiza a cidade selecionada
+                  }}
+                  value={selectedCity}
+                  required
                 />
-                <GenericSelect
-                  type="cidade"
-                  selectedValue={selectedCity}
-                  onChange={handleCityChange}
-                  selectedState={selectedState}
-                />
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80 }}>
-              <Stack
-                spacing={{ xs: 1, sm: 2 }}
-                direction="row"
-                useFlexGap
-                sx={{ flexWrap: 'wrap' }}
-              >
-                {' '}
-                <Stack
-                  spacing={2}
-                  direction="row"
-                  sx={{ position: 'relative', left: 130 }}
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="buttonsAlignment">
+                <ButtonComponent
+                  type="secondary"
+                  onClick={handleCancel}
+                  size={1}
                 >
-                  <GenericButton variant="cancelar" onClick={handleCancel}>
-                    Cancelar
-                  </GenericButton>
-                  <GenericButton
-                    variant="confirmar"
-                    onClick={handleConfirm}
-                    disabled={!isFormValid} // Desabilita o botão se o formulário não for válido
-                  >
-                    Confirmar
-                  </GenericButton>
-                </Stack>
-              </Stack>
-            </Box>
+                  Cancelar
+                </ButtonComponent>
+              </div>
+              <div className=".buttonsAlignment">
+                <ButtonComponent
+                  type="primary"
+                  onClick={handleConfirm}
+                  size={1}
+                >
+                  Confirmar
+                </ButtonComponent>
+              </div>
+            </div>
           </>
         )}
         {selectedOption1 === 'aluno' && (
           <>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Nome"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite seu nome"
+                  placeholder="Nome"
+                  required
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Digite seu nome"
-                  required
+                  onChange={(value) => setName(value)}
                 />
-                <GenericInput
-                  label="Email"
+              </div>
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite seu email"
+                  placeholder="Email"
+                  required
                   value={email}
-                  onChange={handleEmailChange}
-                  type="email"
-                  placeholder="Digite seu email"
-                  required
-                  error={emailError}
-                  errorMessage="Email inválido"
+                  onChange={(email) => handleEmailChange(email)}
                 />
-              </Stack>
-            </Box>
+                {emailError && <p className="error-message">Email Inválido</p>}
+              </div>
+            </div>
 
-            <Box sx={{ height: 80, width: 477 }}>
-              <Stack spacing={{ xs: 4, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Senha"
-                  type="password"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite sua Senha"
+                  placeholder="Senha"
+                  required
                   value={password}
-                  onChange={handlePassword}
-                  placeholder="Digite sua Senha"
-                  error={passwordError}
-                  errorMessage="Senha inválida"
-                  required
+                  onChange={(password) => handlePassword(password)}
+                  hidepassword
                 />
-
-                <GenericInput
-                  label="Confirme sua senha"
-                  type="password"
+                {passwordError && (
+                  <p className="error-message">Senha Inválida</p>
+                )}
+              </div>
+              <div className="boxAlignment">
+                <TextField
+                  label="Confirme sua Senha"
+                  placeholder="Senha"
+                  required
                   value={confirmPassword}
-                  onChange={handleConfirmPassword}
-                  placeholder="Confirme sua Senha"
-                  error={confirmPasswordError}
-                  errorMessage="As senhas diferem"
-                  required
+                  onChange={(value) => handleConfirmPassword(value)}
+                  hidepassword
                 />
-              </Stack>
-            </Box>
-
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Matricula"
+              </div>
+              {confirmPasswordError && (
+                <p className="error-message">Senha Diferente</p>
+              )}
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Matrícula"
+                  placeholder="Digite sua matrícula"
+                  required
                   value={matricula}
-                  onChange={handleMatricula}
-                  placeholder="Digite sua Matrícula"
+                  onChange={(value) => setMatricula(value)}
+                />
+              </div>
+              <div className="boxAlignment">
+                <Select
+                  options={instituicoesOptionsArr as unknown as string[]}
+                  label="Instituicao"
+                  placeholder="Instituicao"
+                  onChange={handleInstituicaoChange}
                   required
                 />
-                <Stack
-                  spacing={{ xs: 4, sm: 2 }}
-                  direction="row"
-                  sx={{ width: 232 }}
-                >
-                  <GenericSelect
-                    type="instituicao"
-                    selectedValue={selectedInstituicao}
-                    onChange={setSelectedInstituicao}
-                  />
-                </Stack>
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
-                <GenericInput
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
                   label="CPF"
-                  value={cpf}
-                  onChange={handleCPFChange}
                   placeholder="Digite seu CPF"
-                  error={cpfError}
-                  errorMessage="CPF inválido"
                   required
+                  value={cpf}
+                  onChange={(cpf) => handleCPFChange(cpf)}
                 />
-                <GenericInput
+                {cpfError && <p className="error-message">CPF Inválido</p>}
+              </div>
+              <div className="boxAlignment">
+                <TextField
                   label="Telefone"
+                  placeholder="Digite seus Telefone"
+                  required
                   value={phone}
-                  onChange={handlePhoneChange}
-                  placeholder="Digite seu Telefone"
-                  error={phoneError}
-                  errorMessage="Telefone inválido"
+                  onChange={(value) => handlePhoneChange(value)}
+                />
+                {phoneError && (
+                  <p className="error-message">Telefone Inválido</p>
+                )}
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <Select
+                  options={stateOptions}
+                  label="Selecione estado"
+                  placeholder="Estado"
+                  onChange={handleStateChange}
                   required
                 />
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80, width: 473 }}>
-              <Stack spacing={{ xs: 2, sm: 2 }} direction="row" useFlexGap>
-                <GenericSelect
-                  type="estado"
-                  selectedValue={selectedState}
-                  onChange={handleStateChange}
+              </div>
+              <div className="boxAlignment">
+                <Select
+                  options={cities}
+                  label="Selecione cidade"
+                  placeholder="Cidade"
+                  onChange={(selectedOption) => {
+                    setSelectedCity(selectedOption);
+                  }}
+                  value={selectedCity}
+                  required
                 />
-                <GenericSelect
-                  type="cidade"
-                  selectedValue={selectedCity}
-                  onChange={handleCityChange}
-                  selectedState={selectedState}
-                />
-              </Stack>
-            </Box>
-            <Stack
-              spacing={2}
-              direction="row"
-              sx={{ position: 'relative', left: 130 }}
-            >
-              <GenericButton variant="cancelar" onClick={handleCancel}>
-                Cancelar
-              </GenericButton>
-              <GenericButton
-                variant="confirmar"
-                onClick={handleConfirm}
-                disabled={!isFormValid} // Desabilita o botão se o formulário não for válido
-              >
-                Confirmar
-              </GenericButton>
-            </Stack>
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="buttonsAlignment">
+                <ButtonComponent
+                  type="secondary"
+                  onClick={handleCancel}
+                  size={1}
+                >
+                  Cancelar
+                </ButtonComponent>
+              </div>
+              <div className=".buttonsAlignment">
+                <ButtonComponent
+                  type="primary"
+                  onClick={handleConfirm}
+                  size={1}
+                >
+                  Confirmar
+                </ButtonComponent>
+              </div>
+            </div>
           </>
         )}
         {selectedOption1 === 'instituicao' && (
           <>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Nome"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Nome da Instituição"
+                  placeholder="Nome"
+                  required
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Digite seu nome"
-                  required
+                  onChange={(value) => setName(value)}
                 />
-                <GenericInput
-                  label="Email"
+              </div>
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite seu email"
+                  placeholder="Email"
+                  required
                   value={email}
-                  onChange={handleEmailChange}
-                  type="email"
-                  placeholder="Digite seu email"
-                  required
-                  error={emailError}
-                  errorMessage="Email inválido"
+                  onChange={(email) => handleEmailChange(email)}
                 />
-              </Stack>
-            </Box>
+                {emailError && <p className="error-message">Email Inválido</p>}
+              </div>
+            </div>
 
-            <Box sx={{ height: 80, width: 479 }}>
-              <Stack spacing={{ xs: 6, sm: 2 }} direction="row">
-                <GenericInput
-                  label="Senha"
-                  type="password"
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
+                  label="Digite sua Senha"
+                  placeholder="Senha"
+                  required
                   value={password}
-                  onChange={handlePassword}
-                  placeholder="Digite sua senha"
-                  error={passwordError}
-                  errorMessage="Senha inválida"
-                  required
+                  onChange={(password) => handlePassword(password)}
+                  hidepassword
                 />
-                <GenericInput
-                  label="Confirme sua senha"
-                  type="password"
+                {passwordError && (
+                  <p className="error-message">Senha Inválida</p>
+                )}
+              </div>
+              <div className="boxAlignment">
+                <TextField
+                  label="Confirme sua Senha"
+                  placeholder="Senha"
+                  required
                   value={confirmPassword}
-                  onChange={handleConfirmPassword}
-                  placeholder="Confirme sua Senha"
-                  error={confirmPasswordError}
-                  errorMessage="As senhas diferem"
-                  required
+                  onChange={(value) => handleConfirmPassword(value)}
+                  hidepassword
                 />
-              </Stack>
-            </Box>
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row"></Stack>
-              <Box sx={{ height: 50, width: 225 }}>
-                <GenericSelect
-                  type="instituicao"
-                  selectedValue={selectedInstituicao}
+              </div>
+              {confirmPasswordError && (
+                <p className="error-message">Senha Diferente</p>
+              )}
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <Select
+                  options={instituicoesOptionsArr as unknown as string[]}
+                  label="Instituicao"
+                  placeholder="Instituicao"
                   onChange={handleInstituicaoChange}
+                  required
                 />
-              </Box>
-            </Box>
-            <Box sx={{ height: 80, width: 473 }}>
-              <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap>
-                <GenericInput
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <TextField
                   label="CNPJ"
+                  placeholder="Digite CNPJ"
+                  required
                   value={cnpj}
-                  onChange={handleCNPJChange}
-                  placeholder="Digite o CNPJ"
-                  error={cnpjError}
-                  errorMessage="CNPJ inválido"
-                  required
+                  onChange={(value) => handleCNPJChange(value)}
                 />
-                <GenericInput
+                {cnpjError && <p className="error-message">CNPJ Inválido</p>}
+              </div>
+              <div className="boxAlignment">
+                <TextField
                   label="Telefone"
+                  placeholder="Digite seus Telefone"
+                  required
                   value={phone}
-                  onChange={handlePhoneChange}
-                  placeholder="Digite seu Telefone"
-                  error={phoneError}
-                  errorMessage="Telefone inválido"
+                  onChange={(value) => setPhone(value)}
+                />
+                {phoneError && (
+                  <p className="error-message">Telefone Inválido</p>
+                )}
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="boxAlignment">
+                <Select
+                  options={stateOptions}
+                  label="Selecione estado"
+                  placeholder="Estado"
+                  onChange={handleStateChange}
                   required
                 />
-              </Stack>
-            </Box>
+              </div>
+              <div className="boxAlignment">
+                <Select
+                  options={cities}
+                  label="Selecione cidade"
+                  placeholder="Cidade"
+                  onChange={(selectedOption) => {
+                    setSelectedCity(selectedOption);
+                  }}
+                  value={selectedCity}
+                  required
+                />
+              </div>
+            </div>
 
-            <Box sx={{ height: 80 }}>
-              <Stack spacing={{ xs: 8, sm: 2 }} direction={'row'}>
-                <GenericInput
+            <div className="rowAlignmentBox">
+              <div className="addressBoxAlignment">
+                <TextField
                   label="Endereço"
-                  type="address"
-                  value={address}
-                  onChange={handleAddress}
-                  placeholder="Endereço"
+                  placeholder="Digite Endereço"
                   required
+                  value={address}
+                  onChange={(value) => setAddress(value)}
                 />
-                <GenericInput
+              </div>
+              <div className="numberBoxAlignment">
+                <TextField
                   label="Número"
-                  type="number"
-                  value={number}
-                  onChange={handleNumber}
                   placeholder="Número"
                   required
+                  value={number}
+                  onChange={(value) => setNumber(value)}
                 />
-              </Stack>
-            </Box>
-            <Stack
-              spacing={2}
-              direction="row"
-              sx={{ position: 'relative', left: 130 }}
-            >
-              <GenericButton variant="cancelar" onClick={handleCancel}>
-                Cancelar
-              </GenericButton>
-              <GenericButton
-                variant="confirmar"
-                onClick={handleConfirm}
-                disabled={!isFormValid} // Desabilita o botão se o formulário não for válido
-              >
-                Confirmar
-              </GenericButton>
-            </Stack>
+              </div>
+            </div>
+            <div className="rowAlignmentBox">
+              <div className="buttonsAlignment">
+                <ButtonComponent
+                  type="secondary"
+                  onClick={handleCancel}
+                  size={1}
+                >
+                  Cancelar
+                </ButtonComponent>
+              </div>
+              <div className=".buttonsAlignment">
+                <ButtonComponent
+                  type="primary"
+                  onClick={handleConfirm}
+                  size={1}
+                >
+                  Confirmar
+                </ButtonComponent>
+              </div>
+            </div>
           </>
         )}
       </div>
