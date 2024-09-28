@@ -1,10 +1,67 @@
-.content {
+.about-projects {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .back-button {
     display: flex;
-    flex-direction: row;
-    height: 100vh;
+    justify-content: flex-start;
+    padding-left: 0.5px;
+    margin-bottom: 1px;
+  }
+
+  .CoverPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    background-size: cover;
+    background-position: center;
     overflow: hidden;
-  
-    @media (max-width: 768px) {
-      height: auto;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
+
+  .ContentPage {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    padding: 20px;
+    overflow-y: auto;
+
+    @media (max-width: 768px) {
+      flex: unset;
+      padding: 15px;
+    }
+
+    .about-projects-title {
+      margin-bottom: 20px;
+    }
+
+    .about-projects-description {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.cosmos-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .cosmos-logo-image {
+   max-width: 80%; 
+   height: auto;
+  }
+}

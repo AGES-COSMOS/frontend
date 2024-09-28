@@ -9,10 +9,18 @@ import {
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import './projectCard.scss';
+import { useNavigate } from 'react-router-dom';
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
+  id: string;
   title: string;
   status: string;
+  institution: string;
+  professor: string;
+  category: string;
+  startDate: string;
+  endDate: string;
+  history: string;
   location: string;
   keyWords: string[];
   description: string;
@@ -20,13 +28,22 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard = ({
+  id,
   title,
   status,
+  institution,
+  professor,
+  category,
+  startDate,
+  endDate,
+  history,
   location,
   keyWords,
   description,
   image,
 }: ProjectCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <Card className="project-card">
       <Box className="container-box">
@@ -60,7 +77,11 @@ export const ProjectCard = ({
         </Typography>
       </CardContent>
       <CardActions className="card-actions">
-        <Button size="small" className="button">
+        <Button
+          size="small"
+          className="button"
+          onClick={() => navigate(`/projetos/${id}`)}
+        >
           Ver Detalhes
         </Button>
       </CardActions>

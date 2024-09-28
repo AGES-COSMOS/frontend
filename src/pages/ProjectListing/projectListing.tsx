@@ -9,6 +9,71 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
 
+// Mockup de dados dos projetos
+export const projectData = [
+  {
+    id: '1',
+    title: 'Projeto 1',
+    status: 'Em Andamento',
+    institution: 'PUCRS',
+    professor: 'Prof. Dr. João Silva',
+    category: 'Direito',
+    startDate: '2023-01-10',
+    endDate: '2024-06-10',
+    history:
+      'Este projeto visa a análise de direitos humanos em casos de discriminação.',
+    location: 'PUCRS',
+    keyWords: [
+      'Prisão domiciliar',
+      'crimes de ódio',
+      'discriminação por orientação sexual',
+      'progressão de regime',
+    ],
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus.',
+    image:
+      'https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp',
+  },
+  {
+    id: '2',
+    title: 'Projeto 2',
+    status: 'Concluído',
+    institution: 'PUCRS',
+    professor: 'Prof. Dr. Maria Oliveira',
+    category: 'Direito Penal',
+    startDate: '2022-02-15',
+    endDate: '2023-08-30',
+    history: 'Análise de casos de crimes de ódio e suas consequências legais.',
+    location: 'PUCRS',
+    keyWords: [
+      'Habeas corpus',
+      'crimes de ódio',
+      'discriminação por orientação sexual',
+    ],
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus.',
+    image:
+      'https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp',
+  },
+  {
+    id: '3',
+    title: 'Projeto 3',
+    status: 'Em Andamento',
+    institution: 'PUCRS',
+    professor: 'Prof. Dr. Ana Costa',
+    category: 'Direito Civil',
+    startDate: '2023-05-20',
+    endDate: '2024-12-01',
+    history: 'Estudo sobre as implicações legais da prisão domiciliar.',
+    location: 'PUCRS',
+    keyWords: ['Prisão domiciliar', 'direitos humanos', 'reforma penal'],
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus.',
+    image:
+      'https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp',
+  },
+];
+
 const mockFilters = [
   { id: '1', name: 'Prisão domiciliar' },
   { id: '2', name: 'Habeas corpus' },
@@ -74,45 +139,24 @@ export const ProjectListing = () => {
           Resultados:
         </Typography>
         <Box className="project-cards">
-          <ProjectCard
-            title="Projeto 1"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
-          <ProjectCard
-            title="Projeto 2"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
-          <ProjectCard
-            title="Projeto 3"
-            status="Em Andamento"
-            location="PUCRS"
-            keyWords={[
-              'Prisão domiciliar',
-              'crimes de ódio',
-              'discriminação por orientação sexual',
-              'progressão de regime',
-            ]}
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget augue malesuada nisl dapibus condimentum sit amet a mi. Maecenas vel est metus. Donec sagittis convallis dui non rhoncus. Donec non pretium nulla, sit amet convallis justo. Proin varius erat non tellus convallis, nec fermentum tortor facilisis. Nam volutpat in est non interdum. Maecenas malesuada, tellus in feugiat eleifend, lectus ligula auctor."
-            image="https://rockcontent.com/br/wp-content/uploads/sites/2/2020/02/projeto-pessoal.png.webp"
-          />
+          {projectData.map((project) => (
+            <ProjectCard
+              key={project.id} // Adicione a chave única
+              id={project.id}
+              title={project.title}
+              status={project.status}
+              institution={project.institution}
+              professor={project.professor}
+              category={project.category}
+              startDate={project.startDate}
+              endDate={project.endDate}
+              history={project.history}
+              location={project.location}
+              keyWords={project.keyWords}
+              description={project.description}
+              image={project.image}
+            />
+          ))}
         </Box>
       </Box>
       <Box
