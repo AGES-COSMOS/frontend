@@ -180,10 +180,10 @@ const Register: React.FC = () => {
     if (selectedState) {
       const citiesList = handleCityDisplay(selectedState);
       setCities(citiesList);
-      setSelectedCity(''); // Limpa a cidade selecionada
+      setSelectedCity('');
     } else {
       setCities([]);
-      setSelectedCity(''); // Também limpa a cidade se não houver estado selecionado
+      setSelectedCity('');
     }
   }, [selectedState]);
 
@@ -298,7 +298,7 @@ const Register: React.FC = () => {
   return (
     <>
       <div className="title">
-        <h1>Preencha todos os Campos</h1>
+        <h2>Preencha todos os Campos</h2>
       </div>
       <div className="container">
         <div className="selectUserAndProfilePicBox">
@@ -418,7 +418,7 @@ const Register: React.FC = () => {
                   label="Selecione cidade"
                   placeholder="Cidade"
                   onChange={(selectedOption) => {
-                    setSelectedCity(selectedOption); // Atualiza a cidade selecionada
+                    setSelectedCity(selectedOption);
                   }}
                   value={selectedCity}
                   required
