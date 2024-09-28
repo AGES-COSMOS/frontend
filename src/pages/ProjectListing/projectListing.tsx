@@ -40,6 +40,7 @@ export const ProjectListing = () => {
         <SearchField
           onFilterClick={toggleFilters}
           isFilterOpen={isMobileFiltersOpen}
+          placeholder="Procurar projetos..."
         />
         <Typography variant="body1" className="filter-title">
           Filtros ativos

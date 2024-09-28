@@ -56,7 +56,7 @@ const Sidebar = () => {
             />
             Comunidade
           </NavButton>
-          <NavButton>
+          <NavButton href="/eventos">
             <DateRangeOutlinedIcon />
             Eventos
           </NavButton>
