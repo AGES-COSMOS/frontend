@@ -6,13 +6,8 @@ import { getAboutUs } from 'services/aboutUsService';
 import Loading from 'components/Loading/loading';
 
 interface IAboutUsInfo {
-  parameter: IParameterInfo[];
   content: string;
-}
-
-interface IParameterInfo {
-  name: string;
-  value: string;
+  parameter: string;
 }
 
 const socialIcons: { [key: string]: React.ReactNode } = {
@@ -30,37 +25,30 @@ const partnersList = [
 ];
 
 const AboutUs = () => {
-  const [aboutUsInfo, setAboutUsInfo] = useState<IAboutUsInfo | null>(null);
+  const [aboutUsInfo, setAboutUsInfo] = useState<IAboutUsInfo[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
 
   const generateSocialIcons = () => {
-    if (!aboutUsInfo?.parameter || !Array.isArray(aboutUsInfo.parameter)) {
-      return null;
-    }
+    if (!aboutUsInfo) return null;
 
     return (
       <Box className="social-icons">
-        {aboutUsInfo.parameter.map((param) => {
-          if (
-            param.name === 'Instagram' ||
-            param.name === 'YouTube' ||
-            param.name === 'LinkedIn'
-          ) {
-            return (
-              <a
-                key={param.name}
-                href={param.value}
-                className={`social-icon ${param.name}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {socialIcons[param.name.toLowerCase()]}{' '}
-              </a>
-            );
-          }
-          return null;
-        })}
+        {aboutUsInfo
+          .filter((param) =>
+            ['Instagram', 'YouTube', 'LinkedIn'].includes(param.parameter),
+          )
+          .map((param) => (
+            <a
+              key={param.parameter}
+              href={param.content}
+              className={`social-icon ${param.parameter.toLowerCase()}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {socialIcons[param.parameter.toLowerCase()]}{' '}
+            </a>
+          ))}
       </Box>
     );
   };
@@ -79,10 +67,9 @@ const AboutUs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result: any = await getAboutUs();
-        // por que o back esta retornando um array? faz sentido?
+        const result: IAboutUsInfo[] = await getAboutUs();
         if (Array.isArray(result) && result.length > 0) {
-          setAboutUsInfo(result[0]);
+          setAboutUsInfo(result);
         }
       } catch (err) {
         setError(err);
@@ -115,7 +102,10 @@ const AboutUs = () => {
                 Sobre nós
               </Typography>
               <Box className="about-us-content">
-                {formatContent(aboutUsInfo?.content ?? '')}
+                {formatContent(
+                  aboutUsInfo?.find((param) => param.parameter === 'SobreNos')
+                    ?.content ?? '',
+                )}
               </Box>
             </Box>
             <Box id="contacts">
@@ -128,17 +118,15 @@ const AboutUs = () => {
               <Typography variant="body1" className="body-text">
                 Telefone:{' '}
                 {
-                  aboutUsInfo?.parameter?.find(
-                    (param) => param.name === 'Telefone',
-                  )?.value
+                  aboutUsInfo?.find((param) => param.parameter === 'Telefone')
+                    ?.content
                 }
               </Typography>
               <Typography variant="body1" className="body-text">
                 Email:{' '}
                 {
-                  aboutUsInfo?.parameter?.find(
-                    (param) => param.name === 'Email',
-                  )?.value
+                  aboutUsInfo?.find((param) => param.parameter === 'E-mail')
+                    ?.content
                 }
               </Typography>
             </Box>

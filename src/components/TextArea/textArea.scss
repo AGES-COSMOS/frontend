@@ -1,0 +1,35 @@
+.textarea-component {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--coral-red);
+  }
+
+  label {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--dark-gray);
+
+    span {
+      color: var(--coral-red);
+    }
+  }
+
+  textarea {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid var(--black) !important;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--white);
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    min-height: 100px;
+    height: 10rem;
+  }
+}

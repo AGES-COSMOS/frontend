@@ -82,7 +82,7 @@ export const TextField: React.FC<ITextField> = ({
         ></InputMask>
         {hidepassword !== undefined && hidepassword && (
           <img
-            src={isVisible ? '/assets/eye.svg' : '/assets/closedeye.svg'}
+            src={isVisible ? '/assets/Eye.svg' : '/assets/ClosedEye.svg'}
             alt="Eyeicon"
             onClick={() => setIsVisible(!isVisible)}
           />
