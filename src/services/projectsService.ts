@@ -1,9 +1,12 @@
 import { httpService } from './httpService';
-import { Project } from '../pages/CreateProjects/createProjects';
 
-export const createProject = async (projectData: Project): Promise<Project> => {
+export const createProject = async (projectData: FormData): Promise<void> => {
   try {
-    const response = await httpService.post('/projects', projectData);
+    const response = await httpService.post('/project', projectData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error('Erro ao criar projeto.');
