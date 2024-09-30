@@ -81,3 +81,17 @@
 .card__actions-icon:hover {
   color: #8b50ff;
 }
+
+.modal-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-image {
+  flex: 1;
+  margin-right: 2rem;
+}
+
+.modal-comments {
+  flex: 1;
+}
