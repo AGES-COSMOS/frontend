@@ -3,4 +3,5 @@ export const ROUTES = {
   ABOUT_US: () => '/sobre-nos',
   PROJECT_LISTING: () => '/projetos',
   CREATE_PROJECTS: () => '/criar-projeto',
+  EVENT_LISTING: () => '/eventos',
 };

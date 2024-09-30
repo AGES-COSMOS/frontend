@@ -7,11 +7,13 @@ import './searchField.scss';
 interface SearchFieldProps {
   onFilterClick: () => void;
   isFilterOpen: boolean;
+  placeholder: string;
 }
 
 export const SearchField = ({
   onFilterClick,
   isFilterOpen,
+  placeholder,
 }: SearchFieldProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -22,7 +24,7 @@ export const SearchField = ({
   return (
     <TextField
       className="search-field"
-      placeholder="Procurar projetos..."
+      placeholder={placeholder}
       value={searchValue}
       onChange={handleSearchChange}
       variant="outlined"
