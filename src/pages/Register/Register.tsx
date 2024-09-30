@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Cadastro.scss';
+import './Register.scss';
 
 import ProfilePicture from '../../components/profilePicture/ProfilePicture';
 
@@ -330,18 +330,21 @@ const Register: React.FC = () => {
                 />
               </div>
               <div className="boxAlignment">
-                <div className="email-container">
-                  <TextField
-                    label="Digite seu email"
-                    placeholder="Email"
-                    required
-                    value={email}
-                    errormessage="Email Inválido"
-                    onChange={(value) => setEmail(value)}
-                  />
+                <div className="boxAlignment">
+                  <div className="boxAlignment">
+                    <TextField
+                      label="Digite seu email"
+                      placeholder="Email"
+                      required
+                      value={email}
+                      onChange={(email) => handleEmailChange(email)}
+                    />
+                    {emailError && (
+                      <p className="error-message">Email Inválido</p>
+                    )}
+                  </div>
                 </div>
               </div>
-              {emailError && <p className="error-message">Email Inválido</p>}
             </div>
 
             <div className="rowAlignmentBox">
@@ -351,10 +354,12 @@ const Register: React.FC = () => {
                   placeholder="Senha"
                   required
                   value={password}
-                  onChange={(value) => setPassword(value)}
-                  errormessage="Senha Inválida"
+                  onChange={(password) => handlePassword(password)}
                   hidepassword
                 />
+                {passwordError && (
+                  <p className="error-message">Senha Inválida</p>
+                )}
               </div>
               <div className="boxAlignment">
                 <TextField
@@ -362,11 +367,13 @@ const Register: React.FC = () => {
                   placeholder="Senha"
                   required
                   value={confirmPassword}
-                  onChange={(value) => setConfirmPassword(value)}
-                  errormessage="Senha Diferente"
+                  onChange={(value) => handleConfirmPassword(value)}
                   hidepassword
                 />
               </div>
+              {confirmPasswordError && (
+                <p className="error-message">Senha Diferente</p>
+              )}
             </div>
             <div className="rowAlignmentBox">
               <div className="boxAlignment">
@@ -385,10 +392,10 @@ const Register: React.FC = () => {
                   label="CPF"
                   placeholder="Digite seu CPF"
                   required
-                  value={cpf} //ADD cpfError
-                  onChange={(value) => setCPF(formatCPF(value))}
-                  errormessage="CPF Inválido"
+                  value={cpf}
+                  onChange={(cpf) => handleCPFChange(cpf)}
                 />
+                {cpfError && <p className="error-message">CPF Inválido</p>}
               </div>
               <div className="boxAlignment">
                 <TextField
@@ -396,9 +403,11 @@ const Register: React.FC = () => {
                   placeholder="Digite seus Telefone"
                   required
                   value={phone}
-                  onChange={(value) => setPhone(value)}
-                  errormessage="Telefone Inválido"
+                  onChange={(value) => handlePhoneChange(value)}
                 />
+                {phoneError && (
+                  <p className="error-message">Telefone Inválido</p>
+                )}
               </div>
             </div>
             <div className="rowAlignmentBox">
