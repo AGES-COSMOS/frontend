@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Instagram, YouTube, LinkedIn } from '@mui/icons-material';
 import { Box, Grid2, Typography } from '@mui/material';
-import './index.scss';
 import { getAboutUs } from 'services/aboutUsService';
 import Loading from 'components/Loading/loading';
+import './aboutUs.scss';
 
 interface IAboutUsInfo {
   content: string;
@@ -81,12 +81,7 @@ const AboutUs = () => {
     fetchData();
   }, []);
 
-  if (loading)
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+  if (loading) return <Loading />;
 
   if (error) {
     return <div>{error.message}</div>;

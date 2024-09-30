@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Feed } from 'pages/Feed/feed';
-import AboutUs from 'pages/AboutUs/index';
+import AboutUs from 'pages/AboutUs/aboutUs';
 import { ProjectListing } from 'pages/ProjectListing/projectListing';
 import { CreateProjects } from 'pages/CreateProjects/createProjects';
 import { CreateEvents } from 'pages/CreateEvents/createEvents';

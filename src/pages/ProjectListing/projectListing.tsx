@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProjectCard } from 'components/ProjectCard/projectCard';
 import { FilterTag } from 'components/FilterTag/filterTag';
@@ -9,6 +9,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
 import { findProjects, Pagination } from '../../services/projectsService';
+import Loading from 'components/Loading/loading';
 
 export interface IProjectListing {
   id: number;
@@ -43,7 +44,7 @@ export const ProjectListing = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<any>(null);
   const observerTarget = useRef<HTMLDivElement | null>(null);
 
   const loadMoreProjects = useCallback(async () => {
@@ -64,8 +65,8 @@ export const ProjectListing = () => {
       });
       setHasMore(page < newProjects.lastPage);
       setPage((prevPage) => prevPage + 1);
-    } catch {
-      setError('Ocorreu um erro ao carregar os projetos.');
+    } catch (err) {
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -89,9 +90,10 @@ export const ProjectListing = () => {
       }
     };
   }, [observerTarget, loadMoreProjects, hasMore, loading]);
+
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024); // Ajuste para considerar iPads também
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     window.addEventListener('resize', handleResize);
@@ -103,6 +105,12 @@ export const ProjectListing = () => {
       setMobileFiltersOpen(!isMobileFiltersOpen);
     }
   };
+
+  if (loading) return <Loading />;
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <Box className="main-container">
@@ -145,21 +153,26 @@ export const ProjectListing = () => {
           Resultados:
         </Typography>
         <Box className="project-cards">
-          {projects?.data.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.name}
-              status={project.status}
-              location="location"
-              keyWords={project.ProjectKeyword.map((item) => item.keyword.word)}
-              description={project.purpose}
-              image={project.imageURL}
-            />
-          ))}
-          {loading && (
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
-            </div>
+          {Array.isArray(projects) && projects.length > 0 ? (
+            <>
+              {projects?.data.map((project, index) => (
+                <ProjectCard
+                  key={index}
+                  title={project.name}
+                  status={project.status}
+                  location="location"
+                  keyWords={project.ProjectKeyword.map(
+                    (item) => item.keyword.word,
+                  )}
+                  description={project.purpose}
+                  image={project.imageURL}
+                />
+              ))}
+            </>
+          ) : (
+            <Typography variant="body1" className="no-results">
+              Nenhum projeto encontrado.
+            </Typography>
           )}
           <div ref={observerTarget}></div>
         </Box>

@@ -33,7 +33,7 @@ export const ProjectCard = ({
         <CardMedia
           component="img"
           className="card-media"
-          image={/*process.env.REACT_APP_API_URL + '/public/' +*/ image}
+          image={image}
           title={title}
         />
         <Box className="content-box">
