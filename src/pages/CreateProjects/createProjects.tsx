@@ -4,21 +4,9 @@ import { createProject } from 'services/projectsService';
 import { ButtonComponent } from 'components/Button/button';
 import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
-
-export interface Project {
-  id: number;
-  name: string;
-  history: string;
-  purpose: string;
-  contact?: string;
-  start_date: Date;
-  end_date?: Date;
-  status: string;
-  teacher_id: number;
-  institution_id: number;
-  updatedAt: Date;
-  updatedBy: string;
-}
+import { DatePicker } from 'components/DatePicker/datePicker';
+import { TextArea } from 'components/TextArea/textArea';
+import { Project } from 'models/project';
 
 export const CreateProjects = () => {
   const [institutions] = useState([
@@ -44,12 +32,25 @@ export const CreateProjects = () => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const [errorMessages, setErrorMessages] = useState<{ [key: string]: string }>(
+    {
+      name: '',
+      institution_id: '',
+      start_date: '',
+      teacher_id: '',
+      status: '',
+      history: '',
+      purpose: '',
+    },
+  );
 
   const [projectData, setProjectData] = useState<Project>({
-    id: 0,
     name: '',
     history: '',
     purpose: '',
+    // O que mandar nesse campo? É necessário?
     contact: '',
     start_date: new Date(),
     end_date: undefined,
@@ -57,7 +58,8 @@ export const CreateProjects = () => {
     teacher_id: 0,
     institution_id: 0,
     updatedAt: new Date(),
-    updatedBy: '',
+    // Alterar esse campo quando tiver login e usuários
+    updatedBy: 'Admin',
   });
 
   const handleInputChange = (
@@ -67,6 +69,11 @@ export const CreateProjects = () => {
   ) => {
     const { name, value } = e.target;
     setProjectData({ ...projectData, [name]: value });
+
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      [name]: value ? '' : prevErrors[name],
+    }));
 
     if (name === 'start_date' || name === 'end_date') {
       setProjectData({ ...projectData, [name]: new Date(value) });
@@ -78,6 +85,7 @@ export const CreateProjects = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
@@ -89,15 +97,30 @@ export const CreateProjects = () => {
   const handleInstitutionChange = (value: string) => {
     const institution = institutions.find((inst) => inst.name === value);
     setProjectData({ ...projectData, institution_id: institution?.id || 0 });
+
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      institution_id: institution ? '' : prevErrors.institution_id,
+    }));
   };
 
   const handleTeacherChange = (value: string) => {
     const teacher = teachers.find((teacher) => teacher.name === value);
     setProjectData({ ...projectData, teacher_id: teacher?.id || 0 });
+
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      teacher_id: teacher ? '' : prevErrors.teacher_id,
+    }));
   };
 
   const handleStatusChange = (value: string) => {
     setProjectData({ ...projectData, status: value });
+
+    setErrorMessages((prevErrors) => ({
+      ...prevErrors,
+      status: value ? '' : prevErrors.status,
+    }));
   };
 
   const categoryOptions = categories.map((category) => category.name);
@@ -122,18 +145,71 @@ export const CreateProjects = () => {
     setSelectedKeywords(selected);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const projectPayload = {
-        ...projectData,
-        categories: selectedCategories,
-        keywords: selectedKeywords,
-      };
-      await createProject(projectPayload);
-      alert('Projeto criado com sucesso!');
-    } catch (error) {
-      alert('Erro ao criar projeto');
+  const validateForm = () => {
+    const errors = {
+      name: '',
+      institution_id: '',
+      start_date: '',
+      teacher_id: '',
+      status: '',
+      history: '',
+      purpose: '',
+    };
+
+    if (!projectData.name) errors.name = 'O nome do projeto é obrigatório';
+    if (!projectData.institution_id)
+      errors.institution_id = 'A instituição é obrigatória';
+    if (!projectData.start_date)
+      errors.start_date = 'A data de início do projeto é obrigatória';
+    if (!projectData.teacher_id)
+      errors.teacher_id = 'O professor é obrigatório';
+    if (!projectData.status)
+      errors.status = 'O status do projeto é obrigatório';
+    if (!projectData.history)
+      errors.history = 'A história do projeto é obrigatória';
+    if (!projectData.purpose)
+      errors.purpose = 'O propósito do projeto é obrigatório';
+
+    setErrorMessages(errors);
+
+    return !Object.values(errors).some((error) => error !== '');
+  };
+
+  const handleSubmit = async () => {
+    if (validateForm()) {
+      try {
+        const formData = new FormData();
+
+        formData.append('name', projectData.name);
+        formData.append('history', projectData.history);
+        formData.append('purpose', projectData.purpose);
+        formData.append('contact', projectData.contact || '');
+        formData.append('start_date', projectData.start_date.toISOString());
+        if (projectData.end_date) {
+          formData.append('end_date', projectData.end_date.toISOString());
+        }
+        formData.append('status', projectData.status);
+        formData.append('teacher_id', projectData.teacher_id.toString());
+        formData.append(
+          'institution_id',
+          projectData.institution_id.toString(),
+        );
+        formData.append('updatedAt', projectData.updatedAt.toISOString());
+        formData.append('updatedBy', projectData.updatedBy);
+
+        // Aguardar fix do backend adicionando campos categories e keywords
+        // formData.append('categories', JSON.stringify(selectedCategories));
+        // formData.append('keywords', JSON.stringify(selectedKeywords));
+
+        if (imageFile) {
+          formData.append('image', imageFile);
+        }
+
+        await createProject(formData);
+        alert('Projeto criado com sucesso!');
+      } catch (error) {
+        alert('Erro ao criar projeto');
+      }
     }
   };
 
@@ -163,13 +239,14 @@ export const CreateProjects = () => {
         onChange={handleImageChange}
         style={{ display: 'none' }}
       />
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form">
         <TextField
           label="Nome do Projeto"
           placeholder="Digite o nome do projeto"
           required
           value={projectData.name}
           onChange={(value) => setProjectData({ ...projectData, name: value })}
+          errormessage={errorMessages.name}
         />
 
         <Select
@@ -182,29 +259,24 @@ export const CreateProjects = () => {
           }
           onChange={handleInstitutionChange}
           required
+          errorMessage={errorMessages.institution_id}
         />
 
-        <div>
-          <h4>Data de Início</h4>
-          <input
-            type="date"
-            className="item"
-            name="start_date"
-            value={projectData.start_date.toISOString().split('T')[0]}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <h4>Data de Fim</h4>
-          <input
-            type="date"
-            className="item"
-            name="end_date"
-            value={projectData.end_date?.toISOString().split('T')[0] || ''}
-            onChange={handleInputChange}
-          />
-        </div>
+        <DatePicker
+          label="Data de Início"
+          name="start_date"
+          value={projectData.start_date.toISOString().split('T')[0]}
+          onChange={handleInputChange}
+          required
+          errormessage={errorMessages.start_date}
+        />
+
+        <DatePicker
+          label="Data de Fim"
+          name="end_date"
+          value={projectData.end_date?.toISOString().split('T')[0] || ''}
+          onChange={handleInputChange}
+        />
 
         <Select
           options={teacherOptions}
@@ -216,6 +288,7 @@ export const CreateProjects = () => {
           }
           onChange={handleTeacherChange}
           required
+          errorMessage={errorMessages.teacher_id}
         />
 
         <Select
@@ -225,6 +298,7 @@ export const CreateProjects = () => {
           value={projectData.status}
           onChange={handleStatusChange}
           required
+          errorMessage={errorMessages.status}
         />
 
         <Select
@@ -252,31 +326,39 @@ export const CreateProjects = () => {
           onChange={handleKeywordChange}
         />
 
-        <textarea
-          name="history"
-          className="large-textarea"
-          value={projectData.history}
-          onChange={handleInputChange}
-          placeholder="História"
-          required
-        />
-        <textarea
-          name="purpose"
-          className="large-textarea"
-          value={projectData.purpose}
-          onChange={handleInputChange}
-          placeholder="Propósito"
-          required
-        />
-        <ButtonComponent
-          type="primary"
-          onClick={() => {
-            console.log('');
-          }}
-          size={2}
-        >
-          Cadastrar Projeto
-        </ButtonComponent>
+        <div className="textAreas">
+          <TextArea
+            label="História"
+            name="history"
+            value={projectData.history}
+            placeholder="História"
+            required
+            onChange={handleInputChange}
+            errormessage={errorMessages.history}
+          />
+
+          <TextArea
+            label="Propósito"
+            name="purpose"
+            value={projectData.purpose}
+            placeholder="Propósito"
+            required
+            onChange={handleInputChange}
+            errormessage={errorMessages.purpose}
+          />
+        </div>
+
+        <div className="button-container">
+          <ButtonComponent
+            type="primary"
+            onClick={() => {
+              handleSubmit();
+            }}
+            size={2}
+          >
+            Cadastrar Projeto
+          </ButtonComponent>
+        </div>
       </form>
     </div>
   );
