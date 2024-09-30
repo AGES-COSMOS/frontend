@@ -33,7 +33,9 @@ const Sidebar = () => {
     <SidebarContainer>
       <Box>
         <Logo />
-        <StyledTitle>Rede de Acesso à Justiça</StyledTitle>
+        <StyledTitle>
+          Rede de Acesso à Justiça e extensão universitária
+        </StyledTitle>
         <UserSection>
           <StyledPersonOutlineIcon />
         </UserSection>
