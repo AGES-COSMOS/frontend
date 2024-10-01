@@ -13,7 +13,7 @@
 }
 
 .filter-list-container {
-  border: 2px solid #6b7a99;
+  border: 2px solid var(--cloudy-blue);
   border-radius: 8px;
   padding: 8px;
   max-height: 140px;
@@ -32,7 +32,7 @@
 .filter-placeholder {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
-  color: #6b7a99;
+  color: var(--cloudy-blue);
   margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,7 @@
 }
 
 .filter-checkbox .MuiCheckbox-root {
-  color: #6b7a99;
+  color: var(--cloudy-blue);
 }
 
 .filter-checkbox.Mui-checked.filter-checkbox.Mui-checked {

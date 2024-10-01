@@ -22,6 +22,7 @@ export const Event = ({
         <span className="start-time">{startTime}</span>
         <span className="end-time">{endTime}</span>
       </Box>
+      <Box className="separator" />
       <Box className="event-details">
         <Box className="event-header">
           <span className="event-label">Evento</span>

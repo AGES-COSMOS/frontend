@@ -5,16 +5,12 @@
 .event {
   display: flex;
   align-items: center;
-  padding: 10px;
 
   .event-time {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    padding-right: 32px;
-    padding-left: 52px;
-    width: 50px;
-    border-right: 1px solid #6b7a99;
+    align-items: center;
+    min-width: 5rem;
 
     .start-time,
     .end-time {
@@ -29,20 +25,22 @@
     }
 
     .end-time {
-      color: #6b7a99;
+      color: var(--cloudy-blue);
     }
   }
 
   .separator {
-    margin: 0 10px;
-    color: #e0e0e0;
+    width: 1px;
+    height: 70px;
+    background-color: var(--cloudy-blue);
+    margin-left: 2rem;
+    margin-right: 2.5rem;
   }
 
   .event-details {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 32px;
 
     .event-header {
       display: flex;
@@ -51,8 +49,8 @@
       .event-label {
         font-size: 24px;
         font-family: 'Poppins', sans-serif;
-        font-weight: 300; // Poppins Light
-        color: #6b7a99;
+        font-weight: 300;
+        color: var(--cloudy-blue);
         padding-right: 32px;
       }
 
