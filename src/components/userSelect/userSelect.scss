@@ -1,0 +1,10 @@
+// Adiciona o contorno roxo ao Select
+.user-select-type {
+  .MuiOutlinedInput-root { {
+      width: 30px;
+    }
+    fieldset {
+      border-color: purple; // Define a cor do contorno normal
+    }
+  }
+}
