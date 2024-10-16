@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProjectCard } from 'components/ProjectCard/projectCard';
 import { FilterTag } from 'components/FilterTag/filterTag';
@@ -41,55 +41,24 @@ export const ProjectListing = () => {
   const [projects, setProjects] = useState<Pagination<IProjectListing> | null>(
     null,
   );
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<any>(null);
-  const observerTarget = useRef<HTMLDivElement | null>(null);
-
-  const loadMoreProjects = useCallback(async () => {
-    if (loading || !hasMore) return;
-
-    setLoading(true);
-    try {
-      const newProjects = await findProjects(page, 10);
-      setProjects((prevProjects) => {
-        if (!prevProjects) return newProjects;
-        return {
-          ...prevProjects,
-          data: [...prevProjects.data, ...newProjects.data],
-          page: newProjects.page,
-          lastPage: newProjects.lastPage,
-          total: newProjects.total,
-        };
-      });
-      setHasMore(page < newProjects.lastPage);
-      setPage((prevPage) => prevPage + 1);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, hasMore, loading]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loading && hasMore) {
-          loadMoreProjects();
-        }
-      },
-      { threshold: 1 },
-    );
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+    const loadProjects = async () => {
+      setLoading(true);
+      try {
+        const newProjects = await findProjects(1, 10);
+        setProjects(newProjects);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
       }
     };
-  }, [observerTarget, loadMoreProjects, hasMore, loading]);
+
+    loadProjects();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -153,11 +122,13 @@ export const ProjectListing = () => {
           Resultados:
         </Typography>
         <Box className="project-cards">
-          {Array.isArray(projects) && projects.length > 0 ? (
+          {projects?.data &&
+          Array.isArray(projects.data) &&
+          projects.data.length > 0 ? (
             <>
-              {projects?.data.map((project, index) => (
+              {projects.data.map((project) => (
                 <ProjectCard
-                  key={index}
+                  key={project.id}
                   title={project.name}
                   status={project.status}
                   location="location"
@@ -174,7 +145,6 @@ export const ProjectListing = () => {
               Nenhum projeto encontrado.
             </Typography>
           )}
-          <div ref={observerTarget}></div>
         </Box>
       </Box>
       <Box
