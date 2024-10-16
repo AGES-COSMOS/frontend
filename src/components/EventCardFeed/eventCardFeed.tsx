@@ -6,18 +6,28 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './eventCardFeed.scss';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from 'routes/constants';
 
 interface EventCardProps {
   photo: string;
   title: string;
   description: string;
+  eventId: string;
 }
 
 export const EventCardFeed = ({
   photo,
   title,
   description,
+  eventId,
 }: EventCardProps) => {
+  const navigate = useNavigate();
+
+  const handleMoreClick = () => {
+    navigate(ROUTES.ABOUT_EVENT(eventId));
+  };
+
   return (
     <Card className="card-event">
       <CardMedia className="card-media" image={photo} />
@@ -33,7 +43,7 @@ export const EventCardFeed = ({
         <Button className="button" size="small">
           Compartilhar
         </Button>
-        <Button className="button" size="small">
+        <Button className="button" size="small" onClick={handleMoreClick}>
           Detalhes
         </Button>
       </CardActions>

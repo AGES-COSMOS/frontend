@@ -8,7 +8,7 @@ interface EventDateProps {
     startTime: string;
     endTime: string;
     name: string;
-    onMoreClick: () => void;
+    eventId: string;
   }[];
 }
 
@@ -24,7 +24,7 @@ export const EventDate = ({ date, events }: EventDateProps) => {
           startTime={event.startTime}
           endTime={event.endTime}
           name={event.name}
-          onMoreClick={event.onMoreClick}
+          eventId={event.eventId}
         />
       ))}
     </Box>

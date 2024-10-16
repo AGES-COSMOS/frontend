@@ -9,10 +9,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import './eventListing.scss';
 import { FilterSelector } from 'components/FilterSelector/filterSelector';
 import { FilterCheck } from 'components/FilterCheck/filterCheck';
+import { events } from '../../api/events';
 
 export const EventListing = () => {
   const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [eventsByDate, setEventsByDate] = useState<{ [key: string]: any[] }>(
+    {},
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,42 +33,24 @@ export const EventListing = () => {
     }
   };
 
-  const handleMoreClick = (eventName: string) => {
-    alert(`Mais detalhes sobre o evento: ${eventName}`);
-  };
+  useEffect(() => {
+    const formattedEvents = formatEventsByDate(events);
+    setEventsByDate(formattedEvents);
+  }, []);
 
-  const eventsByDate: {
-    [key: string]: {
-      startTime: string;
-      endTime: string;
-      name: string;
-      onMoreClick: () => void;
-    }[];
-  } = {
-    '2024-09-28': [
-      {
-        startTime: '08:30',
-        endTime: '09:30',
-        name: 'A Prática Jurídica na Comunidade',
-        onMoreClick: () => handleMoreClick('A Prática Jurídica na Comunidade'),
+  const formatEventsByDate = (events: any[]) => {
+    return events.reduce(
+      (acc, event) => {
+        const date = event.date;
+        if (!acc[date]) acc[date] = [];
+        acc[date].push({
+          name: event.title,
+          eventId: event.eventId,
+        });
+        return acc;
       },
-      {
-        startTime: '10:00',
-        endTime: '11:00',
-        name: 'Construindo Pontes com a Sociedade',
-        onMoreClick: () =>
-          handleMoreClick('Construindo Pontes com a Sociedade'),
-      },
-    ],
-    '2024-09-29': [
-      {
-        startTime: '13:30',
-        endTime: '15:00',
-        name: 'Projetos de Extensão e Impacto Social',
-        onMoreClick: () =>
-          handleMoreClick('Projetos de Extensão e Impacto Social'),
-      },
-    ],
+      {} as { [key: string]: any[] },
+    );
   };
 
   return (
@@ -127,7 +113,7 @@ export const EventListing = () => {
             title="Modalidades"
             options={['Presencial', 'Online']}
             onSelectionChange={(selected) =>
-              console.log(`Categorias selecionadas: ${selected}`)
+              console.log(`Modalidades selecionadas: ${selected}`)
             }
           />
         </Box>
