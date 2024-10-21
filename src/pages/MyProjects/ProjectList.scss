@@ -1,0 +1,39 @@
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.project-page {
+  padding: 20px;
+
+  .filter-section {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+
+    button {
+      padding: 12px 20px;
+      border: 2px solid var(--purple);
+      background-color: var(--white);
+      color: var(--black);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: normal;
+      font-size: 1rem;
+      text-transform: uppercase;
+      width: 250px;
+
+      &.active {
+        background-color: var(--purple);
+        color: var(--white);
+      }
+
+      &:hover {
+        background-color: var(--white);
+        color: var(--purple);
+      }
+    }
+  }
+}
