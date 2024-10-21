@@ -7,5 +7,5 @@ export const ROUTES = {
   EVENT_LISTING: () => '/eventos',
   MY_PROJECTS: () => '/meus-projetos',
   ADMIN_PANEL: () => '/painel-administrador',
-  ABOUT_EVENT: (id: number | string) => `/about-event/${id}`,
+  ABOUT_EVENT: (id: number | string) => `/evento/${id}`,
 };
