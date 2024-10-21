@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import './button.scss';
 
 interface ButtonProps {
@@ -9,7 +9,10 @@ interface ButtonProps {
   icon?: React.ReactNode;
   borderRadius?: number;
   fullWidth?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
 }
+
 export const ButtonComponent: React.FC<ButtonProps> = ({
   type,
   onClick,
@@ -18,6 +21,8 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
   icon,
   borderRadius = 5,
   fullWidth,
+  loading = false,
+  disabled = false,
 }) => {
   return (
     <Button
@@ -27,10 +32,17 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
       variant="contained"
       onClick={onClick}
       fullWidth={fullWidth}
+      disabled={loading || disabled}
     >
-      <div>
-        {icon !== undefined && icon}
-        {children}
+      <div className="button-content">
+        {loading ? (
+          <CircularProgress size={24} color="inherit" />
+        ) : (
+          <>
+            {icon && <span className="button-icon">{icon}</span>}
+            {children}
+          </>
+        )}
       </div>
     </Button>
   );
