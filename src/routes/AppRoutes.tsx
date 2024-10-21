@@ -7,6 +7,7 @@ import { CreateEvents } from 'pages/CreateEvents/createEvents';
 import { ROUTES } from './constants';
 import MainLayout from 'layouts/mainLayout';
 import { EventListing } from 'pages/EventListing/eventListing';
+import AdminPanel from 'pages/AdminPanel/adminPanel';
 import AboutEvent from 'pages/AboutEvent/aboutEvent';
 
 const AppRoutes = () => {
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.CREATE_PROJECTS()} element={<CreateProjects />} />
         <Route path={ROUTES.CREATE_EVENTS()} element={<CreateEvents />} />
         <Route path={ROUTES.EVENT_LISTING()} element={<EventListing />} />
+        <Route path={ROUTES.ADMIN_PANEL()} element={<AdminPanel />} />
         <Route path={ROUTES.ABOUT_EVENT(':id')} element={<AboutEvent />} />
       </Routes>
     </MainLayout>

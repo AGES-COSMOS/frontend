@@ -5,8 +5,7 @@
   border: 1px solid transparent;
   padding: 15px;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  transition: all 0.3s ease;
   box-shadow: none !important;
   cursor: pointer;
 
@@ -33,12 +32,26 @@
   &:hover {
     opacity: 0.9;
   }
+
+  &:disabled {
+    background-color: #e0e0e0 !important;
+    color: #a0a0a0 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+  }
 }
 
 .button-container-secondary {
   background-color: var(--cloud1) !important;
   border: 2px solid var(--purple) !important;
   color: var(--purple) !important;
+
+  &:disabled {
+    background-color: #f5f5f5 !important;
+    color: #c0c0c0 !important;
+    cursor: not-allowed !important;
+    border-color: #dcdcdc !important;
+  }
 }
 
 .button-container-size-3 {
