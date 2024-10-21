@@ -53,7 +53,7 @@ const Sidebar = () => {
           </NavButton>
           <NavButton>
             <ReactSVG
-              src="assets/IconeDiscord.svg"
+              src="/assets/IconeDiscord.svg"
               className="iconeDiscordSideBar"
             />
             Comunidade
