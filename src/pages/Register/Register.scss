@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+// Colors
+:root {
+  --black: #000000;
+  --purple: #7734e7;
+  --cloud1: #fafcfe;
+  --cloud2: #f7f8fa;
+  --slate: #6d7378;
+  --light-slate: #bdc0c3;
+  --dark-gray: #222b32;
+}
+
+* {
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1150px;
+  padding-right: 100px;
+  align-items: center;
+}
+
+.title {
+  position: relative;
+  left: 0px;
+  color: #7734e7;
+  font-family: 'Poppins', sans-serif;
+  padding-bottom: 40px;
+  padding-left: 30px;
+}
+
+.rowAlignmentBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 30px;
+  height: 88px;
+  gap: 2rem;
+}
+
+.addressBoxAlignment {
+  width: 480px;
+  margin-right: 16px;
+}
+
+.boxAlignment {
+  width: 480px;
+  margin-right: 16px;
+}
+
+.numberBoxAlignment {
+  width: 100px;
+  margin-right: 16px;
+}
+
+.buttonsAlignment {
+  display: flex;
+  flex-direction: row;
+  padding-left: 330px;
+  margin-right: 20px;
+}
+
+.selectUserAndProfilePicBox {
+  position: relative;
+  right: 2%;
+}
+
+.selectUserAlignment {
+  padding-top: 15px;
+  text-align: center;
+  width: 224px;
+  margin: 0 auto;
+}
+.error-message {
+  color: red;
+}
