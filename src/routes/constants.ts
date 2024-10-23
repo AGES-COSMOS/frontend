@@ -5,6 +5,7 @@ export const ROUTES = {
   CREATE_PROJECTS: () => '/criar-projeto',
   CREATE_EVENTS: () => '/criar-evento',
   EVENT_LISTING: () => '/eventos',
+  EDIT_PROFILE: () => '/editar-perfil',
   REGISTER: () => '/cadastro',
   MY_PROJECTS: () => '/meus-projetos',
   ADMIN_PANEL: () => '/painel-administrador',

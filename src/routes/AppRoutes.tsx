@@ -8,6 +8,7 @@ import { CreateProjects } from 'pages/CreateProjects/createProjects';
 import { CreateEvents } from 'pages/CreateEvents/createEvents';
 import Register from 'pages/Register/Register';
 import { EventListing } from 'pages/EventListing/eventListing';
+import { EditProfile } from 'pages/EditProfile/editProfile';
 import MyProjectsPage from 'pages/MyProjects/MyProjectsPage';
 import AdminPanel from 'pages/AdminPanel/adminPanel';
 import AboutEvent from 'pages/AboutEvent/aboutEvent';
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.CREATE_PROJECTS()} element={<CreateProjects />} />
         <Route path={ROUTES.CREATE_EVENTS()} element={<CreateEvents />} />
         <Route path={ROUTES.EVENT_LISTING()} element={<EventListing />} />
+        <Route path={ROUTES.EDIT_PROFILE()} element={<EditProfile />} />
         <Route path={ROUTES.MY_PROJECTS()} element={<MyProjectsPage />} />
         <Route path={ROUTES.ADMIN_PANEL()} element={<AdminPanel />} />
         <Route path={ROUTES.ABOUT_EVENT(':id')} element={<AboutEvent />} />
