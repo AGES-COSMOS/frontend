@@ -26,6 +26,7 @@ export interface IProjectListing {
   updatedBy: string;
   imageURL: string;
   ProjectKeyword: { keyword: { id: number; word: string } }[];
+  institution: { name: string };
 }
 
 const mockFilters = [
@@ -73,6 +74,14 @@ export const ProjectListing = () => {
     if (isMobile) {
       setMobileFiltersOpen(!isMobileFiltersOpen);
     }
+  };
+
+  const adjustDateForTimezone = (date: Date) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setMinutes(
+      adjustedDate.getMinutes() + adjustedDate.getTimezoneOffset(),
+    );
+    return adjustedDate;
   };
 
   if (loading) return <Loading />;
@@ -129,13 +138,28 @@ export const ProjectListing = () => {
               {projects.data.map((project) => (
                 <ProjectCard
                   key={project.id}
+                  id={project.id}
                   title={project.name}
+                  institution={project.institution.name}
                   status={project.status}
                   location="location"
                   keyWords={project.ProjectKeyword.map(
                     (item) => item.keyword.word,
                   )}
                   description={project.purpose}
+                  professor={'Roberto Carlos'} // Mockado enquanto o backend não retorna o nome do professor
+                  category={'Direito Criminal'} // Mockado enquanto o backend não retorna o nome da categoria
+                  startDate={adjustDateForTimezone(
+                    project.start_date,
+                  ).toLocaleDateString()}
+                  endDate={
+                    project.end_date
+                      ? adjustDateForTimezone(
+                          project.end_date,
+                        ).toLocaleDateString()
+                      : 'N/A'
+                  }
+                  history={project.history}
                   image={project.imageURL}
                 />
               ))}
