@@ -63,6 +63,9 @@ export const EditProfile = () => {
     const fetchUser = async () => {
       try {
         const userData = await getUser(mockedUserId);
+        if (!userData) {
+          throw new Error('Usuário não encontrado');
+        }
         setUpdatedUser(userData);
         setProfileImage(userData.photoURL);
       } catch (error) {

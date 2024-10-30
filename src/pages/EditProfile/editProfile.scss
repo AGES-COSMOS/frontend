@@ -51,6 +51,18 @@
     gap: 1.5rem;
     width: 100%;
 
+    .institution-display {
+      label {
+        font-weight: bold;
+        font-size: 14px;
+        color: var(--dark-gray);
+      }
+
+      p {
+        margin-top: 0.7rem;
+      }
+    }
+
     .textfield,
     .selectfield {
       width: 100%;
