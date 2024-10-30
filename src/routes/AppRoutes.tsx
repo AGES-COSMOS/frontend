@@ -12,6 +12,7 @@ import { EditProfile } from 'pages/EditProfile/editProfile';
 import MyProjectsPage from 'pages/MyProjects/MyProjectsPage';
 import AdminPanel from 'pages/AdminPanel/adminPanel';
 import AboutEvent from 'pages/AboutEvent/aboutEvent';
+import AboutProject from 'pages/AboutProject/aboutProject';
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.MY_PROJECTS()} element={<MyProjectsPage />} />
         <Route path={ROUTES.ADMIN_PANEL()} element={<AdminPanel />} />
         <Route path={ROUTES.ABOUT_EVENT(':id')} element={<AboutEvent />} />
+        <Route path={ROUTES.ABOUT_PROJECTS(':id')} element={<AboutProject />} />
       </Routes>
     </MainLayout>
   );
