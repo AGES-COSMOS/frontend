@@ -1,0 +1,88 @@
+.user-profile-modalPP {
+  position: relative;
+  width: 500px;
+  height: 650px;
+  margin: auto;
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 10px 20px 10px 20px;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  margin: 8% 35% 8% 35%;
+  @media (max-width: 700px) {
+    width: 90%;
+  }
+}
+
+.container-topPP {
+  display: flex;
+  position: relative;
+  padding-bottom: 10px;
+  justify-content: space-around;
+  width: 110%;
+}
+
+.close-buttonPP {
+  display: flex;
+}
+
+.user-namePP {
+  display: flex;
+  font-weight: bold;
+  color: var(--purple);
+  font-size: 2rem !important;
+}
+
+.line {
+  border-bottom: 2px solid var(--purple);
+  width: 109%;
+  margin: 0 0 15px -20px !important;
+}
+
+.profile-imagePP {
+  width: 200px !important;
+  height: 200px !important;
+  border: 4px solid var(--purple);
+  margin-left: 130px !important;
+}
+
+.user-institutionPP {
+  font-size: 1.3rem !important;
+  color: var(--black);
+}
+
+.institution-titlePP,
+.projects-titlePP,
+.social-titlePP {
+  margin-top: 15px !important;
+  font-weight: bold;
+  color: var(--purple);
+  font-size: 1.8rem !important;
+}
+
+.user-projectsPP {
+  list-style-type: none;
+  padding: 0;
+  li {
+    margin-bottom: 4px;
+    color: var(--black);
+    font-size: 1.3rem !important;
+  }
+}
+
+.social-iconsPP {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  margin-left: -10px;
+
+  .iconPP {
+    color: var(--purple);
+    height: 50px;
+    width: 50px;
+    &:hover {
+      color: var(--cloudy-blue);
+    }
+  }
+}
