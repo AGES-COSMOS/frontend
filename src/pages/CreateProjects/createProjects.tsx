@@ -32,7 +32,7 @@ export const CreateProjects = () => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<string>('');
 
   const [errorMessages, setErrorMessages] = useState<{ [key: string]: string }>(
     {
@@ -85,7 +85,7 @@ export const CreateProjects = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImageFile(file);
+      setImageFile(file?.name);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
@@ -196,10 +196,6 @@ export const CreateProjects = () => {
         );
         formData.append('updatedAt', projectData.updatedAt.toISOString());
         formData.append('updatedBy', projectData.updatedBy);
-
-        // Aguardar fix do backend adicionando campos categories e keywords
-        // formData.append('categories', JSON.stringify(selectedCategories));
-        // formData.append('keywords', JSON.stringify(selectedKeywords));
 
         if (imageFile) {
           formData.append('image', imageFile);
