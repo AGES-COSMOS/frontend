@@ -78,10 +78,10 @@ export const ProjectCard = ({
             {status}
           </Typography>
           <Box className="location-container">
+            <LocationOnIcon className="location-icon" />
             <Typography variant="body2" className="location">
               {location}
             </Typography>
-            <LocationOnIcon className="location-icon" />
           </Box>
           <Typography variant="body2" className="keywords">
             <b>Palavras-Chave:</b> {keyWords.join(', ')}

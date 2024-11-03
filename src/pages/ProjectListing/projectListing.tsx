@@ -105,25 +105,25 @@ export const ProjectListing = () => {
           <FilterTag
             name="Prisão domiciliar"
             onClick={() => {
-              alert('Teste');
+              console.log('Teste');
             }}
           />
           <FilterTag
             name="Crimes de ódio"
             onClick={() => {
-              alert('Teste');
+              console.log('Teste');
             }}
           />
           <FilterTag
             name="Discriminação por orientação sexual"
             onClick={() => {
-              alert('Teste');
+              console.log('Teste');
             }}
           />
           <FilterTag
             name="Progressão de regime"
             onClick={() => {
-              alert('Teste');
+              console.log('Teste');
             }}
           />
         </Box>
@@ -142,7 +142,7 @@ export const ProjectListing = () => {
                   title={project.name}
                   institution={project.institution.name}
                   status={project.status}
-                  location="location"
+                  location="PUCRS"
                   keyWords={project.ProjectKeyword.map(
                     (item) => item.keyword.word,
                   )}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import './adminPanel.scss';
 import { ButtonComponent } from 'components/Button/button';
 import GeneralInfos from './generalInfos';

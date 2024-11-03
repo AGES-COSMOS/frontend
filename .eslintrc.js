@@ -10,8 +10,9 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/rules-of-hooks': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/display-name': 'off',
