@@ -6,12 +6,13 @@ import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
 
 export interface Event {
-  id: number;
   title: string;
   description: string;
   date: Date;
   hour: Date;
   IsOnline: boolean;
+  latitude: number; // Como pegar o número real?
+  longitude: number; // Como pegar o número real?
   address: string;
   institution_id: number;
   project_id: number;
@@ -57,19 +58,21 @@ export const CreateEvents = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
+  const [imageFile, setImageFile] = useState<string>('');
 
   const [eventData, setEventData] = useState<Event>({
-    id: 0,
     title: '',
     description: '',
     address: '',
     IsOnline: false,
+    latitude: 0,
+    longitude: 0,
     date: new Date(),
     hour: new Date(),
     project_id: 0,
     institution_id: 0,
     updatedAt: new Date(),
-    updatedBy: '',
+    updatedBy: 'Admin',
   });
 
   const timeSlots = generateTimeSlots();
@@ -100,6 +103,7 @@ export const CreateEvents = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setImageFile(file?.name);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
@@ -120,12 +124,12 @@ export const CreateEvents = () => {
     setSelectedCategories(selected);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const eventPayload = {
         ...eventData,
         categories: selectedCategories,
+        image: imageFile,
       };
       await createEvent(eventPayload);
       alert('Evento criado com sucesso!');
@@ -160,7 +164,7 @@ export const CreateEvents = () => {
         onChange={handleImageChange}
         style={{ display: 'none' }}
       />
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form">
         <TextField
           label="Nome do Evento"
           placeholder="Digite o título do evento"
@@ -261,10 +265,10 @@ export const CreateEvents = () => {
         />
         <ButtonComponent
           type="primary"
-          onClick={() => {
-            console.log('');
-          }}
           size={2}
+          onClick={() => {
+            handleSubmit();
+          }}
         >
           Cadastrar Evento
         </ButtonComponent>
