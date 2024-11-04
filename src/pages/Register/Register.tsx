@@ -17,27 +17,35 @@ import {
 } from '@brazilian-utils/brazilian-utils';
 import { isValidCPF } from '@brazilian-utils/brazilian-utils';
 import { isValidCNPJ } from '@brazilian-utils/brazilian-utils';
+import { CreateUser } from 'services/types';
+import { createUser } from 'services/userService';
+import ToastNotification from 'components/ToastNotification/ToastNotification';
 
 interface Option {
   value: string;
   label: string;
+  id: number;
 }
 
 const selectOptions1: Option[] = [
-  { value: 'professor', label: 'Professor' },
-  { value: 'aluno', label: 'Aluno' },
-  { value: 'instituicao', label: 'Instituição' },
+  { value: 'professor', label: 'Professor', id: 0 },
+  { value: 'aluno', label: 'Aluno', id: 1 },
+  { value: 'instituicao', label: 'Instituição', id: 2 },
 ];
 
-const instituicoesOptionsArr: Option[] = [
-  { value: 'ufrgs', label: 'UFRGS' },
-  { value: 'pucrs', label: 'PUCRS' },
-  { value: 'uniritter', label: 'UNIRITTER' },
+const instituicoesOptionsArr = [
+  { value: 'ufrgs', label: 'UFRGS', id: 1 },
+  { value: 'pucrs', label: 'PUCRS', id: 2 },
+  { value: 'uniritter', label: 'UNIRITTER', id: 3 },
 ];
 
 const Register: React.FC = () => {
+  const [stateOptions, setStateOptions] = useState<string[]>([]);
+
   const [selectedOption1, setSelectedOption1] = useState<string>('');
-  const [selectedInstituicao, setSelectedInstituicao] = useState<string>('');
+  const [selectedInstituicao, setSelectedInstituicao] = useState<
+    string | number
+  >('');
   const [isFormValid, setIsFormValid] = useState<boolean | any>(false);
 
   const [selectedState, setSelectedState] = useState<string | undefined>(
@@ -48,8 +56,16 @@ const Register: React.FC = () => {
     undefined,
   );
 
-  const handleInstituicaoChange = (value: string) => {
-    setSelectedInstituicao(value);
+  const handleInstituicaoChange = (selectedValue: string) => {
+    const selectedOption = instituicoesOptionsArr.find(
+      (option) => option.label === selectedValue,
+    );
+
+    if (selectedOption) {
+      setSelectedInstituicao(selectedOption.id);
+    } else {
+      setSelectedInstituicao('');
+    }
   };
 
   const handleUserChange = (selectedUser: string) => {
@@ -62,7 +78,6 @@ const Register: React.FC = () => {
     }
   };
 
-  const [stateOptions, setStateOptions] = useState<string[]>([]);
   useEffect(() => {
     const estados = getStates();
     const estadoNames = estados.map((estado) => estado.name);
@@ -79,6 +94,10 @@ const Register: React.FC = () => {
     return cidades.map((city) => city);
   };
 
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<
+    'success' | 'error' | 'warning' | 'info'
+  >('info');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [cities, setCities] = useState<string[]>([]);
@@ -99,6 +118,18 @@ const Register: React.FC = () => {
   const [phone, setPhone] = useState<string>('');
   const [photoURL, setPhotoURL] = useState<string | ArrayBuffer | null>(null);
   const [matricula, setMatricula] = useState<string>('');
+  const [userData, setUserData] = useState<CreateUser>({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    cpfcnpj: '',
+    photoURL: '',
+    blocked: false,
+    registration_number: '',
+    institution_id: 0,
+    role_id: 0,
+  });
 
   const handleCancel = () => {
     setName('');
@@ -141,7 +172,14 @@ const Register: React.FC = () => {
     const hasLowerCase = /[a-z]/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const isLengthValid = password.length >= 8;
-    return hasUpperCase && hasLowerCase && hasSpecialChar && isLengthValid;
+    const hasNumber = /\d/.test(password);
+    return (
+      hasUpperCase &&
+      hasLowerCase &&
+      hasSpecialChar &&
+      isLengthValid &&
+      hasNumber
+    );
   };
 
   const isConfirmPasswordValid = (
@@ -152,9 +190,15 @@ const Register: React.FC = () => {
     const hasLowerCase = /[a-z]/.test(confirmPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(confirmPassword);
     const isLengthValid = confirmPassword.length >= 8;
+    const hasNumber = /\d/.test(password);
     const isEqual = password === confirmPassword;
     return (
-      hasUpperCase && hasLowerCase && hasSpecialChar && isLengthValid && isEqual
+      hasUpperCase &&
+      hasLowerCase &&
+      hasSpecialChar &&
+      isLengthValid &&
+      isEqual &&
+      hasNumber
     );
   };
 
@@ -181,6 +225,8 @@ const Register: React.FC = () => {
     setCNPJ(formatCNPJ(cnpjValue));
     setCNPJError(!isValidCNPJ(cnpjValue));
   };
+
+  const options = instituicoesOptionsArr.map((option) => option.label);
 
   useEffect(() => {
     if (selectedState) {
@@ -244,29 +290,6 @@ const Register: React.FC = () => {
     email,
     password,
     confirmPassword,
-    cpf,
-    phone,
-    cnpj,
-    address,
-    number,
-    selectedState,
-    selectedCity,
-    selectedOption1,
-    emailError,
-    passwordError,
-    confirmPasswordError,
-    cpfError,
-    phoneError,
-    cnpjError,
-  ]);
-
-  useEffect(() => {
-    validateForm();
-  }, [
-    name,
-    email,
-    password,
-    confirmPassword,
     matricula,
     cpf,
     phone,
@@ -285,22 +308,47 @@ const Register: React.FC = () => {
     validateForm,
   ]);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (isFormValid) {
-      console.log({
+      const updatedUserData: CreateUser = {
         name,
         email,
         password,
-        cpf,
-        phone,
-        cnpj,
-        address,
-        number,
-        selectedState,
-        selectedCity,
-        photoURL,
-      });
+        phone:
+          selectedOption1 === 'aluno' || selectedOption1 === 'professor'
+            ? '+55' + phone
+            : undefined,
+        cpfcnpj: selectedOption1 === 'instituicao' ? cnpj : cpf,
+        photoURL: photoURL ? photoURL.toString() : undefined,
+        blocked: false,
+        registration_number: matricula ? matricula : 'null',
+        institution_id: selectedInstituicao as number,
+        role_id:
+          selectedOption1 === 'professor'
+            ? 1
+            : selectedOption1 === 'aluno'
+              ? 2
+              : 0,
+      };
+
+      try {
+        const ret = await createUser(updatedUserData);
+        setToastMessage('Usuário criado com sucesso!');
+        setToastType('success');
+      } catch (error) {
+        console.error('Erro ao criar usuário:', error);
+        setToastMessage('Erro ao criar usuário.');
+        setToastType('error');
+      }
+    } else {
+      setToastMessage('Formulário inválido. Verifique os campos.');
+      setToastType('error');
     }
+  };
+
+  const clearToast = () => {
+    setToastMessage('');
+    setToastType('info');
   };
 
   return (
@@ -386,7 +434,7 @@ const Register: React.FC = () => {
             <div className="rowAlignmentBox">
               <div className="boxAlignment">
                 <Select
-                  options={instituicoesOptionsArr as unknown as string[]}
+                  options={options}
                   label="Instituicao"
                   placeholder="Instituicao"
                   onChange={handleInstituicaoChange}
@@ -460,6 +508,13 @@ const Register: React.FC = () => {
                 >
                   Confirmar
                 </ButtonComponent>
+                {toastMessage && (
+                  <ToastNotification
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={clearToast}
+                  />
+                )}
               </div>
             </div>
           </>
@@ -528,9 +583,9 @@ const Register: React.FC = () => {
               </div>
               <div className="boxAlignment">
                 <Select
-                  options={instituicoesOptionsArr as unknown as string[]}
-                  label="Instituicao"
-                  placeholder="Instituicao"
+                  options={options}
+                  label="Instituição"
+                  placeholder="Selecione uma instituição"
                   onChange={handleInstituicaoChange}
                   required
                 />
@@ -601,6 +656,13 @@ const Register: React.FC = () => {
                 >
                   Confirmar
                 </ButtonComponent>
+                {toastMessage && (
+                  <ToastNotification
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={clearToast}
+                  />
+                )}
               </div>
             </div>
           </>
@@ -754,6 +816,13 @@ const Register: React.FC = () => {
                 >
                   Confirmar
                 </ButtonComponent>
+                {toastMessage && (
+                  <ToastNotification
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={clearToast}
+                  />
+                )}
               </div>
             </div>
           </>
