@@ -13,7 +13,7 @@ interface EventProps {
   eventId: string;
 }
 
-export const Event = ({ name, eventId }: EventProps) => {
+export const Event = ({ name, eventId, startTime, endTime }: EventProps) => {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
@@ -22,6 +22,10 @@ export const Event = ({ name, eventId }: EventProps) => {
 
   return (
     <Box className="event">
+      <Box className="event-time">
+        <span className="start-time">{startTime}</span>
+        <span className="end-time">{endTime}</span>
+      </Box>
       <Box className="separator" />
       <Box className="event-details">
         <Box className="event-header">

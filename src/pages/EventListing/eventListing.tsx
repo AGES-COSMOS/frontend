@@ -46,6 +46,8 @@ export const EventListing = () => {
         acc[date].push({
           name: event.title,
           eventId: event.eventId,
+          startTime: event.startTime,
+          endTime: event.endTime,
         });
         return acc;
       },
@@ -65,9 +67,9 @@ export const EventListing = () => {
           Filtros ativos
         </Typography>
         <Box className="filter-tags">
-          <FilterTag name="Palestras" onClick={() => alert('Teste')} />
-          <FilterTag name="Esta semana" onClick={() => alert('Teste')} />
-          <FilterTag name="PUCRS" onClick={() => alert('Teste')} />
+          <FilterTag name="Palestras" onClick={() => console.log('Teste')} />
+          <FilterTag name="Esta semana" onClick={() => console.log('Teste')} />
+          <FilterTag name="PUCRS" onClick={() => console.log('Teste')} />
         </Box>
         <Typography variant="body1" className="results-title">
           Resultados:
