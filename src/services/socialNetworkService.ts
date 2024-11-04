@@ -27,15 +27,6 @@ export const createSocialNetwork = async (
   }
 };
 
-export const getSocialNetworks = async (): Promise<SocialNetwork[]> => {
-  try {
-    const response = await httpService.get('/social-network');
-    return response.data;
-  } catch (error) {
-    throw new Error('Erro ao listar redes sociais.');
-  }
-};
-
 export const getSocialNetworkById = async (
   id: number,
 ): Promise<SocialNetwork> => {

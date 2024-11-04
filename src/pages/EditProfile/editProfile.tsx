@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import './editProfile.scss';
 import Loading from 'components/Loading/loading';
 import { updateUser, getUser } from '../../services/userService';
-import { getSocialNetworks } from '../../services/socialNetworkService';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 interface User {
   id: number;
@@ -35,12 +35,6 @@ interface User {
   }[];
 }
 
-interface SocialNetwork {
-  id: number;
-  name: string;
-  icon: string;
-}
-
 // Mocked data
 const states = [{ code: '1', name: 'Rio Grande do Sul' }];
 
@@ -52,12 +46,11 @@ const cities = [
 
 export const EditProfile = () => {
   //substituir pelo ID real quando tiver login
-  const mockedUserId = 1;
+  const mockedUserId = 51;
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
   const [updatedUser, setUpdatedUser] = useState<User | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [socialNetworks, setSocialNetworks] = useState<SocialNetwork[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -75,17 +68,7 @@ export const EditProfile = () => {
       }
     };
 
-    const fetchSocialNetworks = async () => {
-      try {
-        const networks = await getSocialNetworks();
-        setSocialNetworks(networks);
-      } catch (error) {
-        console.error('Erro ao carregar redes sociais:', error);
-      }
-    };
-
     fetchUser();
-    fetchSocialNetworks();
   }, [mockedUserId]);
 
   const handleInputChange = (field: keyof User, value: string) => {
@@ -120,13 +103,6 @@ export const EditProfile = () => {
     }
   };
 
-  const getUserSocialNetworkURL = (networkName: string) => {
-    const foundNetwork = updatedUser?.UsersSocialNetwork?.find(
-      (userNetwork) => userNetwork.social_network.name === networkName,
-    );
-    return foundNetwork ? foundNetwork.social_network_URL : '';
-  };
-
   if (loading) return <Loading />;
 
   if (error) {
@@ -137,11 +113,13 @@ export const EditProfile = () => {
     <Box className="profile-edit">
       <h1 className="profile-title">Editar Perfil</h1>
       <Box className="profile-header">
-        <img
-          src={profileImage || '/assets/default-avatar.png'}
-          alt="Profile"
-          className="profile-photo"
-        />
+        {profileImage ? (
+          <img src={profileImage} alt="Profile" className="profile-photo" />
+        ) : (
+          <Box className="default-avatar">
+            <PersonOutlineIcon style={{ fontSize: '3rem' }} />
+          </Box>
+        )}
         <input
           type="file"
           id="imageInput"
@@ -205,14 +183,17 @@ export const EditProfile = () => {
           mask="+55 (99) 99999-9999"
           required
         />
-        {socialNetworks.map((network) => (
+        {updatedUser?.UsersSocialNetwork.map((network) => (
           <TextField
-            key={network.id}
-            label={network.name}
-            placeholder={`Digite seu ${network.name}`}
-            value={getUserSocialNetworkURL(network.name) || ''}
+            key={network.social_network.name}
+            label={network.social_network.name}
+            placeholder={`Digite seu ${network.social_network.name}`}
+            value={network.social_network_URL || ''}
             onChange={(v) =>
-              handleInputChange(network.name.toLowerCase() as keyof User, v)
+              handleInputChange(
+                network.social_network.name.toLowerCase() as keyof User,
+                v,
+              )
             }
           />
         ))}

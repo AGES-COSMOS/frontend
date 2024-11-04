@@ -32,6 +32,19 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
+    .default-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: lightgray;
+      border-radius: 50%;
+      padding: 2rem;
+      color: #636262;
+      border: 7px solid white;
+      box-shadow: 0 0 0 2px #636262;
+      margin-left: 0;
+    }
+
     .edit-icon {
       position: absolute;
       bottom: 0;
