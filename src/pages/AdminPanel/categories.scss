@@ -1,0 +1,162 @@
+.gerenciamento-de-categorias {
+  font-size: 2rem;
+  font-weight: bold !important;
+  text-align: left;
+  color: var(--purple);
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.novas-categorias {
+  font-size: 2rem;
+  font-weight: bold !important;
+  text-align: left;
+  color: var(--purple);
+  padding-bottom: 10px;
+}
+
+.cabecalho {
+  background-color: #d0b4f4;
+  height: 50px;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 40%;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding-left: 5px;
+}
+
+.save-categorias {
+  .cadastra-button {
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--purple);
+    color: white;
+    border-radius: 5px;
+    border: none;
+  }
+
+  table {
+    width: 95%;
+    height: 40px;
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    border: none;
+    text-align: left;
+    padding: 8px;
+  }
+}
+
+.tabela td {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-item-conter {
+  color: rgb(0, 0, 0);
+  text-align: left;
+  width: 20%;
+  font-weight: bold;
+  border: none;
+}
+
+.table-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  padding: 8px;
+}
+
+.botao-remover {
+  border: none;
+  color: grey;
+  background: none;
+  margin-right: 70px;
+}
+
+.botao-editar {
+  border: none;
+  color: grey;
+  background: none;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+}
+
+.erro-repetido {
+  margin: 5px;
+  padding: 5px;
+}
+
+.sucesso-repetido {
+  margin: 5px;
+  padding: 5px;
+  color: var(--purple);
+}
+
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: white;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+}
+
+@media (max-width: 600px) {
+  .input-button-container {
+    flex-direction: column;
+  }
+
+  .input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .cadastra-button {
+    width: 100%;
+  }
+
+  .modal-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .botao-editar,
+  .botao-remover {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
