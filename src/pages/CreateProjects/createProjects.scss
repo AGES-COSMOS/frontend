@@ -22,6 +22,15 @@
     gap: 2rem;
   }
 
+  .pdf-upload {
+    p {
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--dark-gray);
+      margin-bottom: 0.5rem;
+    }
+  }
+
   .button-container {
     grid-column: span 2;
     display: flex;

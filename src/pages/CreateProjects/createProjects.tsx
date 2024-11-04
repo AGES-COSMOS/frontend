@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './createProjects.scss';
-import { createProject } from 'services/projectsService';
+import { createProject, uploadPdfToProject } from 'services/projectsService';
 import { ButtonComponent } from 'components/Button/button';
 import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
@@ -32,6 +32,7 @@ export const CreateProjects = () => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
   const [image, setImage] = useState('/assets/projectPlaceholder.png');
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<string>('');
 
   const [errorMessages, setErrorMessages] = useState<{ [key: string]: string }>(
@@ -50,8 +51,6 @@ export const CreateProjects = () => {
     name: '',
     history: '',
     purpose: '',
-    // O que mandar nesse campo? É necessário?
-    contact: '',
     start_date: new Date(),
     end_date: undefined,
     status: '',
@@ -145,6 +144,13 @@ export const CreateProjects = () => {
     setSelectedKeywords(selected);
   };
 
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPdfFile(file);
+    }
+  };
+
   const validateForm = () => {
     const errors = {
       name: '',
@@ -201,7 +207,10 @@ export const CreateProjects = () => {
           formData.append('image', imageFile);
         }
 
-        await createProject(formData);
+        const projectId = await createProject(formData);
+        if (pdfFile) {
+          await uploadPdfToProject(projectId, pdfFile);
+        }
         alert('Projeto criado com sucesso!');
       } catch (error) {
         alert('Erro ao criar projeto');
@@ -344,6 +353,15 @@ export const CreateProjects = () => {
           />
         </div>
 
+        <div className="pdf-upload">
+          <p>Anexe o protocolo do projeto:</p>
+          <input
+            type="file"
+            id="pdfUpload"
+            accept="application/pdf"
+            onChange={handlePdfChange}
+          />
+        </div>
         <div className="button-container">
           <ButtonComponent
             type="primary"
