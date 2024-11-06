@@ -1,0 +1,110 @@
+.meusEventos-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+
+  .meusEventos-titles {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--purple);
+    padding-bottom: 12px;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: calc(100vw - 23rem);
+    margin-top: 1rem;
+    gap: 2rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+      padding-left: 16px;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      padding-left: 16px;
+    }
+    .first-card {
+      grid-column: 1/2; //força o primeiro card na primeira column e row
+      grid-row: 1/2;
+    }
+  }
+
+  .event-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 345px;
+    padding: 1rem;
+    border: 2px solid var(--purple);
+    border-radius: 12px;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+
+    &.first-card {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+  .first-card-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: white;
+    color: var(--purple);
+    font-size: 2rem;
+    font-weight: bold;
+    border: 2px solid var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+
+    &:hover {
+      background-color: var(--purple);
+      color: white;
+
+      plus.sign {
+        font-size: 2.5rem;
+        line-height: 1;
+      }
+    }
+
+    first-card-text {
+      margin-top: 12px;
+      font-size: 1rem;
+      color: var(--purple);
+      font-weight: bold;
+    }
+    .event-card-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .event-card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #000;
+      margin-top: 8px;
+    }
+    .event-card-date {
+      font-size: 1rem;
+      color: #888; /* Light gray text */
+      margin-top: 4px;
+    }
+    .event-card-button {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--purple);
+      text-transform: uppercase;
+      padding: 0;
+    }
+  }
+}

@@ -19,19 +19,6 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ onImageChange }) => {
     }
   };
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       const result = reader.result;
-  //       setImageSrc(result);
-  //       onImageChange(result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -119,13 +106,3 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({ onImageChange }) => {
 };
 
 export default ProfilePicture;
-function imageCompression(
-  file: any,
-  options: {
-    maxSizeMB: number; // Limite de 1 MB
-    maxWidthOrHeight: number; // Largura ou altura máxima
-    useWebWorker: boolean;
-  },
-) {
-  throw new Error('Function not implemented.');
-}
