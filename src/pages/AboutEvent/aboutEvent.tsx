@@ -1,17 +1,58 @@
 import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { events } from '../../api/events';
+import { getEventById } from '../../services/eventsService';
 import './aboutEvent.scss';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface EventCategory {
+  category: Category;
+}
 
 const AboutEvent = () => {
   const { id } = useParams();
+  const [event, setEvent] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
 
-  const event = events.find((event) => event.eventId === id);
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const eventData = await getEventById(id);
+        setEvent(eventData);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchEvent();
+  }, [id]);
+
+  const formatDateTime = (date: string, time: string): string => {
+    if (!date || !time) return '';
+
+    try {
+      const combinedDateTime = new Date(
+        `${date.split('T')[0]}T${new Date(time).toLocaleTimeString('pt-BR', { hour12: false })}`,
+      );
+      return format(combinedDateTime, 'dd/MM/yyyy, HH:mm');
+    } catch {
+      return 'Data ou Hora inválida';
+    }
+  };
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   if (!event) {
     return (
       <Box className="about-event">
-        <Typography variant="h6">Evento não encontrado.</Typography>
+        <Typography variant="h6">Carregando evento...</Typography>
       </Box>
     );
   }
@@ -19,37 +60,45 @@ const AboutEvent = () => {
   return (
     <Box className="about-events">
       <Box className="CoverPage">
-        {event.photo && (
+        {event.imageURL && (
           <img
-            src={event.photo}
+            src={event.imageURL}
             alt={`${event.title} imagem`}
             className="about-events-image"
           />
         )}
       </Box>
       <Box className="ContentPage">
-        <Typography variant="h2" className="about-event-title">
-          {event.title}
-        </Typography>
         <Box className="about-event-parameters">
           <Box className="about-event-parameter">
-            <strong>Categoria:</strong>
-            <span>{event.category}</span>
-          </Box>
-
-          <Box className="about-event-parameter">
-            <strong>Localização:</strong>
-            <span>{event.location}</span>
+            <strong>Título:</strong>
+            <span>{event.title}</span>
           </Box>
 
           <Box className="about-event-parameter">
             <strong>Data e Horário:</strong>
-            <span>{new Date(event.startTime).toLocaleString()}</span>
+            <span>{formatDateTime(event.date, event.startHour)}</span>
           </Box>
 
           <Box className="about-event-parameter">
-            <strong>Data Fim:</strong>
-            <span>{new Date(event.endTime).toLocaleString()}</span>
+            <strong>Categorias:</strong>
+            {event.EventCategory.length > 0 ? (
+              <span>
+                {event.EventCategory.map((ec: any, index: any) => (
+                  <span key={ec.category.id}>
+                    {ec.category.name}
+                    {index < event.EventCategory.length - 1 && ', '}
+                  </span>
+                ))}
+              </span>
+            ) : (
+              <span>Não especificada</span>
+            )}
+          </Box>
+
+          <Box className="about-event-parameter">
+            <strong>Localização:</strong>
+            <span>{event.address}</span>
           </Box>
         </Box>
         <Typography variant="body1" className="about-event-description">
