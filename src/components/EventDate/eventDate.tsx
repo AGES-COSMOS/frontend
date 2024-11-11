@@ -12,14 +12,6 @@ interface EventDateProps {
   }[];
 }
 
-const formatTime = (timeString: string) => {
-  const date = new Date(timeString);
-  return date.toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
-
 export const EventDate = ({ date, events }: EventDateProps) => {
   const formattedDate = formatDate(date);
 
@@ -29,8 +21,8 @@ export const EventDate = ({ date, events }: EventDateProps) => {
       {events.map((event, index) => (
         <Event
           key={index}
-          startTime={formatTime(event.startTime)}
-          endTime={formatTime(event.endTime)}
+          startTime={event.startTime}
+          endTime={event.endTime}
           name={event.name}
           eventId={event.eventId}
         />
