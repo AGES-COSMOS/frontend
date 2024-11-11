@@ -8,17 +8,22 @@ interface SearchFieldProps {
   onFilterClick: () => void;
   isFilterOpen: boolean;
   placeholder: string;
+  onSearchChange?: (value: string) => void;
 }
 
 export const SearchField = ({
   onFilterClick,
   isFilterOpen,
   placeholder,
+  onSearchChange,
 }: SearchFieldProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
+    if (onSearchChange) {
+      onSearchChange(event.target.value);
+    }
   };
 
   return (
