@@ -4,9 +4,11 @@ import { createEvent } from 'services/eventsService';
 import { ButtonComponent } from 'components/Button/button';
 import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
+import { EventCategory } from 'pages/AboutEvent/aboutEvent';
 
 export interface Event {
   title: string;
+  imageURL: string;
   description: string;
   date: Date;
   hour: Date;
@@ -18,6 +20,7 @@ export interface Event {
   project_id: number;
   updatedAt: Date;
   updatedBy: string;
+  EventCategory: EventCategory[];
 }
 
 const generateTimeSlots = (): string[] => {
@@ -62,6 +65,7 @@ export const CreateEvents = () => {
 
   const [eventData, setEventData] = useState<Event>({
     title: '',
+    imageURL: '',
     description: '',
     address: '',
     IsOnline: false,
@@ -72,7 +76,8 @@ export const CreateEvents = () => {
     project_id: 0,
     institution_id: 0,
     updatedAt: new Date(),
-    updatedBy: 'Admin',
+    updatedBy: '',
+    EventCategory: [],
   });
 
   const timeSlots = generateTimeSlots();

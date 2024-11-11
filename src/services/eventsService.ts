@@ -18,3 +18,12 @@ export const getAllEvents = async () => {
     throw new Error('Erro ao buscar eventos.');
   }
 };
+
+export const getEventById = async (id: any) => {
+  try {
+    const response = await httpService.get(`/event/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Erro ao buscar evento.');
+  }
+};
