@@ -59,7 +59,6 @@ export const Feed = () => {
           {projects.map((projectCard) => (
             <ProjectCardFeed
               key={projectCard.title}
-              userPhoto={projectCard.userPhoto}
               projectDate={projectCard.projectDate}
               title={projectCard.title}
               photo={projectCard.photo}
