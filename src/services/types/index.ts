@@ -23,3 +23,24 @@ export interface CreateUser {
   institution_id: number;
   role_id: number;
 }
+
+export type Category = {
+  id: number;
+  name: string;
+  type: number;
+  updatedAt: Date;
+  updatedBy: string;
+  ProjectCategory: [];
+};
+
+export type CreateCategory = {
+  name: string;
+  updatedBy: string;
+};
+
+export type UpdateCategory = {
+  id: number;
+  name: string;
+  type: number;
+  updatedBy: string;
+};

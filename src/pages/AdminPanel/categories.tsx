@@ -1,19 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Grid2, Modal, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import './categories.scss';
+import {
+  addCategory,
+  deleteCategory,
+  getAllCategories,
+  updateCategory,
+} from 'services/categoryControlPanellService';
+import { Category } from 'services/types';
 
 const Categories = () => {
   const [inputValue, setInputValue] = useState('');
-  const [tabela, setTabela] = useState<string[]>([]);
+  const [tabela, setTabela] = useState<Category[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [openModal, setOpenModal] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
+  const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(
+    null,
+  );
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
+  const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
   const [editInputValue, setEditInputValue] = useState('');
+  const [categoryUpdated, setCategoryUpdated] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const allCategories = await getAllCategories();
+        if (!allCategories) {
+          throw new Error('Erro ao carregar as categorias.');
+        }
+
+        setTabela([...allCategories]);
+      } catch (error) {
+        setErrorMessage('Erro ao carregar as categorias');
+      }
+    };
+
+    fetchCategories();
+  }, [categoryUpdated]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -24,7 +51,7 @@ const Categories = () => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (inputValue.trim() !== '') {
-        addCategory();
+        addCategoryToTable();
         e.preventDefault();
       }
     }
@@ -34,20 +61,36 @@ const Categories = () => {
     return index % 2 !== 0;
   };
 
-  const addCategory = () => {
-    if (tabela.includes(inputValue.trim())) {
+  const addCategoryToTable = async () => {
+    if (
+      tabela.filter((category) => category.name === inputValue.trim()).length >
+      1
+    ) {
       setErrorMessage('O nome da categoria já existe.');
     } else {
-      setTabela([...tabela, inputValue.trim()]);
-      setInputValue('');
-      setSuccessMessage('Categoria adicionada com sucesso!');
+      try {
+        await addCategory({
+          name: inputValue.trim(),
+          updatedBy: 'Admin',
+        });
+        setInputValue('');
+        setSuccessMessage('Categoria adicionada com sucesso!');
+        setCategoryUpdated((prev) => !prev);
+
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
+      } catch (error) {
+        setErrorMessage('Erro ao adicionar a categoria.');
+
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
+      }
     }
-    setTimeout(() => {
-      setSuccessMessage('');
-    }, 3000);
   };
 
-  const handleOpenModal = (category: string) => {
+  const handleOpenModal = (category: Category) => {
     setCategoryToDelete(category);
     setOpenModal(true);
   };
@@ -57,16 +100,30 @@ const Categories = () => {
     setCategoryToDelete(null);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (categoryToDelete) {
-      setTabela(tabela.filter((category) => category !== categoryToDelete));
-      handleCloseModal();
+      try {
+        await deleteCategory(categoryToDelete.id);
+        setCategoryUpdated((prev) => !prev);
+        setSuccessMessage('Categoria deletada com sucesso!');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
+        handleCloseModal();
+      } catch (error) {
+        setErrorMessage('Erro ao deletar a categoria.');
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
+      }
+    } else {
+      return;
     }
   };
 
-  const handleOpenEditModal = (category: string) => {
+  const handleOpenEditModal = (category: Category) => {
     setCategoryToEdit(category);
-    setEditInputValue(category);
+    setEditInputValue(category.name);
     setOpenEditModal(true);
   };
 
@@ -76,21 +133,36 @@ const Categories = () => {
     setEditInputValue('');
   };
 
-  const handleEditCategory = () => {
+  const handleEditCategory = async () => {
     if (categoryToEdit && editInputValue.trim() !== '') {
-      if (tabela.includes(editInputValue.trim())) {
+      if (
+        tabela.filter((category) => category.name === inputValue.trim())
+          .length > 1
+      ) {
         setErrorMessage('O nome da categoria já existe.');
       } else {
-        setTabela(
-          tabela.map((cat) =>
-            cat === categoryToEdit ? editInputValue.trim() : cat,
-          ),
-        );
-        setSuccessMessage('Categoria editada com sucesso!');
-        handleCloseEditModal();
-        setTimeout(() => {
-          setSuccessMessage('');
-        }, 3000);
+        try {
+          await updateCategory({
+            id: categoryToEdit.id,
+            name: editInputValue.trim(),
+            updatedBy: 'Admin',
+          });
+
+          setCategoryUpdated((prev) => !prev);
+
+          setSuccessMessage('Categoria editada com sucesso!');
+          handleCloseEditModal();
+
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 3000);
+        } catch (error) {
+          setErrorMessage('Erro ao editar a categoria.');
+
+          setTimeout(() => {
+            setErrorMessage('');
+          }, 3000);
+        }
       }
     }
   };
@@ -125,7 +197,7 @@ const Categories = () => {
             />
             <button
               className="cadastra-button"
-              onClick={addCategory}
+              onClick={addCategoryToTable}
               disabled={!inputValue.trim()}
             >
               Cadastrar
@@ -155,7 +227,7 @@ const Categories = () => {
           </thead>
           <table>
             <tbody className="tabela">
-              {tabela.map((item, index) => (
+              {tabela.map((category, index) => (
                 <tr
                   key={index}
                   style={{
@@ -164,18 +236,18 @@ const Categories = () => {
                 >
                   <td className="table-item-conter">{index + 1}</td>
                   <td className="table-item">
-                    {item}
+                    {category.name}
 
                     <div className="button-group">
                       <button
                         className="botao-editar"
-                        onClick={() => handleOpenEditModal(item)}
+                        onClick={() => handleOpenEditModal(category)}
                       >
                         <EditIcon />
                       </button>
                       <button
                         className="botao-remover"
-                        onClick={() => handleOpenModal(item)}
+                        onClick={() => handleOpenModal(category)}
                       >
                         <DeleteIcon />
                       </button>
@@ -198,7 +270,7 @@ const Categories = () => {
             </Typography>
             <Typography id="modal-description" sx={{ mt: 2 }}>
               Tem certeza de que deseja excluir a categoria &quot;
-              {categoryToDelete}&quot;?
+              {categoryToDelete?.name}&quot;?
             </Typography>
             <Button
               className="confirmar"
@@ -258,7 +330,7 @@ const Categories = () => {
               <Button
                 className="confirmar"
                 onClick={handleEditCategory}
-                disabled={editInputValue.trim() === categoryToEdit}
+                disabled={editInputValue.trim() === categoryToEdit?.name}
                 style={{
                   height: '40px',
                   borderRadius: '5px',
