@@ -9,14 +9,54 @@ import CloseIcon from '@mui/icons-material/Close';
 import './eventListing.scss';
 import { FilterSelector } from 'components/FilterSelector/filterSelector';
 import { FilterCheck } from 'components/FilterCheck/filterCheck';
-import { events } from '../../api/events';
+import { getAllEvents } from 'services/eventsService';
+import { parseISO, format } from 'date-fns';
+
+interface FormattedEvent {
+  startTime: string;
+  endTime: string;
+  name: string;
+  eventId: string;
+}
+
+interface EventCategory {
+  category_id: number;
+}
+
+interface Event {
+  id: number;
+  title: string;
+  imageURL: string | null;
+  description: string;
+  date: string;
+  startHour: string;
+  endHour: string;
+  IsOnline: boolean;
+  address: string;
+  EventCategory: EventCategory[];
+}
 
 export const EventListing = () => {
   const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [error, setError] = useState<any>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [eventsByDate, setEventsByDate] = useState<{ [key: string]: any[] }>(
-    {},
-  );
+  const [eventsByDate, setEventsByDate] = useState<{
+    [key: string]: FormattedEvent[];
+  }>({});
+
+  const fetchEvents = async () => {
+    try {
+      const response = await getAllEvents();
+      const formattedEvents = formatEventsByDate(response.data);
+      setEventsByDate(formattedEvents);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,27 +73,37 @@ export const EventListing = () => {
     }
   };
 
-  useEffect(() => {
-    const formattedEvents = formatEventsByDate(events);
-    setEventsByDate(formattedEvents);
-  }, []);
-
-  const formatEventsByDate = (events: any[]) => {
-    return events.reduce(
-      (acc, event) => {
-        const date = event.date;
-        if (!acc[date]) acc[date] = [];
-        acc[date].push({
+  const formatEventsByDate = (events: {
+    [key: string]: Event[];
+  }): { [key: string]: FormattedEvent[] } => {
+    return Object.keys(events).reduce(
+      (acc, date) => {
+        acc[date] = events[date].map((event) => ({
           name: event.title,
-          eventId: event.eventId,
-          startTime: event.startTime,
-          endTime: event.endTime,
-        });
+          eventId: event.id.toString(),
+          startTime: formatHour(event.startHour),
+          endTime: formatHour(event.endHour),
+        }));
         return acc;
       },
-      {} as { [key: string]: any[] },
+      {} as { [key: string]: FormattedEvent[] },
     );
   };
+
+  const formatHour = (hour: string): string => {
+    if (!hour) return '';
+
+    try {
+      const date = parseISO(hour);
+      return format(date, 'HH:mm');
+    } catch {
+      return 'Hora inválida';
+    }
+  };
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <Box className="main-container">
@@ -75,9 +125,11 @@ export const EventListing = () => {
           Resultados:
         </Typography>
         <Box className="event-cards">
-          {Object.keys(eventsByDate).map((date) => (
-            <EventDate key={date} date={date} events={eventsByDate[date]} />
-          ))}
+          {Object.keys(eventsByDate)
+            .sort()
+            .map((date) => (
+              <EventDate key={date} date={date} events={eventsByDate[date]} />
+            ))}
         </Box>
       </Box>
       <Box
