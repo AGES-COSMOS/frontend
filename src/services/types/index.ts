@@ -17,3 +17,16 @@ export interface CreateUser {
   institution_id: number;
   role_id: number;
 }
+
+export interface ProjectData {
+  id: number;
+  name: string;
+  status: string;
+  institution: {
+    name: string;
+  };
+}
+
+export interface ProjectResponse {
+  data: ProjectData[];
+}

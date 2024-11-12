@@ -1,5 +1,6 @@
 import { httpService } from './httpService';
 import { IProjectListing } from '../pages/ProjectListing/projectListing';
+import { ProjectResponse } from './types';
 
 export const createProject = async (projectData: FormData): Promise<number> => {
   try {
@@ -32,6 +33,15 @@ export const findProjects = async (
     return response.data;
   } catch (error) {
     throw new Error('Erro ao listar projetos.');
+  }
+};
+
+export const getProjects = async (): Promise<ProjectResponse> => {
+  try {
+    const response = await httpService.get<ProjectResponse>('/project');
+    return response.data;
+  } catch (error) {
+    throw new Error('Erro ao carregar os dados da página Sobre Nós.');
   }
 };
 
