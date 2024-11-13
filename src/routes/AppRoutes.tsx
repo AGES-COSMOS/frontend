@@ -14,6 +14,7 @@ import AdminPanel from 'pages/AdminPanel/adminPanel';
 import AboutEvent from 'pages/AboutEvent/aboutEvent';
 import MyEvents from 'pages/MyEvents/myEvents';
 import AboutProject from 'pages/AboutProject/aboutProject';
+import { EditEvents } from 'pages/EditEvents/editEvents';
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.ADMIN_PANEL()} element={<AdminPanel />} />
         <Route path={ROUTES.ABOUT_EVENT(':id')} element={<AboutEvent />} />
         <Route path={ROUTES.ABOUT_PROJECTS(':id')} element={<AboutProject />} />
+        <Route path={ROUTES.EDIT_EVENTS(':id')} element={<EditEvents />} />
       </Routes>
     </MainLayout>
   );
