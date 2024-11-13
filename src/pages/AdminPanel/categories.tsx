@@ -8,7 +8,7 @@ import {
   deleteCategory,
   getAllCategories,
   updateCategory,
-} from 'services/categoryControlPanellService';
+} from 'services/categoryControlPanelService';
 import { Category } from 'services/types';
 
 const Categories = () => {
