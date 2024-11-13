@@ -25,7 +25,7 @@ import { useEffect, useState } from 'react';
 const Sidebar = () => {
   const [openLogin, setOpenLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [roleId, setRoleId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   const handleOpenLogin = () => {
     setOpenLogin(true);
@@ -39,20 +39,21 @@ const Sidebar = () => {
     // Limpar dados de autenticação no localStorage
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userId');
-    localStorage.removeItem('roleId');
+    localStorage.removeItem('role');
 
     // Atualizar estado de autenticação
     setIsLoggedIn(false);
-    setRoleId(null);
+    setRole(null);
+    window.location.reload();
   };
 
   useEffect(() => {
     // Verificar token e role_id no localStorage ao carregar o componente
     const token = localStorage.getItem('jwtToken');
-    const storedRoleId = localStorage.getItem('roleId');
+    const storedRole = localStorage.getItem('role');
 
     setIsLoggedIn(!!token); // Define como logado se houver token
-    setRoleId(storedRoleId);
+    setRole(storedRole);
   }, []);
 
   return (
@@ -65,12 +66,21 @@ const Sidebar = () => {
         <UserSection>
           <StyledPersonOutlineIcon />
         </UserSection>
-        <StyledSubtitle>Login</StyledSubtitle>
-        <StyledTypography>
-          <a href="#" onClick={handleOpenLogin}>
-            Clique aqui para fazer o login.
-          </a>
-        </StyledTypography>
+        {!isLoggedIn ? (
+          <div>
+            <StyledSubtitle>Login</StyledSubtitle>
+            <StyledTypography>
+              <a href="#" onClick={handleOpenLogin}>
+                Clique aqui para fazer o login.
+              </a>
+            </StyledTypography>
+          </div>
+        ) : (
+          <div>
+            <StyledSubtitle>Olá, usuário!</StyledSubtitle>
+            <br />
+          </div>
+        )}
         <ButtonContainer>
           <NavButton href="/">
             <DashboardIcon />
@@ -94,20 +104,24 @@ const Sidebar = () => {
             Projetos
           </NavButton>
           {isLoggedIn &&
-            (roleId === '1' || roleId === '2' || roleId === '3') && (
+            (role === 'ADMIN' ||
+              role === 'INSTITUTION' ||
+              role === 'TEACHER') && (
               <NavButton href="/meus-eventos">
                 <CalendarMonthIcon />
                 Meus Eventos
               </NavButton>
             )}
           {isLoggedIn &&
-            (roleId === '1' || roleId === '2' || roleId === '3') && (
+            (role === 'ADMIN' ||
+              role === 'INSTITUTION' ||
+              role === 'TEACHER') && (
               <NavButton href="/meus-projetos">
                 <CollectionsBookmarkIcon />
                 Meus Projetos
               </NavButton>
             )}
-          {isLoggedIn && roleId === '1' && (
+          {isLoggedIn && role === 'ADMIN' && (
             <NavButton href="/painel-administrador">
               <AdminPanelSettingsIcon />
               Painel Admin

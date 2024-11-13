@@ -73,6 +73,7 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
       const loginData: LoginDto = { email, password };
       await loginUser(loginData);
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error('Erro ao realizar login:', error);
       alert('Falha ao fazer login. Verifique suas credenciais.');
