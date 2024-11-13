@@ -14,6 +14,7 @@ import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
 import CommentFeedModal from 'components/CommentFeedModal/commentFeedModal';
 import './feedModal.scss';
+import UserProfileModal from 'components/PublicProfile/publicProfile';
 
 interface Comment {
   username: string;
@@ -28,6 +29,7 @@ const FeedModal = ({
   open: boolean;
   onClose: () => void;
 }) => {
+  const [openPublicProfilmeModal, setOpenPublicProfilmeModal] = useState(false);
   const [comments, setComments] = useState<Comment[]>([
     {
       username: 'Márcio Hilg',
@@ -45,6 +47,18 @@ const FeedModal = ({
       imageUrl: 'https://picsum.photos/seed/maria/40',
     },
   ]);
+
+  const user = {
+    name: 'Gabriel Spiandorello',
+    institution: 'Universidade PUCRS',
+    projects: ['Projeto 1', 'Projeto 2', 'Projeto 3'],
+    imageUrl: 'https://picsum.photos/seed/gabriel/100',
+    socialLinks: {
+      instagram: 'https://instagram.com/gabriel',
+      youtube: 'https://youtube.com/gabriel',
+      linkedin: 'https://linkedin.com/in/gabriel',
+    },
+  };
 
   const [newComment, setNewComment] = useState('');
   const [liked, setLiked] = useState(false);
@@ -67,8 +81,7 @@ const FeedModal = ({
   };
 
   const handleImageClick = (username: string) => {
-    // Redirecionar para o perfil do usuário
-    console.log(`Imagem de ${username} clicada`);
+    setOpenPublicProfilmeModal(true);
   };
 
   const handleLikeToggle = () => {
@@ -145,6 +158,11 @@ const FeedModal = ({
             </IconButton>
           </Box>
         </Box>
+        <UserProfileModal
+          open={openPublicProfilmeModal}
+          onClose={() => setOpenPublicProfilmeModal(false)}
+          user={user}
+        />
       </DialogContent>
     </Dialog>
   );
