@@ -8,8 +8,9 @@ import { FilterField } from 'components/FilterField/filterField';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import './projectListing.scss';
-import { findProjects, Pagination } from '../../services/projectsService';
+import { findProjects } from '../../services/projectsService';
 import Loading from 'components/Loading/loading';
+import { Pagination } from '../../services/types';
 
 export interface IProjectListing {
   id: number;

@@ -60,21 +60,21 @@ const UserProfileModal: React.FC<PublicProfileModalProps> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            <InstagramIcon className="iconPP" />
+            <InstagramIcon className="instagramIcon" />
           </a>
           <a
             href={user.socialLinks.youtube}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <YouTubeIcon className="iconPP" />
+            <YouTubeIcon className="youtubeIcon" />
           </a>
           <a
             href={user.socialLinks.linkedin}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <LinkedInIcon className="iconPP" />
+            <LinkedInIcon className="linkedinIcon" />
           </a>
         </Box>
       </Box>

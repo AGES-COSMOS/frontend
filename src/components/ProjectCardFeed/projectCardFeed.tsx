@@ -10,13 +10,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import './projectCardFeed.scss';
+import { useState } from 'react';
+import FeedModal from 'components/FeedModal/feedModal';
 
 interface ProjectCardProps {
   title: string;
   photo: string;
   description: string;
   projectDate: Date;
-  userPhoto: string;
 }
 
 export const ProjectCardFeed = ({
@@ -24,9 +25,8 @@ export const ProjectCardFeed = ({
   photo,
   description,
   projectDate,
-  userPhoto,
 }: ProjectCardProps) => {
-  // Formatação de data
+  const [open, setOpen] = useState(false);
   const formattedDate = new Date(projectDate).toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: 'long',
@@ -71,9 +71,14 @@ export const ProjectCardFeed = ({
         >
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share" className="card__actions-icon">
+        <IconButton
+          aria-label="share"
+          className="card__actions-icon"
+          onClick={() => setOpen(true)}
+        >
           <ChatBubbleOutlineIcon />
         </IconButton>
+        <FeedModal open={open} onClose={() => setOpen(false)} />
       </CardActions>
     </Card>
   );

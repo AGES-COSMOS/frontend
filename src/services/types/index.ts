@@ -5,6 +5,12 @@ export interface GeneralParameter {
   updatedBy: string;
 }
 
+export interface Pagination<Type> {
+  data: Type[];
+  total: number;
+  page: number;
+  lastPage: number;
+}
 export interface CreateUser {
   name: string;
   email: string;
@@ -29,4 +35,9 @@ export interface ProjectData {
 
 export interface ProjectResponse {
   data: ProjectData[];
+}
+
+export interface LoginDto {
+  email: string;
+  password: string;
 }

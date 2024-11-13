@@ -1,7 +1,10 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './projects.scss';
 import { ButtonComponent } from '../../components/Button/button';
+import { useNavigate } from 'react-router-dom';
+
 import { getProjects } from 'services/projectsService';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface ProjectData {
   id: number;
@@ -17,7 +20,7 @@ const Projects: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true);
@@ -59,6 +62,10 @@ const Projects: React.FC = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  const handleEditClick = (id: number) => {
+    navigate(`/projetos/${id}`);
+  };
+
   return (
     <>
       <div className="titulo">
@@ -88,10 +95,13 @@ const Projects: React.FC = () => {
                   <td>{item.nome}</td>
                   <td>{item.instituicao}</td>
                   <td>{item.professor}</td>{' '}
-                  {/* Se você tiver os dados do professor */}
+                  {/* Adicionar os dados de nome do professor */}
                   <td>{item.status}</td>
                   <td>
-                    <button>EDIT</button>
+                    <EditIcon
+                      className="edit-button"
+                      onClick={() => handleEditClick(item.id)}
+                    ></EditIcon>
                   </td>
                 </tr>
               ))}

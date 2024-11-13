@@ -12,7 +12,9 @@ import { EditProfile } from 'pages/EditProfile/editProfile';
 import MyProjectsPage from 'pages/MyProjects/MyProjectsPage';
 import AdminPanel from 'pages/AdminPanel/adminPanel';
 import AboutEvent from 'pages/AboutEvent/aboutEvent';
+import MyEvents from 'pages/MyEvents/myEvents';
 import AboutProject from 'pages/AboutProject/aboutProject';
+import { EditEvents } from 'pages/EditEvents/editEvents';
 
 const AppRoutes = () => {
   return (
@@ -27,9 +29,11 @@ const AppRoutes = () => {
         <Route path={ROUTES.EVENT_LISTING()} element={<EventListing />} />
         <Route path={ROUTES.EDIT_PROFILE()} element={<EditProfile />} />
         <Route path={ROUTES.MY_PROJECTS()} element={<MyProjectsPage />} />
+        <Route path={ROUTES.MY_EVENTS()} element={<MyEvents />} />
         <Route path={ROUTES.ADMIN_PANEL()} element={<AdminPanel />} />
         <Route path={ROUTES.ABOUT_EVENT(':id')} element={<AboutEvent />} />
         <Route path={ROUTES.ABOUT_PROJECTS(':id')} element={<AboutProject />} />
+        <Route path={ROUTES.EDIT_EVENTS(':id')} element={<EditEvents />} />
       </Routes>
     </MainLayout>
   );

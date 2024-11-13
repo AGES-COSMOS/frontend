@@ -118,18 +118,6 @@ const Register: React.FC = () => {
   const [phone, setPhone] = useState<string>('');
   const [photoURL, setPhotoURL] = useState<string | ArrayBuffer | null>(null);
   const [matricula, setMatricula] = useState<string>('');
-  const [userData, setUserData] = useState<CreateUser>({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    cpfcnpj: '',
-    photoURL: '',
-    blocked: false,
-    registration_number: '',
-    institution_id: 0,
-    role_id: 0,
-  });
 
   const handleCancel = () => {
     setName('');
@@ -332,7 +320,7 @@ const Register: React.FC = () => {
       };
 
       try {
-        const ret = await createUser(updatedUserData);
+        await createUser(updatedUserData);
         setToastMessage('Usuário criado com sucesso!');
         setToastType('success');
       } catch (error) {

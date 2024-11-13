@@ -8,7 +8,9 @@ export const ROUTES = {
   EDIT_PROFILE: () => '/editar-perfil',
   REGISTER: () => '/cadastro',
   MY_PROJECTS: () => '/meus-projetos',
+  MY_EVENTS: () => '/meus-eventos',
   ADMIN_PANEL: () => '/painel-administrador',
   ABOUT_EVENT: (id: number | string) => `/evento/${id}`,
   ABOUT_PROJECTS: (id: number | string = ':id') => `/projetos/${id}`,
+  EDIT_EVENTS: (id: number | string = ':id') => `/editar-evento/${id}`,
 };

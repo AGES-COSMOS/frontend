@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { ButtonComponent } from 'components/Button/button';
 import './filterCheck.scss';
@@ -7,23 +7,29 @@ interface FilterCheckProps {
   title: string;
   options: string[];
   onSelectionChange?: (selectedOptions: string[]) => void;
+  selectedOptions?: string[];
 }
 
 export const FilterCheck = ({
   title,
   options,
   onSelectionChange,
+  selectedOptions = [],
 }: FilterCheckProps) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(selectedOptions);
+
+  useEffect(() => {
+    setSelected(selectedOptions);
+  }, [selectedOptions]);
 
   const handleOptionClick = (option: string) => {
     let updatedSelection: string[];
-    if (selectedOptions.includes(option)) {
-      updatedSelection = selectedOptions.filter((item) => item !== option);
+    if (selected.includes(option)) {
+      updatedSelection = selected.filter((item) => item !== option);
     } else {
-      updatedSelection = [...selectedOptions, option];
+      updatedSelection = [...selected, option];
     }
-    setSelectedOptions(updatedSelection);
+    setSelected(updatedSelection);
 
     if (onSelectionChange) {
       onSelectionChange(updatedSelection);

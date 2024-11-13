@@ -1,7 +1,7 @@
 .user-profile-modalPP {
   position: relative;
   width: 500px;
-  height: 650px;
+  height: 700px;
   margin: auto;
   background-color: var(--white);
   border-radius: 8px;
@@ -9,7 +9,7 @@
   outline: none;
   display: flex;
   flex-direction: column;
-  margin: 8% 35% 8% 35%;
+  margin: 5% 35% 5% 35%;
   @media (max-width: 700px) {
     width: 90%;
   }
@@ -77,12 +77,33 @@
   width: 50%;
   margin-left: -10px;
 
-  .iconPP {
-    color: var(--purple);
+  .instagramIcon {
     height: 50px;
     width: 50px;
+    color: var(--purple);
+
     &:hover {
-      color: var(--cloudy-blue);
+      color: #e4405f;
+    }
+  }
+
+  .youtubeIcon {
+    height: 50px;
+    width: 50px;
+    color: var(--purple);
+
+    &:hover {
+      color: #ff0000;
+    }
+  }
+
+  .linkedinIcon {
+    height: 50px;
+    width: 50px;
+    color: var(--purple);
+
+    &:hover {
+      color: #0a66c2;
     }
   }
 }

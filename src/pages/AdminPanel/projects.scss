@@ -53,3 +53,13 @@ tbody tr:hover {
   padding-bottom: 40px;
   padding-left: 30px;
 }
+
+.edit-button {
+  color: grey;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  color: white;
+  cursor: pointer;
+}

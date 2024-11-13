@@ -6,9 +6,18 @@ import './sidebarFooter.scss';
 
 interface SidebarFooterProps {
   isLoggedIn: boolean;
+  onLogout: () => void;
 }
 
-const SidebarFooter: React.FC<SidebarFooterProps> = ({ isLoggedIn }) => {
+const SidebarFooter: React.FC<SidebarFooterProps> = ({
+  isLoggedIn,
+  onLogout,
+}) => {
+  const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onLogout();
+  };
+
   return (
     <div className="sidebarFooter">
       {isLoggedIn && (
@@ -40,7 +49,7 @@ const SidebarFooter: React.FC<SidebarFooterProps> = ({ isLoggedIn }) => {
       </div>
       {isLoggedIn && (
         <div className="sidebarFooterItem">
-          <a href="#">
+          <a href="#" onClick={handleLogoutClick}>
             <div>
               <LogoutIcon className="icons" />
               Logout

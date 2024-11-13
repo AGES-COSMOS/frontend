@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { ButtonComponent } from 'components/Button/button';
 import './filterSelector.scss';
@@ -7,19 +7,28 @@ interface FilterSelectorProps {
   title: string;
   options: string[];
   onFilterChange?: (selectedOption: string) => void;
+  exclusive?: boolean;
+  selectedFilter?: string;
 }
 
 export const FilterSelector = ({
   title,
   options,
   onFilterChange,
+  exclusive = false,
+  selectedFilter = '',
 }: FilterSelectorProps) => {
-  const [selectedFilter, setSelectedFilter] = useState<string>(options[0]);
+  const [selectedOption, setSelectedOption] = useState<string>(selectedFilter);
+
+  useEffect(() => {
+    setSelectedOption(selectedFilter);
+  }, [selectedFilter]);
 
   const handleFilterClick = (option: string) => {
-    setSelectedFilter(option);
+    const newFilter = exclusive && selectedOption === option ? '' : option;
+    setSelectedOption(newFilter);
     if (onFilterChange) {
-      onFilterChange(option);
+      onFilterChange(newFilter);
     }
   };
 

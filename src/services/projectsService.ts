@@ -1,6 +1,7 @@
 import { httpService } from './httpService';
 import { IProjectListing } from '../pages/ProjectListing/projectListing';
 import { ProjectResponse } from './types';
+import { Pagination } from './types';
 
 export const createProject = async (projectData: FormData): Promise<number> => {
   try {
@@ -14,13 +15,6 @@ export const createProject = async (projectData: FormData): Promise<number> => {
     throw new Error('Erro ao criar projeto.');
   }
 };
-
-export interface Pagination<Type> {
-  data: Type[];
-  total: number;
-  page: number;
-  lastPage: number;
-}
 
 export const findProjects = async (
   page = 1,

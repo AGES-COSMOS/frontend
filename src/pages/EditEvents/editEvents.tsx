@@ -1,27 +1,53 @@
 import React, { useState } from 'react';
-import './createEvents.scss';
-import { createEvent } from 'services/eventsService';
+import './editEvents.scss';
 import { ButtonComponent } from 'components/Button/button';
 import { TextField } from 'components/TextFields/textfield';
 import { Select } from 'components/Select/select';
 import { EventCategory } from 'pages/AboutEvent/aboutEvent';
 
 export interface Event {
+  id: number;
   title: string;
-  imageURL: string;
+  imageURL: string | null;
   description: string;
   date: Date;
-  hour: Date;
+  startHour: Date;
+  endHour: Date;
   IsOnline: boolean;
-  latitude: number; // Como pegar o número real?
-  longitude: number; // Como pegar o número real?
+  latitude: number;
+  longitude: number;
   address: string;
   institution_id: number;
-  project_id: number;
+  project_id: number | null;
   updatedAt: Date;
   updatedBy: string;
   EventCategory: EventCategory[];
 }
+
+// Mock data for eventData
+const mockEventData: Event = {
+  id: 90,
+  title: 'verumtamen veritas communis',
+  imageURL: null,
+  description:
+    'Crapula rerum saepe. Civis adsum supellex quaerat quia. Vergo adipisci carus cognomen taedium vilicus tum colligo.',
+  date: new Date('2024-11-15T00:00:00.000Z'),
+  startHour: new Date('1970-01-01T09:30:05.630Z'),
+  endHour: new Date('1970-01-01T10:30:30.630Z'),
+  IsOnline: false,
+  address: '22587 East Avenue',
+  latitude: 45.5898,
+  longitude: -173.9671,
+  institution_id: 1,
+  project_id: null,
+  updatedAt: new Date('2024-11-11T20:27:26.747Z'),
+  updatedBy: 'Mazie',
+  EventCategory: [
+    {
+      category: { id: 1, name: 'Direito Civil' },
+    },
+  ],
+};
 
 const generateTimeSlots = (): string[] => {
   const times: string[] = [];
@@ -43,7 +69,10 @@ const generateTimeSlots = (): string[] => {
   return times;
 };
 
-export const CreateEvents = () => {
+export const EditEvents = () => {
+  const [eventData] = useState<Event>(mockEventData);
+  const [eventDetails, setEventDetails] = useState<Event>(eventData);
+
   const [institutions] = useState([
     { id: 1, name: 'PUCRS' },
     { id: 2, name: 'UFRGS' },
@@ -59,26 +88,13 @@ export const CreateEvents = () => {
     { id: 2, name: 'Direito Penal' },
   ]);
 
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [image, setImage] = useState('/assets/projectPlaceholder.png');
+  const [selectedCategories, setSelectedCategories] = useState<number[]>(
+    eventData.EventCategory.map((ec) => ec.category.id),
+  );
+  const [image, setImage] = useState(
+    eventData.imageURL || '/assets/projectPlaceholder.png',
+  );
   const [imageFile, setImageFile] = useState<string>('');
-
-  const [eventData, setEventData] = useState<Event>({
-    title: '',
-    imageURL: '',
-    description: '',
-    address: '',
-    IsOnline: false,
-    latitude: 0,
-    longitude: 0,
-    date: new Date(),
-    hour: new Date(),
-    project_id: 0,
-    institution_id: 0,
-    updatedAt: new Date(),
-    updatedBy: '',
-    EventCategory: [],
-  });
 
   const timeSlots = generateTimeSlots();
 
@@ -89,19 +105,22 @@ export const CreateEvents = () => {
   ) => {
     const { name, value } = e.target;
     if (name === 'date') {
-      setEventData({ ...eventData, date: new Date(value) });
-    } else if (name === 'hour') {
+      setEventDetails({ ...eventDetails, date: new Date(value) });
+    } else if (name === 'startHour' || name === 'endHour') {
       const [hours, minutes] = value.split(':');
-      const updatedHour = new Date(eventData.date);
+      const updatedHour = new Date(eventDetails.date);
       updatedHour.setUTCHours(Number(hours), Number(minutes), 0);
-      setEventData({ ...eventData, hour: updatedHour });
+      setEventDetails({
+        ...eventDetails,
+        [name]: updatedHour,
+      });
     } else if (name === 'IsOnline') {
-      setEventData({
-        ...eventData,
+      setEventDetails({
+        ...eventDetails,
         IsOnline: value === 'Online',
       });
     } else {
-      setEventData({ ...eventData, [name]: value });
+      setEventDetails({ ...eventDetails, [name]: value });
     }
   };
 
@@ -119,7 +138,7 @@ export const CreateEvents = () => {
 
   const handleInstitutionChange = (value: string) => {
     const institution = institutions.find((inst) => inst.name === value);
-    setEventData({ ...eventData, institution_id: institution?.id || 0 });
+    setEventDetails({ ...eventDetails, institution_id: institution?.id || 0 });
   };
 
   const handleCategoryChange = (value: string) => {
@@ -132,20 +151,23 @@ export const CreateEvents = () => {
   const handleSubmit = async () => {
     try {
       const eventPayload = {
-        ...eventData,
-        categories: selectedCategories,
+        ...eventDetails,
+        categories: selectedCategories.map((id) => ({
+          event_id: eventDetails.id,
+          category_id: id,
+        })),
         image: imageFile,
       };
-      await createEvent(eventPayload);
-      alert('Evento criado com sucesso!');
+      console.log('Event update payload:', eventPayload);
+      alert('Evento atualizado com sucesso!');
     } catch (error) {
-      alert('Erro ao criar evento');
+      alert('Erro ao atualizar evento');
     }
   };
 
   return (
-    <div className="create-event">
-      <h1>Cadastro de Evento</h1>
+    <div className="edit-event">
+      <h1>Edição de Evento</h1>
       <div className="image-container">
         <img
           src={image}
@@ -158,7 +180,7 @@ export const CreateEvents = () => {
             onClick={() => document.getElementById('imageInput')?.click()}
             size={2}
           >
-            Adicionar Imagem
+            Alterar Imagem
           </ButtonComponent>
         </div>
       </div>
@@ -174,8 +196,10 @@ export const CreateEvents = () => {
           label="Nome do Evento"
           placeholder="Digite o título do evento"
           required
-          value={eventData.title}
-          onChange={(value) => setEventData({ ...eventData, title: value })}
+          value={eventDetails.title}
+          onChange={(value) =>
+            setEventDetails({ ...eventDetails, title: value })
+          }
         />
 
         <Select
@@ -183,7 +207,7 @@ export const CreateEvents = () => {
           label="Instituição"
           placeholder="Selecione a Instituição"
           value={
-            institutions.find((inst) => inst.id === eventData.institution_id)
+            institutions.find((inst) => inst.id === eventDetails.institution_id)
               ?.name
           }
           onChange={handleInstitutionChange}
@@ -196,18 +220,35 @@ export const CreateEvents = () => {
             type="date"
             className="item"
             name="date"
-            value={eventData.date.toISOString().split('T')[0]}
+            value={eventDetails.date.toISOString().split('T')[0]}
             onChange={handleInputChange}
             required
           />
         </div>
 
         <div>
-          <h4>Hora do Evento</h4>
+          <h4>Hora de Início</h4>
           <select
             className="item time-picker"
-            name="hour"
-            value={eventData.hour.toISOString().substr(11, 5)}
+            name="startHour"
+            value={eventDetails.startHour.toISOString().substr(11, 5)}
+            onChange={handleInputChange}
+            required
+          >
+            {timeSlots.map((slot) => (
+              <option key={slot} value={slot}>
+                {slot}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <h4>Hora de Término</h4>
+          <select
+            className="item time-picker"
+            name="endHour"
+            value={eventDetails.endHour.toISOString().substr(11, 5)}
             onChange={handleInputChange}
             required
           >
@@ -224,7 +265,7 @@ export const CreateEvents = () => {
           label="Modalidade"
           placeholder="Selecione a Modalidade"
           value={
-            eventData.IsOnline
+            eventDetails.IsOnline
               ? modalityOptions.find((modality) => modality.isOnline)?.name
               : modalityOptions.find((modality) => !modality.isOnline)?.name
           }
@@ -232,8 +273,8 @@ export const CreateEvents = () => {
             const selectedModality = modalityOptions.find(
               (modality) => modality.name === value,
             );
-            setEventData({
-              ...eventData,
+            setEventDetails({
+              ...eventDetails,
               IsOnline: selectedModality?.isOnline || false,
             });
           }}
@@ -256,26 +297,22 @@ export const CreateEvents = () => {
           label="Endereço do Evento"
           placeholder="Digite o endereço do evento"
           required
-          value={eventData.address}
-          onChange={(value) => setEventData({ ...eventData, address: value })}
+          value={eventDetails.address}
+          onChange={(value) =>
+            setEventDetails({ ...eventDetails, address: value })
+          }
         />
 
         <textarea
           name="description"
           className="large-textarea"
-          value={eventData.description}
+          value={eventDetails.description}
           onChange={handleInputChange}
           placeholder="Descrição"
           required
         />
-        <ButtonComponent
-          type="primary"
-          size={2}
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          Cadastrar Evento
+        <ButtonComponent type="primary" size={2} onClick={handleSubmit}>
+          Salvar Alterações
         </ButtonComponent>
       </form>
     </div>
