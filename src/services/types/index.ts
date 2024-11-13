@@ -23,3 +23,8 @@ export interface CreateUser {
   institution_id: number;
   role_id: number;
 }
+
+export interface LoginDto {
+  email: string;
+  password: string;
+}

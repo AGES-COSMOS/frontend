@@ -11,6 +11,8 @@ import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Dialog from '@mui/material/Dialog';
 import './dialogLogin.scss';
+import { loginUser } from 'services/authService';
+import { LoginDto } from 'services/types';
 
 interface BootstrapDialogTitleProps {
   children: React.ReactNode;
@@ -55,6 +57,7 @@ BootstrapDialogTitle.propTypes = {
 
 const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -65,14 +68,15 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
     event.preventDefault();
   };
 
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleLogin = () => {
-    onClose();
+  const handleLogin = async () => {
+    try {
+      const loginData: LoginDto = { email, password };
+      await loginUser(loginData);
+      onClose();
+    } catch (error) {
+      console.error('Erro ao realizar login:', error);
+      alert('Falha ao fazer login. Verifique suas credenciais.');
+    }
   };
 
   return (
@@ -96,13 +100,14 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ open, onClose }) => {
           <Input
             id="standard-adornment-password"
             type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
-                  onMouseUp={handleMouseUpPassword}
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
