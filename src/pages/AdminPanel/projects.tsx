@@ -4,13 +4,16 @@ import { ButtonComponent } from '../../components/Button/button';
 import { useNavigate } from 'react-router-dom';
 
 import { getProjects } from 'services/projectsService';
+import { getUser } from 'services/userService';
+
 import EditIcon from '@mui/icons-material/Edit';
 
 interface ProjectData {
   id: number;
   nome: string;
   instituicao: string;
-  professor: string;
+  professor_id: number;
+  professor: any;
   status: string;
 }
 
@@ -21,6 +24,7 @@ const Projects: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
   const navigate = useNavigate();
+
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true);
@@ -29,15 +33,39 @@ const Projects: React.FC = () => {
 
         if (response.data && Array.isArray(response.data)) {
           console.log(response.data);
+
           const transformedProjects = response.data.map((project) => ({
             id: project.id,
             nome: project.name,
             instituicao: project.institution?.name || 'Desconhecida',
-            professor: 'Null',
+            professor_id: project.teacher_id,
+            professor: '',
             status: project.status ?? 'Desconhecido',
           }));
 
           setProjects(transformedProjects);
+
+          const teacherNames = await Promise.all(
+            transformedProjects.map(async (project) => {
+              const response = await getUser(project.professor_id);
+              return {
+                professor_id: project.professor_id,
+                nome: response['name'] as string,
+              };
+            }),
+          );
+
+          const updatedProjects = transformedProjects.map((project) => {
+            const teacher = teacherNames.find(
+              (teacher) => teacher.professor_id === project.professor_id,
+            );
+            if (teacher) {
+              return { ...project, professor: teacher.nome };
+            }
+            return project;
+          });
+
+          setProjects(updatedProjects);
         } else {
           throw new Error('A resposta da API não contém dados válidos.');
         }

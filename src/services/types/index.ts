@@ -24,6 +24,10 @@ export interface CreateUser {
   role_id: number;
 }
 
+export interface TeacherData {
+  name: string;
+}
+
 export interface ProjectData {
   id: number;
   name: string;
@@ -31,6 +35,7 @@ export interface ProjectData {
   institution: {
     name: string;
   };
+  teacher_id: number;
 }
 
 export interface ProjectResponse {
