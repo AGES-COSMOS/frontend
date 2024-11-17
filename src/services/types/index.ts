@@ -46,3 +46,24 @@ export interface LoginDto {
   email: string;
   password: string;
 }
+
+export type Category = {
+  id: number;
+  name: string;
+  type: number;
+  updatedAt: Date;
+  updatedBy: string;
+  ProjectCategory: [];
+};
+
+export type CreateCategory = {
+  name: string;
+  updatedBy: string;
+};
+
+export type UpdateCategory = {
+  id: number;
+  name: string;
+  type: number;
+  updatedBy: string;
+};
