@@ -12,4 +12,5 @@ export const ROUTES = {
   ADMIN_PANEL: () => '/painel-administrador',
   ABOUT_EVENT: (id: number | string) => `/evento/${id}`,
   ABOUT_PROJECTS: (id: number | string = ':id') => `/projetos/${id}`,
+  EDIT_EVENTS: (id: number | string = ':id') => `/editar-evento/${id}`,
 };
