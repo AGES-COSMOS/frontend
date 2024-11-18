@@ -77,7 +77,7 @@ const AboutEvent = () => {
 
           <Box className="about-event-parameter">
             <strong>Data e Horário:</strong>
-            <span>{formatDateTime(event.date, event.startHour)}</span>
+            <span>{formatDateTime(event.date, event.hour)}</span>
           </Box>
 
           <Box className="about-event-parameter">
