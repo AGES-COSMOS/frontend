@@ -34,9 +34,8 @@ const selectOptions1: Option[] = [
 ];
 
 const instituicoesOptionsArr = [
-  { value: 'ufrgs', label: 'UFRGS', id: 1 },
-  { value: 'pucrs', label: 'PUCRS', id: 2 },
-  { value: 'uniritter', label: 'UNIRITTER', id: 3 },
+  { value: 'ufrgs', label: 'UFRGS', id: 2 },
+  { value: 'pucrs', label: 'PUCRS', id: 1 },
 ];
 
 const Register: React.FC = () => {
