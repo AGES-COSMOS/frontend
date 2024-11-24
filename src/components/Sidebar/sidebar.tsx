@@ -66,7 +66,7 @@ const Sidebar = () => {
         <UserSection>
           <StyledPersonOutlineIcon />
         </UserSection>
-        {!isLoggedIn ? (
+        {false ? (
           <div>
             <StyledSubtitle>Login</StyledSubtitle>
             <StyledTypography>
@@ -86,7 +86,7 @@ const Sidebar = () => {
             <DashboardIcon />
             Feed
           </NavButton>
-          {!isLoggedIn && (
+          {false && (
             <NavButton>
               <ReactSVG
                 src="/assets/IconeDiscord.svg"
@@ -103,30 +103,18 @@ const Sidebar = () => {
             <BookIcon />
             Projetos
           </NavButton>
-          {isLoggedIn &&
-            (role === 'ADMIN' ||
-              role === 'INSTITUTION' ||
-              role === 'TEACHER') && (
-              <NavButton href="/meus-eventos">
-                <CalendarMonthIcon />
-                Meus Eventos
-              </NavButton>
-            )}
-          {isLoggedIn &&
-            (role === 'ADMIN' ||
-              role === 'INSTITUTION' ||
-              role === 'TEACHER') && (
-              <NavButton href="/meus-projetos">
-                <CollectionsBookmarkIcon />
-                Meus Projetos
-              </NavButton>
-            )}
-          {isLoggedIn && role === 'ADMIN' && (
-            <NavButton href="/painel-administrador">
-              <AdminPanelSettingsIcon />
-              Painel Admin
-            </NavButton>
-          )}
+          <NavButton href="/meus-eventos">
+            <CalendarMonthIcon />
+            Meus Eventos
+          </NavButton>
+          <NavButton href="/meus-projetos">
+            <CollectionsBookmarkIcon />
+            Meus Projetos
+          </NavButton>
+          <NavButton href="/painel-administrador">
+            <AdminPanelSettingsIcon />
+            Painel Admin
+          </NavButton>
         </ButtonContainer>
       </Box>
 
